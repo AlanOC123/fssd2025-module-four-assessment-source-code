@@ -1,0 +1,15 @@
+button {
+    font-size: var(--fs-md);
+    line-height: 1;
+    padding: var(--pad-sm);
+    border-radius: var(--brd-rnd-base);
+    border: 0;
+    box-shadow: var(--shadow-l);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-txt {
+    font-size: inherit;
+}

@@ -1,0 +1,76 @@
+:root {
+
+    /* Shadow Colors */
+    --clr-shadow: #44454550;
+
+    /* Text Colors */
+    --clr-text-main: #070600;
+    --clr-text-alt: #3E4E50;
+
+    /* Base Colors */
+    --clr-base-main: #F7F7FF;
+    --clr-base-alt: #F0FFF1;
+
+    /* Accent Color */
+    --clr-accent: #2C5784;
+    --clr-accent-alt: #F87575;
+
+    /* Alpha Settings */
+    --alpha-mostly-opaque: 0.8;
+    --alpha-semi-opaque: 0.6;
+    --alpha-semi-transparent: 0.4;
+    --alpha-mostly-transparent: 0.2;
+    --alpha-transparent: 0;
+
+
+    /* Alpha Channels */
+    --clr-text-main-mostly-opaque: hsl(from var(--clr-text-main) h s l / var(--alpha-mostly-opaque));
+    --clr-text-main-semi-opaque: hsl(from var(--clr-text-main) h s l / var(--alpha-semi-opaque));
+    --clr-text-main-semi-transparent: hsl(from var(--clr-text-main) h s l / var(--alpha-semi-transparent));
+    --clr-text-main-mostly-transparent: hsl(from var(--clr-text-main) h s l / var(--alpha-mostly-transparent));
+
+    --clr-text-alt-mostly-opaque: hsl(from var(--clr-text-alt) h s l / var(--alpha-mostly-opaque));
+    --clr-text-alt-semi-opaque: hsl(from var(--clr-text-alt) h s l / var(--alpha-semi-opaque));
+    --clr-text-alt-semi-transparent: hsl(from var(--clr-text-alt) h s l / var(--alpha-semi-transparent));
+    --clr-text-alt-mostly-transparent: hsl(from var(--clr-text-alt) h s l / var(--alpha-mostly-transparent));
+
+    --clr-base-main-mostly-opaque: hsl(from var(--clr-base-main) h s l / var(--alpha-mostly-opaque));
+    --clr-base-main-semi-opaque: hsl(from var(--clr-base-main) h s l / var(--alpha-semi-opaque));
+    --clr-base-main-semi-transparent: hsl(from var(--clr-base-main) h s l / var(--alpha-semi-transparent));
+    --clr-base-main-mostly-transparent: hsl(from var(--clr-base-main) h s l / var(--alpha-mostly-transparent));
+
+    --clr-base-alt-mostly-opaque: hsl(from var(--clr-base-alt) h s l / var(--alpha-mostly-opaque));
+    --clr-base-alt-semi-opaque: hsl(from var(--clr-base-alt) h s l / var(--alpha-semi-opaque));
+    --clr-base-alt-semi-transparent: hsl(from var(--clr-base-alt) h s l / var(--alpha-semi-transparent));
+    --clr-base-alt-mostly-transparent: hsl(from var(--clr-base-alt) h s l / var(--alpha-mostly-transparent));
+
+    --clr-accent-mostly-opaque: hsl(from var(--clr-accent) h s l / var(--alpha-mostly-opaque));
+    --clr-accent-semi-opaque: hsl(from var(--clr-accent) h s l / var(--alpha-semi-opaque));
+    --clr-accent-semi-transparent: hsl(from var(--clr-accent) h s l / var(--alpha-semi-transparent));
+    --clr-accent-mostly-transparent: hsl(from var(--clr-accent) h s l / var(--alpha-mostly-transparent));
+
+    --clr-accent-alt-mostly-opaque: hsl(from var(--clr-accent-alt) h s l / var(--alpha-mostly-opaque));
+    --clr-accent-alt-semi-opaque: hsl(from var(--clr-accent-alt) h s l / var(--alpha-semi-opaque));
+    --clr-accent-alt-semi-transparent: hsl(from var(--clr-accent-alt) h s l / var(--alpha-semi-transparent));
+    --clr-accent-alt-mostly-transparent: hsl(from var(--clr-accent-alt) h s l / var(--alpha-mostly-transparent));
+
+    --clr-transparent: hsl(from var(--clr-base-main) h s l / var(--alpha-transparent));
+    --clr-success: #6AB547;
+    --clr-failure: #FF6978;
+}
+
+h1,
+p,
+body,
+a,
+a:visited {
+    color: var(--clr-text-main);
+}
+
+h2 {
+    color: var(--clr-text-alt);
+}
+
+body {
+    background-color: var(--clr-base-main);
+}

@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+    /* Fluid Base Typography */
+    --fs-floor: 12px;
+    --fs-ceil: 32px;
+
+    /* Linear Interpolation Derivatives */
+    --fs-intercept: 9.142857px;
+    --fs-slope: 0.892857vw;
+    --fs-pref: calc(var(--fs-intercept) + var(--fs-slope));
+
+    /* Fluid Typography Settings */
+    --fs-xs-floor: calc(var(--fs-floor) * var(--mul-xs));
+    --fs-xs-ceil: calc(var(--fs-ceil) * var(--mul-xs));
+    --fs-xs-pref: calc(var(--fs-pref) * var(--mul-xs));
+
+    --fs-sm-floor: calc(var(--fs-floor) * var(--mul-sm));
+    --fs-sm-ceil: calc(var(--fs-ceil) * var(--mul-sm));
+    --fs-sm-pref: calc(var(--fs-pref) * var(--mul-sm));
+
+    --fs-md-floor: calc(var(--fs-floor) * var(--mul-md));
+    --fs-md-ceil: calc(var(--fs-ceil) * var(--mul-md));
+    --fs-md-pref: calc(var(--fs-pref) * var(--mul-md));
+
+    --fs-lg-floor: calc(var(--fs-floor) * var(--mul-lg));
+    --fs-lg-ceil: calc(var(--fs-ceil) * var(--mul-lg));
+    --fs-lg-pref: calc(var(--fs-pref) * var(--mul-lg));
+
+    --fs-xl-floor: calc(var(--fs-floor) * var(--mul-xl));
+    --fs-xl-ceil: calc(var(--fs-ceil) * var(--mul-xl));
+    --fs-xl-pref: calc(var(--fs-pref) * var(--mul-xl));
+
+    --fs-2xl-floor: calc(var(--fs-floor) * var(--mul-2xl));
+    --fs-2xl-ceil: calc(var(--fs-ceil) * var(--mul-2xl));
+    --fs-2xl-pref: calc(var(--fs-pref) * var(--mul-2xl));
+
+    --fs-3xl-floor: calc(var(--fs-floor) * var(--mul-3xl));
+    --fs-3xl-ceil: calc(var(--fs-ceil) * var(--mul-3xl));
+    --fs-3xl-pref: calc(var(--fs-pref) * var(--mul-3xl));
+
+    /* Derived Font Sizes */
+    --fs-xs: clamp(var(--fs-xs-floor), var(--fs-xs-pref), var(--fs-xs-ceil));
+    --fs-sm: clamp(var(--fs-sm-floor), var(--fs-sm-pref), var(--fs-sm-ceil));
+    --fs-base: clamp(var(--fs-floor), var(--fs-pref), var(--fs-ceil));
+    --fs-md: clamp(var(--fs-md-floor), var(--fs-md-pref), var(--fs-md-ceil));
+    --fs-lg: clamp(var(--fs-lg-floor), var(--fs-lg-pref), var(--fs-lg-ceil));
+    --fs-xl: clamp(var(--fs-xl-floor), var(--fs-xl-pref), var(--fs-xl-ceil));
+    --fs-2xl: clamp(
+        var(--fs-2xl-floor),
+        var(--fs-2xl-pref),
+        var(--fs-2xl-ceil)
+    );
+    --fs-3xl: clamp(
+        var(--fs-3xl-floor),
+        var(--fs-3xl-pref),
+        var(--fs-3xl-ceil)
+    );
+
+    /* Line Heights */
+    --lh-tight: 1.2;
+    --lh-snug: 1.35;
+    --lh-base: 1.5;
+    --lh-relaxed: 1.65;
+    --lh-loose: 1.65;
+
+    /* Letter Spacing */
+    --ls-tight: -0.02em;
+    --ls-normal: 0em;
+    --ls-wide: 0.05em;
+    --ls-wider: 0.1em;
+
+    /* Weights */
+    --fw-thin: 300;
+    --fw-normal: 500;
+    --fw-bold: 700;
+    --fw-black: 900;
+}
+
+html {
+    font-family: "Roboto", sans-serif;
+    font-size: var(--fs-base);
+    line-height: var(--lh-loose);
+    color: var(--clr-text-main); /* off-white if you’re going space theme */
+}
+
+h1 {
+    font-weight: var(--fw-bold);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-wide); /* gives that sci-fi spacing */
+    font-size: var(--fs-2xl);
+    font-family: "Orbitron", sans-serif;
+}
+
+h2 {
+    font-size: var(--fs-lg);
+    line-height: var(--lh-normal);
+    letter-spacing: var(--ls-wide);
+    font-weight: var(--fw-thin);
+}
+
+h3 {
+    font-size: var(--fs-md);
+    line-height: var(--lh-normal);
+    letter-spacing: var(--ls-wide);
+    font-weight: var(--fw-normal);
+}
+
+h4 {
+    font-size: var(--fs-base);
+    line-height: var(--lh-normal);
+    letter-spacing: var(--ls-wide);
+    font-weight: var(--fw-thin);
+    color: var(--clr-text-alt);
+}
+
+p,
+body,
+li,
+a {
+    font-size: var(--fs-base);
+}

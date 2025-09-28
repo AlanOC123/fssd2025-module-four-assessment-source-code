@@ -1,0 +1,7 @@
+{% macro start_btn(text="Start", id="start-btn") %}
+{% from 'components/icons/start-icon.html' import start_icon %}
+<button class="pri">
+    <span class="btn-txt">{{ text }}</span>
+    {{ start_icon() }}
+</button>
+{% endmacro %}

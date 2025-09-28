@@ -9,12 +9,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='pages/root/styles/shadows.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='pages/root/styles/themes.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='pages/root/styles/borders.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pages/test.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='components/page.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='components/column-wrapper.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='components/buttons.css') }}">
-    <title>Projectify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='components/icons.css') }}">
+    <title>Projectify - Playground</title>
 </head>
 <body>
-    
+    <div class="page">
+        <div class="column-wrapper">
+            {% from 'components/buttons/start-btn.html' import start_btn %}
+            {{ start_btn() }}
+        </div>
+    </div>
 </body>
 </html>

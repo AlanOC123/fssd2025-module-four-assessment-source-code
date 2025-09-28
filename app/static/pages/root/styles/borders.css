@@ -1,0 +1,21 @@
+:root {
+    /* Rounding */
+    --brd-rnd-xs: 2px;
+    --brd-rnd-sm: 4px;
+    --brd-rnd-base: 8px;
+    --brd-rnd-md: 12px;
+    --brd-rnd-lg: 16px;
+    --brd-rnd-xl: 20px;
+    --brd-rnd-2xl: 24px;
+    --brd-rnd-3xl: 28px;
+    --brd-rnd-full: 999px;
+    --brd-rnd-pill: 50%;
+
+    /* Borders */
+    --brd-test: solid 1px red;
+    --brd-main: solid 2px var(--clr-base-main);
+    --brd-alt: solid 2px var(--clr-base-alt);
+    --brd-accent: solid 2px var(--clr-accent);
+    --brd-accent-alt: solid 2px var(--clr-accent-alt);
+    --brd-bottom-thin: solid 1px var(--clr-base-main)
+}

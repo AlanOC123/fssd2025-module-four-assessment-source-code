@@ -1,0 +1,97 @@
+:root {
+    /* Fluid Base Spacing */
+    --sp-floor: 8px;
+    --sp-ceil: 32px;
+
+    /* Linear Interpolation Derivatives */
+    --sp-intercept: 4.571px;
+    --sp-slope: 1.071vw;
+    --sp-pref: calc(var(--sp-intercept) + var(--sp-slope));
+
+    /* Fluid Spacing Settings */
+    --sp-xs-floor: calc(var(--sp-floor) * var(--mul-xs));
+    --sp-xs-ceil: calc(var(--sp-ceil) * var(--mul-xs));
+    --sp-xs-pref: calc(var(--sp-pref) * var(--mul-xs));
+
+    --sp-sm-floor: calc(var(--sp-floor) * var(--mul-sm));
+    --sp-sm-ceil: calc(var(--sp-ceil) * var(--mul-sm));
+    --sp-sm-pref: calc(var(--sp-pref) * var(--mul-sm));
+
+    --sp-base-floor: var(--sp-floor);
+    --sp-base-ceil: var(--sp-ceil);
+    --sp-base-pref: var(--sp-pref);
+
+    --sp-md-floor: calc(var(--sp-floor) * var(--mul-md));
+    --sp-md-ceil: calc(var(--sp-ceil) * var(--mul-md));
+    --sp-md-pref: calc(var(--sp-pref) * var(--mul-md));
+
+    --sp-lg-floor: calc(var(--sp-floor) * var(--mul-lg));
+    --sp-lg-ceil: calc(var(--sp-ceil) * var(--mul-lg));
+    --sp-lg-pref: calc(var(--sp-pref) * var(--mul-lg));
+
+    --sp-xl-floor: calc(var(--sp-floor) * var(--mul-xl));
+    --sp-xl-ceil: calc(var(--sp-ceil) * var(--mul-xl));
+    --sp-xl-pref: calc(var(--sp-pref) * var(--mul-xl));
+
+    --sp-2xl-floor: calc(var(--sp-floor) * var(--mul-2xl));
+    --sp-2xl-ceil: calc(var(--sp-ceil) * var(--mul-2xl));
+    --sp-2xl-pref: calc(var(--sp-pref) * var(--mul-2xl));
+
+    --sp-3xl-floor: calc(var(--sp-floor) * var(--mul-3xl));
+    --sp-3xl-ceil: calc(var(--sp-ceil) * var(--mul-3xl));
+    --sp-3xl-pref: calc(var(--sp-pref) * var(--mul-3xl));
+
+    /* Derived Spacing */
+    --sp-xs: clamp(var(--sp-xs-floor), var(--sp-xs-pref), var(--sp-xs-ceil));
+    --sp-sm: clamp(var(--sp-sm-floor), var(--sp-sm-pref), var(--sp-sm-ceil));
+    --sp-base: clamp(var(--sp-floor), var(--sp-pref), var(--sp-ceil));
+    --sp-md: clamp(var(--sp-md-floor), var(--sp-md-pref), var(--sp-md-ceil));
+    --sp-lg: clamp(var(--sp-lg-floor), var(--sp-lg-pref), var(--sp-lg-ceil));
+    --sp-xl: clamp(var(--sp-xl-floor), var(--sp-xl-pref), var(--sp-xl-ceil));
+    --sp-2xl: clamp(var(--sp-2xl-floor), var(--sp-2xl-pref), var(--sp-2xl-ceil));
+    --sp-3xl: clamp(var(--sp-3xl-floor), var(--sp-3xl-pref), var(--sp-3xl-ceil));
+
+    /* Negative Spacing */
+    --sp-neg-xs: calc(var(--sp-xs) * -1);
+    --sp-neg-sm: calc(var(--sp-sm) * -1);
+    --sp-neg-md: calc(var(--sp-md) * -1);
+
+    /* Semantic Aliasing */
+
+    /* Gap & Margin */
+    --gap-xs: clamp(var(--sp-xs-floor), var(--sp-xs-pref), var(--sp-xs-ceil));
+    --gap-sm: clamp(var(--sp-sm-floor), var(--sp-sm-pref), var(--sp-sm-ceil));
+    --gap-base: clamp(var(--sp-base-floor), var(--sp-base-pref), var(--sp-base-ceil));
+    --gap-md: clamp(var(--sp-md-floor), var(--sp-md-pref), var(--sp-md-ceil));
+    --gap-lg: clamp(var(--sp-lg-floor), var(--sp-lg-pref), var(--sp-lg-ceil));
+    --gap-xl: clamp(var(--sp-xl-floor), var(--sp-xl-pref), var(--sp-xl-ceil));
+    --gap-2xl: clamp(var(--sp-2xl-floor), var(--sp-2xl-pref), var(--sp-2xl-ceil));
+    --gap-3xl: clamp(var(--sp-3xl-floor), var(--sp-3xl-pref), var(--sp-3xl-ceil));
+
+    /* Padding */
+    --pad-xs: clamp(var(--sp-xs-floor), var(--sp-xs-pref), var(--sp-xs-ceil));
+    --pad-sm: clamp(var(--sp-sm-floor), var(--sp-sm-pref), var(--sp-sm-ceil));
+    --pad-base: clamp(var(--sp-base-floor), var(--sp-base-pref), var(--sp-base-ceil));
+    --pad-md: clamp(var(--sp-md-floor), var(--sp-md-pref), var(--sp-md-ceil));
+    --pad-lg: clamp(var(--sp-lg-floor), var(--sp-lg-pref), var(--sp-lg-ceil));
+    --pad-xl: clamp(var(--sp-xl-floor), var(--sp-xl-pref), var(--sp-xl-ceil));
+    --pad-2xl: clamp(var(--sp-2xl-floor), var(--sp-2xl-pref), var(--sp-2xl-ceil));
+    --pad-3xl: clamp(var(--sp-3xl-floor), var(--sp-3xl-pref), var(--sp-3xl-ceil));
+
+    /* Component */
+    --btn-sm: clamp(var(--sp-xs-floor), var(--sp-xs-pref), var(--sp-xs-ceil));
+    --btn-base: clamp(var(--sp-sm-floor), var(--sp-sm-pref), var(--sp-sm-ceil));
+    --btn-lg: clamp(var(--sp-base-floor), var(--sp-base-pref), var(--sp-base-ceil));
+
+    --card-sm: clamp(var(--sp-sm-floor), var(--sp-sm-pref), var(--sp-sm-ceil));
+    --card-base: clamp(var(--sp-base-floor), var(--sp-base-pref), var(--sp-base-ceil));
+    --card-lg: clamp(var(--sp-lg-floor), var(--sp-lg-pref), var(--sp-lg-ceil));
+
+    --container-sm: clamp(var(--sp-sm-floor), var(--sp-sm-pref), var(--sp-sm-ceil));
+    --container-base: clamp(var(--sp-base-floor), var(--sp-base-pref), var(--sp-base-ceil));
+    --container-lg: clamp(var(--sp-lg-floor), var(--sp-lg-pref), var(--sp-lg-ceil));
+
+    --page-sm: clamp(var(--sp-sm-floor), var(--sp-sm-pref), var(--sp-sm-ceil));
+    --page-base: clamp(var(--sp-base-floor), var(--sp-base-pref), var(--sp-base-ceil));
+    --page-lg: clamp(var(--sp-lg-floor), var(--sp-lg-pref), var(--sp-lg-ceil));
+}

@@ -24,7 +24,6 @@ class RouteRegistrar():
             raise error
 
         self._app.register_blueprint(blueprint)
-
         return True
 
     def add_route(self, route_spec) -> bool:
@@ -49,7 +48,8 @@ class RouteRegistrar():
                 raise methods_error
             else:
                 raise func_error
-
+        
+        self._app.add_url_rule(rule=rule, endpoint=endpoint, methods=methods, view_func=func)
         return True
 
     def handle_route(self, route_spec):

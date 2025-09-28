@@ -1,0 +1,17 @@
+.column-wrapper {
+    grid-column: 1 / 13;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .column-wrapper {
+        grid-column: 1 / 9;
+    }
+}
+
+@media (max-width: 425px) {
+    .column-wrapper {
+        grid-column: 1 / 5;
+    }
+}
