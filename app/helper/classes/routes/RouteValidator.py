@@ -1,11 +1,11 @@
 from flask import Blueprint
 from typing import Mapping, Any, Optional, Tuple
 
-class BaseValidator():
+class RouteValidator():
     _ViewSpec = Mapping[str, Any]
-    _methods_list = {"GET", "POST", "PATCH", "PUT", "DELETE"}
-    _endpoint_list = set()
-    _blueprint_set = set()
+    _methods_list: set = {"GET", "POST", "PATCH", "PUT", "DELETE"}
+    _endpoint_list: set = set()
+    _blueprint_set: set = set()
 
     def __init__(self) -> None:
         pass

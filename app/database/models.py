@@ -19,6 +19,9 @@ class User(db.Model):
         nullable=False
     )
 
+    # Password
+    password_hash: Mapped[str] = mapped_column(db.String(128), nullable=False)
+
     # Projects
     projects: Mapped[list["Project"]] = db.relationship("Project", backref="user", lazy=False)
 
@@ -26,8 +29,13 @@ class User(db.Model):
     thoughts: Mapped[list["Thought"]] = db.relationship("Thought", backref="user", lazy=True)
 
     # Theme
-    theme_id: Mapped[int | None] = mapped_column(db.ForeignKey("themes.id"), nullable=True)
-    is_light: Mapped[bool] = mapped_column(db.Boolean, default=True)
+    theme_id: Mapped[int] = mapped_column(db.ForeignKey("themes.id"), nullable=True)
+
+    theme_mode: Mapped[str] = mapped_column(db.String(20), nullable=True)
+
+    @property
+    def display_name(self):
+        return self.user_name
 
 class Project(db.Model):
     __tablename__ = "projects"

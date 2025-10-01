@@ -1,12 +1,11 @@
-from typing import Mapping, Iterable
-from .validation import BaseValidator
+from .RouteValidator import RouteValidator
 from flask import Flask
 
-class RouteRegistrar():
-    _validator = None
-    _app = None
+class RouteInitialiser():
+    _validator: RouteValidator | None = None
+    _app: Flask | None = None
 
-    def __init__(self, app: Flask, validator: BaseValidator) -> None:
+    def __init__(self, app: Flask, validator: RouteValidator) -> None:
         if validator is None:
             raise TypeError(f"Validator not provided. Add a validator to ensure routes are correctly validated {validator=}")
         
@@ -16,7 +15,7 @@ class RouteRegistrar():
         self._app = app
         self._validator = validator
 
-    def add_blueprint(self, route_spec) -> bool:
+    def _add_blueprint(self, route_spec) -> bool:
         blueprint = route_spec.get("blueprint", None)
         is_valid, error = self._validator.validate_blueprint(blueprint)
 
@@ -26,7 +25,7 @@ class RouteRegistrar():
         self._app.register_blueprint(blueprint)
         return True
 
-    def add_route(self, route_spec) -> bool:
+    def _add_route(self, route_spec) -> bool:
         rule = route_spec.get("rule", None)
         endpoint = route_spec.get("endpoint", None)
         methods = route_spec.get("methods", [])
@@ -56,9 +55,9 @@ class RouteRegistrar():
         is_blueprint = route_spec.get("is_blueprint", False)
 
         if is_blueprint:
-            return self.add_blueprint(route_spec)
+            return self._add_blueprint(route_spec)
         else:
-            return self.add_route(route_spec)
+            return self._add_route(route_spec)
     
     def register_routes(self, routes_list):
         if not routes_list or not len(routes_list):
