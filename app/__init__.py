@@ -36,7 +36,9 @@ def create_app(config_key: str):
     def inject_meta_data() -> dict:
         return dict(
             SITE_NAME = app.config.get("SITE_NAME"),
-            SITE_TAGLINE = app.config.get("SITE_TAGLINE")
+            SITE_TAGLINE = app.config.get("SITE_TAGLINE"),
+            PASSWORD_MIN_LENGTH = app.config.get("PASSWORD_MIN_LENGTH"),
+            PASSWORD_MAX_LENGTH = app.config.get("PASSWORD_MAX_LENGTH")
         )
 
     # Attach routes

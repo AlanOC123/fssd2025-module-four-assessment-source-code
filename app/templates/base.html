@@ -12,9 +12,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='components/page.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='components/column-wrapper.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='components/buttons.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" />
+    {% block styles %}{% endblock %}
+    {% block scripts %} {% endblock %}
     <title>Projectify</title>
 </head>
-<body>
-    
-</body>
+{% block body %}{% endblock %}
 </html>

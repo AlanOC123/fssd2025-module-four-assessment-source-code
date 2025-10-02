@@ -14,6 +14,9 @@ class DefaultConfig():
     # 3. Declare Metadata
     SITE_NAME = "Projectify"
     SITE_TAGLINE = "Organise Thoughts into Actions"
+    PASSWORD_MIN_LENGTH = 8
+    PASSWORD_MAX_LENGTH = 128
+
 class ProductionConfig(DefaultConfig):
     # 1. Load Database Configuration
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL_PROD")

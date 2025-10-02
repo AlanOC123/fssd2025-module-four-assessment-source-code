@@ -1,7 +1,8 @@
-button {
-    font-size: var(--fs-md);
+button,
+.btn-link {
+    font-size: var(--fs-base);
     line-height: 1;
-    padding: var(--pad-sm);
+    padding: var(--pad-xs);
     border-radius: var(--brd-rnd-base);
     border: 0;
     box-shadow: var(--shadow-l);
@@ -12,4 +13,14 @@ button {
 
 .btn-txt {
     font-size: inherit;
+}
+
+.pri-btn {
+    background-color: var(--clr-acc-base);
+    color: var(--clr-text-base);
+}
+
+.sec-btn {
+    border: 2px solid var(--clr-acc-alt);
+    color: var(--clr-text-alt);
 }

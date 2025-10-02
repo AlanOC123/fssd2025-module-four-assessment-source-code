@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 :root {
     /* Fluid Base Typography */
@@ -78,18 +78,17 @@
 }
 
 html {
-    font-family: "Roboto", sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: var(--fs-base);
     line-height: var(--lh-loose);
-    color: var(--clr-text-main); /* off-white if you’re going space theme */
+    color: var(--clr-text-base);
 }
 
 h1 {
     font-weight: var(--fw-bold);
     line-height: var(--lh-tight);
-    letter-spacing: var(--ls-wide); /* gives that sci-fi spacing */
+    letter-spacing: var(--ls-wide);
     font-size: var(--fs-2xl);
-    font-family: "Orbitron", sans-serif;
 }
 
 h2 {
@@ -107,7 +106,6 @@ h3 {
 }
 
 h4 {
-    font-size: var(--fs-base);
     line-height: var(--lh-normal);
     letter-spacing: var(--ls-wide);
     font-weight: var(--fw-thin);
@@ -117,6 +115,9 @@ h4 {
 p,
 body,
 li,
-a {
+a,
+button,
+label,
+input {
     font-size: var(--fs-base);
 }

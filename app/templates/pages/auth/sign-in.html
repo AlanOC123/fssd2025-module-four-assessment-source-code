@@ -1,3 +1,22 @@
-<div>
-    <a href="{{ url_for('auth.register') }}">Register</a>
+{% extends 'pages/auth/base-auth.html' %}
+
+{% block substyles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='pages/auth/styles/sign-up.html') }}">
+{% endblock %}
+
+{% block content %}
+<div id="sign-in">
+    <form action="" id="sign-up-form">
+        <div id="form-inputs">
+            {% from 'components/inputs/email-input.html' import email_input %}
+            {% from 'components/inputs/password-input.html' import password_input %}
+            {{ email_input() }}
+            {{ password_input() }}
+        </div>
+        <div id="form-controls">
+            <button class="pri-btn" id="sign-in-btn" type="submit">Sign In</button>
+            <a class="btn-link sec-btn" id="sign-up-btn" href="{{ url_for('auth.register') }}">Sign Up</a>
+        </div>
+    </form>
 </div>
+{% endblock %}
