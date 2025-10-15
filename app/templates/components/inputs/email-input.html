@@ -1,5 +1,0 @@
-{% macro email_input(placeholder="Click To Type", class="form-input", id="email", label="Email", icon=None) %}
-    {% from 'components/icons/all-icons.html' import email_icon %}
-    {% from 'components/inputs/generic-input.html' import generic_input %}
-    {{ generic_input(type="email", id=id, label=label, icon=email_icon() if icon == None else icon, placeholder=placeholder) }}
-{% endmacro %}

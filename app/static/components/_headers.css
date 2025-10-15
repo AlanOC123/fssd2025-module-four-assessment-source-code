@@ -1,0 +1,42 @@
+/* --- Reusable Heading Classes --- */
+
+/* For main page titles (H1) */
+.page-heading {
+    font-size: var(--fs-3xl);
+    font-weight: var(--fw-bold);
+    color: var(--clr-text-base);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-tight);
+}
+
+/* For major section titles (H2) */
+.section-heading {
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-bold);
+    color: var(--clr-text-alt);
+    line-height: var(--lh-snug);
+}
+
+/* For component titles, like inside a card (H3) */
+.card-heading {
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-bold);
+    color: var(--clr-text-base);
+    line-height: var(--lh-base);
+}
+
+/* For secondary headings within components (H4) */
+.sub-heading {
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-bold);
+    color: var(--clr-text-alt); /* Use alt color for less emphasis */
+    line-height: var(--lh-base);
+}
+
+/* For smaller, utility headings (H5, H6) */
+.generic-heading {
+    font-size: var(--fs-md);
+    font-weight: var(--fw-bold);
+    color: var(--clr-text-alt);
+    line-height: var(--lh-base);
+}

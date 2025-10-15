@@ -1,0 +1,52 @@
+:root {
+    --shadow-x-s: 0;
+    --shadow-y-s: 2px;
+    --shadow-spread-s: 4px;
+
+    --shadow-x-m: 0;
+    --shadow-y-m: 4px;
+    --shadow-spread-m: 8px;
+
+    --shadow-x-l: 0;
+    --shadow-y-l: 8px;
+    --shadow-spread-l: 12px;
+
+    --shadow-x-xl: 0;
+    --shadow-y-xl: 12px;
+    --shadow-spread-xl: 16px;
+
+    --shadow-s-px: var(--shadow-x-s) var(--shadow-y-s) var(--shadow-spread-s);
+    --shadow-m-px: var(--shadow-x-m) var(--shadow-y-m) var(--shadow-spread-m);
+    --shadow-l-px: var(--shadow-x-l) var(--shadow-y-l) var(--shadow-spread-l);
+    --shadow-xl-px: var(--shadow-x-xl) var(--shadow-y-xl) var(--shadow-spread-xl);
+
+    --top-highlight-s: var(--shadow-s-px) var(--clr-shadow-light-40);
+    --dark-shadow-s: var(--shadow-s-px) var(--clr-shadow-dark-40);
+    --soft-shadow-s: var(--shadow-m-px) var(--clr-shadow-dark-20);
+
+    --top-highlight-m: var(--shadow-s-px) var(--clr-shadow-light-40);
+    --dark-shadow-m: var(--shadow-m-px) var(--clr-shadow-dark-40);
+    --soft-shadow-m: var(--shadow-l-px) var(--clr-shadow-dark-20);
+
+    --top-highlight-l: var(--shadow-s-px) var(--clr-shadow-light-40);
+    --dark-shadow-l: var(--shadow-l-px) var(--clr-shadow-dark-40);
+    --soft-shadow-l: var(--shadow-xl-px) var(--clr-shadow-dark-20);
+
+    --shadow-s: inset var(--top-highlight-s), var(--dark-shadow-s), var(--soft-shadow-s);
+    --shadow-m: inset var(--top-highlight-m), var(--dark-shadow-m), var(--soft-shadow-m);
+    --shadow-l: inset var(--top-highlight-l), var(--dark-shadow-l), var(--soft-shadow-l);
+
+    --text-shadow: var(--clr-shadow-dark) var(--shadow-y-s) 0 var(--shadow-spread-l);
+
+    --shadow-card-s: inset var(--top-highlight-s), var(--dark-shadow-s), var(--soft-shadow-s);
+    --shadow-card-m: inset var(--top-highlight-m), var(--dark-shadow-m), var(--soft-shadow-m);
+    --shadow-card-l: inset var(--top-highlight-l), var(--dark-shadow-l), var(--soft-shadow-l);
+
+    --shadow-button-s: var(--dark-shadow-s), var(--soft-shadow-s);
+    --shadow-button-m: var(--dark-shadow-m), var(--soft-shadow-m);
+    --shadow-button-l: var(--dark-shadow-l), var(--soft-shadow-l);
+
+    --shadow-input-s: var(--dark-shadow-s), var(--soft-shadow-s);
+    --shadow-input-m: var(--dark-shadow-m), var(--soft-shadow-m);
+    --shadow-input-l: var(--dark-shadow-l), var(--soft-shadow-l);
+}

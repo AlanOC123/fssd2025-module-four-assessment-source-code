@@ -1,0 +1,50 @@
+{% macro input(name, label, type="text", value='', placeholder='', required=False, class='', attrs={}) %}
+<div class="form-group">
+    {% if label %}<label for="{{ name }}" class="form-label">{{ label }}</label>{% endif %}
+    <input 
+    type="{{ type }}"
+    name="{{ name }}"
+    id="{{ name }}"
+    value="{{ value }}"
+    placeholder="{{ placeholder }}"
+    class="form-input {{ class }}"
+    {% if required %}required{% endif %}
+    {% if attrs %}
+        {% for key, value in attrs.items() %}
+            {{ key }}="{{ value }}"
+        {% endfor %}
+    {% endif %}
+    >
+</div>
+{% endmacro %}
+
+{% macro textarea(name, label, value='', placeholder='', required=False, class='') %}
+<div class="form-group">
+    <label for="{{ name }}" class="form-label">{{ label }}</label>
+    <textarea
+    name="{{ name }}"
+    id="{{ name }}"
+    placeholder="{{ placeholder }}"
+    class="form-input {{ class }}"
+    {% if required %}required{% endif %}
+    >{{ value }}</textarea>
+</div>
+{% endmacro %}
+
+{% macro select(name, label, options, selected_value='', required=False, class='') %}
+<div class="form-group">
+    <label for="{{ name }}" class="form-label">{{ label }}</label>
+    <select 
+    name="{{ name }}" 
+    id="{{ name }}" 
+    class="form-input {{ class }}"
+    {% if required %}required{% endif %}
+    >
+    {% for option in options %}
+    <option value="{{ option.value }}" {% if option.value == selected_value %}selected{% endif %}>
+        {{ option.text }}
+    </option>
+    {% endfor %}
+    </select>
+</div>
+{% endmacro %}

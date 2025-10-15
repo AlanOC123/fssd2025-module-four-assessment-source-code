@@ -1,0 +1,42 @@
+[
+    {
+        "name": "The Learner",
+        "description": "For tracking educational goals, new skills, and interesting thoughts.",
+        "image": "the-learner.png"
+    },
+    {
+        "name": "The Health Nut",
+        "description": "For logging workouts, meal plans, and wellness goals.",
+        "image": "the-health-nut.png"
+    },
+    {
+        "name": "The Builder",
+        "description": "For managing projects, tasks, and creative constructions.",
+        "image": "the-builder.png"
+    },
+    {
+        "name": "The Organizer",
+        "description": "For organizing schedules, budgets, and daily life.",
+        "image": "the-organizer.png"
+    },
+    {
+        "name": "The Creator",
+        "description": "For brainstorming creative ideas, managing artistic projects, and tracking inspiration.",
+        "image": "the-creator.png"
+    },
+    {
+        "name": "The Explorer",
+        "description": "For planning trips, logging travel memories, and discovering new places.",
+        "image": "the-explorer.png"
+    },
+    {
+        "name": "The Achiever",
+        "description": "For setting career goals, tracking professional development, and managing work-related tasks.",
+        "image": "the-achiever.png"
+    },
+    {
+        "name": "The Connector",
+        "description": "For remembering important dates, planning social events, and nurturing personal relationships.",
+        "image": "the-connector.png"
+    }
+]

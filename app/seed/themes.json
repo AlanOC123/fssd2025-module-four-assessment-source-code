@@ -1,0 +1,24 @@
+[
+    {
+        "name": "Default",
+        "is_default": true,
+        "bg_base_light": "#FFFFFA",
+        "bg_alt_light": "#F8F4E3",
+        "acc_base_light": "#A43651",
+        "acc_alt_light": "#EA9010",
+        "text_base_light": "#2F2F2F",
+        "text_alt_light": "#132E32",
+        "success_light": "#5DD39E",
+        "warning_light": "#F5CB5C",
+        "failure_light": "#B9314F",
+        "bg_base_dark": "#1A1A1B",
+        "bg_alt_dark": "#40434E",
+        "acc_base_dark": "#EB4070",
+        "acc_alt_dark": "#FF975B",
+        "text_base_dark": "#EEE2DF",
+        "text_alt_dark": "#B8DDD8",
+        "success_dark": "#5DD39E",
+        "failure_dark": "#B9314F",
+        "warning_dark": "#F5CB5C"
+    }
+]

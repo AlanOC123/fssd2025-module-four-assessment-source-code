@@ -30,6 +30,15 @@ class TestingConfig(DefaultConfig):
     # 2. Declare test state
     TESTING = True
 
+    TEST_USER = {
+        "email": "testuser@projectify.com",
+        "password": "Test!12345",
+        "name": "Alan",
+        "surname": "O'Connor",
+        "date_of_birth": "1995-11-07",
+        "theme_id": "Default"
+    }
+
 config = {
     "default": DefaultConfig,
     "production": ProductionConfig,

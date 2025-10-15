@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block styles %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='pages/core/styles/index.css') }}">
+{% endblock %}
+{% block scripts %}{% endblock %}
+
+{% block body %}
+<main>
+    <div id="user-select" class="page">
+        <div class="content-wrapper">
+            <h2 class="title">
+                {% if users | length %}
+                    Whos Projectifying?
+                {% else %}
+                    Create a Projectifier
+                {% endif %}
+            </h2>
+            <ul id="user-cards"></ul>
+            <button id="manage-users" class="pri-btn">Manage Users</button>
+        </div>
+    </div>
+</main>
+{% endblock %}

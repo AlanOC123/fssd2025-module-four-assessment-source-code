@@ -1,9 +1,47 @@
-<div>
-    <form action="{{ url_for('auth.create_user') }}" method="post">
-        <label for="user-name">Username</label>
-        <input type="text" id="user-name" name="user-name">
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
-        <button type="submit">Submit</button>
+{% extends 'pages/auth/base.html' %}
+
+{% block substyles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='pages/auth/styles/register.css') }}">
+{% endblock %}
+
+{% block content %}
+{% from 'components/_layout.html' import grid_col %}
+{% from 'components/_headers.html' import header %}
+{% call grid_col(md_span='8', lg_span='12') %}
+<div class="time-container">
+    {{ header(level=5, text="Register") }}
+    <h1 class="time-display"><span class="hour">22</span>:<span class="minute">03</span></h1>
+</div>
+
+<div class="form-container">
+    <form id="register-form" action="{{ url_for('auth.register') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        {% from 'components/_inputs.html' import input %}
+        {% from 'components/_buttons.html' import icon_btn, icon_link %}
+        <div class="form-grouping" id="personal-information">
+            <p class="form-header">About You</p>
+            <div class="inputs-grouping">
+                {{ input(type="text", placeholder="First Name", required=True) }}
+                {{ input(type="text", placeholder="Last Name", required=True) }}
+            </div>
+        </div>
+
+        <div class="form-grouping" id="birth-date">
+            <p class="form-header">Date of Birth</p>
+                {{ input(type="date", placeholder="Date of Birth", required=True) }}
+        </div>
+        <div class="form-grouping" id="log-in-information">
+            <div class="form-header">Log In Information</div>
+            <div class="inputs-grouping">
+                {{ input(type="email", placeholder="Email", required=True) }}
+                {{ input(type="password", placeholder="Password", required=True)}}
+            </div>
+        </div>
+        <div class="form-controls">
+            {{ icon_link(href=url_for('auth.sign_in'), icon='login', variant="secondary") }}
+            {{ icon_btn(type="submit", icon='person_add', variant="primary") }}
+        </div>
     </form>
 </div>
+{% endcall %}
+{% endblock %}

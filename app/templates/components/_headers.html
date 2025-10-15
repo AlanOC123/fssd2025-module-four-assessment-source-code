@@ -1,0 +1,13 @@
+{% macro header(text, level=1, class='') %}
+    {% if level == 1 %}
+        <h1 class="page-heading {{ class }}">{{ text }}</h1>
+    {% elif level == 2 %}
+        <h2 class="section-heading {{ class }}">{{ text }}</h2>
+    {% elif level == 3 %}
+        <h3 class="card-heading {{ class }}">{{ text }}</h3>
+    {% elif level == 4 %}
+        <h4 class="sub-heading {{ class }}">{{ text }}</h4>
+    {% else %}
+        <p class="generic-header {{ class }}">{{ text }}</p>
+    {% endif %}
+{% endmacro %}

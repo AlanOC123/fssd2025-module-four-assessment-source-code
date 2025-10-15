@@ -1,9 +1,11 @@
 from flask import Flask
 from .config import config, DEFAULT
-from flask_sqlalchemy import SQLAlchemy
 from .helper.classes.routes.RouteInitialiser import RouteInitialiser
 from .helper.classes.routes.RouteValidator import RouteValidator
 from .helper.classes.core.SessionManager import SessionManager
+from .extensions import db, csrf
+from .seed.commands import register_commands
+from flask_migrate import Migrate
 
 def get_db():
     from flask import current_app
@@ -12,15 +14,7 @@ def get_db():
         raise RuntimeError("SQLAlchemy extension not initialised on the app")
     return current_app.extensions["sqlalchemy"]
 
-# Initialise global DB
-db = SQLAlchemy()
-db_manager = None
-session_manager = SessionManager()
-
 def create_app(config_key: str):
-    # DB Manager accessible globally
-    global db_manager
-
     # Load configuration
     config_settings = config.get(config_key, DEFAULT)
     app = Flask(__name__)
@@ -28,9 +22,12 @@ def create_app(config_key: str):
 
     # Connect DB to application instance and set up manager
     db.init_app(app)
+    csrf.init_app(app)
     from .helper.classes.database.DatabaseManager import DatabaseManager
 
-    db_manager = DatabaseManager(app)
+    app.db_manager = DatabaseManager(app)
+    app.session_manager = SessionManager()
+    migrate = Migrate(app, db)
 
     @app.context_processor
     def inject_meta_data() -> dict:
@@ -45,5 +42,7 @@ def create_app(config_key: str):
     from .routes import ROUTES
     route_reg = RouteInitialiser(app, RouteValidator())
     route_reg.register_routes(ROUTES)
+
+    register_commands(app)
 
     return app

@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='pages/auth/styles/base.css') }}"
+/>
+{% block substyles %}{% endblock %} 
+{% endblock %}
+{% block body %}
+{% from 'components/_layout.html' import grid_col, container %} 
+{% from'components/_headers.html' import header %}
+<main id="auth" class="page main-grid" style="background-image: url({{ url_for('static', filename='assets/images/sign-in.png') }})">
+    {% block content %}{% endblock %}
+</main>
+{% endblock %}

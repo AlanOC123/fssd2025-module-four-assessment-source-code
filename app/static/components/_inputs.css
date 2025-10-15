@@ -1,0 +1,59 @@
+/* --- 1. The Form Group Wrapper --- */
+/* This controls the layout and spacing of a single form field (label + input) */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-sm); /* Use a small gap between the label and the input */
+}
+
+/* --- 2. The Form Label --- */
+.form-label {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
+    color: var(--clr-text-base);
+}
+
+/* --- 3. The Core Input Styling --- */
+/* This base class applies to <input>, <textarea>, and <select> */
+.form-input {
+    /* --- Mobile-First Sizing (Larger by Default) --- */
+    font-size: var(--fs-lg);
+    padding: var(--pad-input); /* Use a larger padding for better tap targets on mobile */
+
+    /* --- Base Appearance --- */
+    background-color: var(--clr-bg-base-1-40); /* Assuming an alternate background color */
+    border: var(--brd-alt-2-sm); /* Start with a transparent border */
+    border-radius: var(--brd-r-full);
+    box-shadow: var(--shadow-input-s);
+    width: 100%;
+    outline: none;
+    transition: border 300ms ease-in-out;
+    backdrop-filter: blur(36px);
+}
+
+.form-input:focus {
+    border: var(--brd-acc-sm);
+}
+
+.form-input::placeholder {
+    color: var(--clr-text-base-60);
+}
+
+/* --- 5. Responsive Adjustment (Desktop) --- */
+/* On larger screens, make the inputs more compact */
+@media (min-width: 768px) {
+    .form-input {
+        font-size: var(--fs-base);
+        /* Use your smaller, standard input padding for desktop */
+        padding: var(--pad-input);
+    }
+}
+
+@media (min-width: 1024px) {
+    .form-input {
+        font-size: var(--fs-sm);
+        /* Use your smaller, standard input padding for desktop */
+        padding: var(--pad-input);
+    }
+}

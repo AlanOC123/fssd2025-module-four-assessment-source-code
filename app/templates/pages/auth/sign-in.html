@@ -1,22 +1,38 @@
-{% extends 'pages/auth/base-auth.html' %}
+{% extends 'pages/auth/base.html' %}
 
 {% block substyles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/auth/styles/sign-up.html') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pages/auth/styles/sign-in.css') }}">
 {% endblock %}
 
 {% block content %}
-<div id="sign-in">
-    <form action="" id="sign-up-form">
-        <div id="form-inputs">
-            {% from 'components/inputs/email-input.html' import email_input %}
-            {% from 'components/inputs/password-input.html' import password_input %}
-            {{ email_input() }}
-            {{ password_input() }}
+{% from 'components/_layout.html' import grid_col %}
+{% from 'components/_headers.html' import header %}
+{% call grid_col(md_span='8', lg_span='12') %}
+<div class="time-container">
+    {{ header(level=5, text="Sign In") }}
+    <h1 class="time-display"><span class="hour">22</span>:<span class="minute">03</span></h1>
+</div>
+
+<div class="form-container">
+    <div class="img-container">
+        <div class="img">
+            <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="">
         </div>
-        <div id="form-controls">
-            <button class="pri-btn" id="sign-in-btn" type="submit">Sign In</button>
-            <a class="btn-link sec-btn" id="sign-up-btn" href="{{ url_for('auth.register') }}">Sign Up</a>
+    </div>
+
+    <form id="sign-in-form" action="{{ url_for('auth.sign_in') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        {% from 'components/_inputs.html' import input %}
+        {% from 'components/_buttons.html' import icon_btn, icon_link %}
+        {{ input(type="email", placeholder="Email", required=True, name="email") }}
+        <div id="password">
+            {{ input(type="password", placeholder="Password", required=True, name="password") }} <span id="forgot-password">{{ icon_link(href="#", icon='help', variant="secondary") }}</span>
+        </div>
+        <div class="form-controls">
+            {{ icon_link(href=url_for('auth.register'), icon='app_registration', variant="secondary") }}
+            {{ icon_btn(type="submit", icon='login', variant="primary") }}
         </div>
     </form>
 </div>
+{% endcall %}
 {% endblock %}

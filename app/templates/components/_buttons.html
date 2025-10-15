@@ -1,0 +1,43 @@
+{% from 'components/_icons.html' import create, delete, edit, cancel %}
+
+{% macro button(text, id='', variant='primary', class='', type="button", icon='') %}
+<div class="btn-container">
+    <button id="{{ id }}" class="btn-{{ variant }} {% if icon == '' and variant == 'primary' %}no-icon{% endif %} {{ class }}" type="{{ type }}">
+        <span class="btn-text-container">{{ text }}</span>
+        {% if variant == 'primary' and icon != '' %}
+        <div class="btn-icon-container">
+            <span class="material-symbols-outlined btn-icon">{{ icon }}</span>
+        </div>
+        {% endif %}
+    </button>
+</div>
+{% endmacro %}
+
+{% macro link_btn(text, href, id='', variant='primary', icon='') %}
+<div class="btn-container">
+    <a id="{{ id }}" class="btn-{{ variant }} {% if icon == '' and variant == 'primary' %}no-icon{% endif %} {{ class }}" href="{{ href }}">
+        <span class="btn-text-container">{{ text }}</span>
+        {% if variant == 'primary' and icon != '' %}
+        <div class="btn-icon-container">
+            <span class="material-symbols-outlined btn-icon">{{ icon }}</span>
+        </div>
+        {% endif %}
+    </a>
+</div>
+{% endmacro %}
+
+{% macro icon_btn(id='', variant='primary', class='', icon='', type="button") %}
+    <button id="{{ id }}" class="btn-icon btn-{{ variant }} {{ class }}" type="{{ type }}">
+        <div class="icon-wrapper">
+            <span class="material-symbols-outlined btn-icon">{{ icon }}</span>
+        </div>
+    </button>
+{% endmacro %}
+
+{% macro icon_link(id='', variant='primary', class='', icon='', href="button") %}
+    <a id="{{ id }}" class="btn-icon btn-{{ variant }} {{ class }}" href="{{ href }}">
+        <div class="icon-wrapper">
+            <span class="material-symbols-outlined btn-icon">{{ icon }}</span>
+        </div>
+    </a>
+{% endmacro %}

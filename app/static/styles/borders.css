@@ -1,0 +1,130 @@
+:root {
+    /* Base Values */
+    --brd-s: 1px;
+    --brd-m: 2px;
+    --brd-l: 4px;
+    --brd-xl: 8px;
+    --brd-2xl: 16px;
+    --brd-3xl: 32px;
+
+    /* Rounding */
+    --brd-r-xs: 2px;
+    --brd-r-sm: 4px;
+    --brd-r-base: 8px;
+    --brd-r-md: 12px;
+    --brd-r-lg: 16px;
+    --brd-r-xl: 20px;
+    --brd-r-2xl: 24px;
+    --brd-r-3xl: 28px;
+    --brd-r-full: 999px;
+    --brd-r-pill: 50%;
+
+    --brd-r-card: var(--brd-r-lg);
+    --brd-r-btn: var(--brd-r-base);
+
+    /* Shape */
+    --brd-sm: solid var(--brd-s);
+    --brd-md: solid var(--brd-m);
+    --brd-lg: solid var(--brd-l);
+    --brd-1l: solid var(--brd-xl);
+    --brd-2l: solid var(--brd-2xl);
+    --brd-3l: solid var(--brd-3xl);
+
+    /* Borders */
+    --brd-test: solid 1px red;
+    --brd-main: var(--brd-md) var(--clr-bg-base);
+    --brd-alt: var(--brd-md) var(--clr-bg-alt);
+    --brd-acc-base: var(--brd-md) var(--clr-acc-base);
+    --brd-acc-alt: var(--brd-md) var(--clr-acc-alt);
+
+    --brd-base-sm: var(--brd-sm) var(--clr-bg-base);
+    --brd-base-md: var(--brd-md) var(--clr-bg-base);
+    --brd-base-lg: var(--brd-lg) var(--clr-bg-base);
+    --brd-base-xl: var(--brd-1l) var(--clr-bg-base);
+    --brd-base-2xl: var(--brd-2l) var(--clr-bg-base);
+    --brd-base-3xl: var(--brd-3l) var(--clr-bg-base);
+
+    --brd-base-1-sm: var(--brd-sm) var(--clr-bg-base-1);
+    --brd-base-1-md: var(--brd-md) var(--clr-bg-base-1);
+    --brd-base-1-lg: var(--brd-lg) var(--clr-bg-base-1);
+    --brd-base-1-xl: var(--brd-1l) var(--clr-bg-base-1);
+    --brd-base-1-2xl: var(--brd-2l) var(--clr-bg-base-1);
+    --brd-base-1-3xl: var(--brd-3l) var(--clr-bg-base-1);
+
+    --brd-base-2-sm: var(--brd-sm) var(--clr-bg-base-2);
+    --brd-base-2-md: var(--brd-md) var(--clr-bg-base-2);
+    --brd-base-2-lg: var(--brd-lg) var(--clr-bg-base-2);
+    --brd-base-2-xl: var(--brd-1l) var(--clr-bg-base-2);
+    --brd-base-2-2xl: var(--brd-2l) var(--clr-bg-base-2);
+    --brd-base-2-3xl: var(--brd-3l) var(--clr-bg-base-2);
+
+    --brd-alt-sm: var(--brd-sm) var(--clr-bg-alt);
+    --brd-alt-md: var(--brd-md) var(--clr-bg-alt);
+    --brd-alt-lg: var(--brd-lg) var(--clr-bg-alt);
+    --brd-alt-xl: var(--brd-1l) var(--clr-bg-alt);
+    --brd-alt-2xl: var(--brd-2l) var(--clr-bg-alt);
+    --brd-alt-3xl: var(--brd-3l) var(--clr-bg-alt);
+
+    --brd-alt-1-sm: var(--brd-sm) var(--clr-bg-alt-1);
+    --brd-alt-1-md: var(--brd-md) var(--clr-bg-alt-1);
+    --brd-alt-1-lg: var(--brd-lg) var(--clr-bg-alt-1);
+    --brd-alt-1-xl: var(--brd-1l) var(--clr-bg-alt-1);
+    --brd-alt-1-2xl: var(--brd-2l) var(--clr-bg-alt-1);
+    --brd-alt-1-3xl: var(--brd-3l) var(--clr-bg-alt-1);
+
+    --brd-alt-2-sm: var(--brd-sm) var(--clr-bg-alt-2);
+    --brd-alt-2-md: var(--brd-md) var(--clr-bg-alt-2);
+    --brd-alt-2-lg: var(--brd-lg) var(--clr-bg-alt-2);
+    --brd-alt-2-xl: var(--brd-1l) var(--clr-bg-alt-2);
+    --brd-alt-2-2xl: var(--brd-2l) var(--clr-bg-alt-2);
+    --brd-alt-2-3xl: var(--brd-3l) var(--clr-bg-alt-2);
+
+    --brd-acc-sm: var(--brd-sm) var(--clr-acc-base);
+    --brd-acc-md: var(--brd-md) var(--clr-acc-base);
+    --brd-acc-lg: var(--brd-lg) var(--clr-acc-base);
+    --brd-acc-xl: var(--brd-1l) var(--clr-acc-base);
+    --brd-acc-2xl: var(--brd-2l) var(--clr-acc-base);
+    --brd-acc-3xl: var(--brd-3l) var(--clr-acc-base);
+
+    --brd-acc-1-sm: var(--brd-sm) var(--clr-acc-1-base);
+    --brd-acc-1-md: var(--brd-md) var(--clr-acc-1-base);
+    --brd-acc-1-lg: var(--brd-lg) var(--clr-acc-1-base);
+    --brd-acc-1-xl: var(--brd-1l) var(--clr-acc-1-base);
+    --brd-acc-1-2xl: var(--brd-2l) var(--clr-acc-1-base);
+    --brd-acc-1-3xl: var(--brd-3l) var(--clr-acc-1-base);
+
+    --brd-acc-2-sm: var(--brd-sm) var(--clr-acc-2-base);
+    --brd-acc-2-md: var(--brd-md) var(--clr-acc-2-base);
+    --brd-acc-2-lg: var(--brd-lg) var(--clr-acc-2-base);
+    --brd-acc-2-xl: var(--brd-1l) var(--clr-acc-2-base);
+    --brd-acc-2-2xl: var(--brd-2l) var(--clr-acc-2-base);
+    --brd-acc-2-3xl: var(--brd-3l) var(--clr-acc-2-base);
+
+    --brd-acc-alt-sm: var(--brd-sm) var(--clr-acc-alt);
+    --brd-acc-alt-md: var(--brd-md) var(--clr-acc-alt);
+    --brd-acc-alt-lg: var(--brd-lg) var(--clr-acc-alt);
+    --brd-acc-alt-xl: var(--brd-1l) var(--clr-acc-alt);
+    --brd-acc-alt-2xl: var(--brd-2l) var(--clr-acc-alt);
+    --brd-acc-alt-3xl: var(--brd-3l) var(--clr-acc-alt);
+
+    --brd-acc-alt-1-sm: var(--brd-sm) var(--clr-acc-1-alt);
+    --brd-acc-alt-1-md: var(--brd-md) var(--clr-acc-1-alt);
+    --brd-acc-alt-1-lg: var(--brd-lg) var(--clr-acc-1-alt);
+    --brd-acc-alt-1-xl: var(--brd-1l) var(--clr-acc-1-alt);
+    --brd-acc-alt-1-2xl: var(--brd-2l) var(--clr-acc-1-alt);
+    --brd-acc-alt-1-3xl: var(--brd-3l) var(--clr-acc-1-alt);
+
+    --brd-acc-alt-2-sm: var(--brd-sm) var(--clr-acc-2-alt);
+    --brd-acc-alt-2-md: var(--brd-md) var(--clr-acc-2-alt);
+    --brd-acc-alt-2-lg: var(--brd-lg) var(--clr-acc-2-alt);
+    --brd-acc-alt-2-xl: var(--brd-1l) var(--clr-acc-2-alt);
+    --brd-acc-alt-2-2xl: var(--brd-2l) var(--clr-acc-2-alt);
+    --brd-acc-alt-2-3xl: var(--brd-3l) var(--clr-acc-2-alt);
+
+    --brd-transparent-sm: var(--brd-sm) var(--clr-transparent);
+    --brd-transparent-md: var(--brd-md) var(--clr-transparent);
+    --brd-transparent-lg: var(--brd-lg) var(--clr-transparent);
+    --brd-transparent-xl: var(--brd-1l) var(--clr-transparent);
+    --brd-transparent-2xl: var(--brd-2l) var(--clr-transparent);
+    --brd-transparent-3xl: var(--brd-3l) var(--clr-transparent);
+}

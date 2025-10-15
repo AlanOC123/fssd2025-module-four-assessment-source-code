@@ -1,0 +1,18 @@
+.card {
+    display: flex;
+    border: var(--brd-transparent-sm);
+    background-color: var(--clr-bg-base);
+    border-radius: var(--brd-r-card);
+    padding: var(--pad-card);
+    box-shadow: var(--shadow-m);
+}
+
+.user.create {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.user.create :first-child {
+    flex: 1;
+}

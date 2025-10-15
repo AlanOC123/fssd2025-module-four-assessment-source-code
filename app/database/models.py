@@ -1,115 +1,153 @@
 from app import db
-from sqlalchemy import String, DateTime, Boolean
+from sqlalchemy import Boolean
+from typing import List
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime, timezone
 
-class User(db.Model):
-    __tablename__ = "users"
-
-    # Primary Key
+class Profile(db.Model):
+    __tablename__ = "profiles"
     id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-
-    # Username
-    user_name: Mapped[str] = mapped_column(db.String(30), nullable=False, unique=True)
-
-    # Timestamp
+    email: Mapped[str] = mapped_column(db.String(50), nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(db.String(128), nullable=False)
+    name: Mapped[str] = mapped_column(db.String(50), nullable=False)
+    surname: Mapped[str] = mapped_column(db.String(80), nullable=False)
+    date_of_birth: Mapped[datetime.date] = mapped_column(db.Date, nullable=True)
+    stay_logged_in: Mapped[Boolean] = mapped_column(db.Boolean, default=False)
+    theme_id: Mapped[int] = mapped_column(db.ForeignKey("themes.id"))
+    identities: Mapped[List["ProfileIdentity"]] = db.relationship(
+        back_populates="profile", cascade="all, delete-orphan", lazy="selectin"
+    )
+    projects: Mapped[List["Project"]] = db.relationship(
+        back_populates="profile", cascade="all, delete-orphan", lazy="select"
+    )
+    thoughts: Mapped[List["Thought"]] = db.relationship(
+        back_populates="profile", cascade="all, delete-orphan", lazy="select"
+    )
     created_at: Mapped[datetime] = mapped_column(
         db.DateTime, 
         default=datetime.now(timezone.utc), 
         nullable=False
     )
 
-    # Password
-    password_hash: Mapped[str] = mapped_column(db.String(128), nullable=False)
+    def __repr__(self) -> str:
+        return f"<Profile {self.email}>"
+    
+class ProfileIdentity(db.Model):
+    __tablename__ = "profile_identities"
+    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
+    profile_id: Mapped[int] = mapped_column(db.ForeignKey('profiles.id'))
+    template_id: Mapped[int] = mapped_column(db.ForeignKey('identity_templates.id'))
+    is_active: Mapped[Boolean] = mapped_column(db.Boolean, default=False)
+    profile: Mapped["Profile"] = db.relationship(
+        back_populates="identities"
+    )
+    projects: Mapped[List["Project"]] = db.relationship(
+        back_populates='profile_identity', cascade="all, delete-orphan", lazy="select"
+    )
+    template: Mapped["IdentityTemplate"] = db.relationship(
+        back_populates='profile_identities', lazy="joined"
+    )
+    identity_created_at: Mapped[datetime] = mapped_column(
+        db.DateTime, 
+        default=datetime.now(timezone.utc), 
+        nullable=False
+    )
 
-    # Projects
-    projects: Mapped[list["Project"]] = db.relationship("Project", backref="user", lazy=False)
+    def __repr__(self) -> str:
+        return f'<Profile Identity {self.id}>'
 
-    # Thoughts
-    thoughts: Mapped[list["Thought"]] = db.relationship("Thought", backref="user", lazy=True)
 
-    # Theme
-    theme_id: Mapped[int] = mapped_column(db.ForeignKey("themes.id"), nullable=True)
+class IdentityTemplate(db.Model):
+    __tablename__ = "identity_templates"
+    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(db.String(80), unique=True, nullable=False)
+    description: Mapped[str] = mapped_column(db.String(255))
+    image: Mapped[str] = mapped_column(db.String(120), nullable=False)
+    profile_identities: Mapped[List["ProfileIdentity"]] = db.relationship(
+        back_populates="template",
+        lazy="select"
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        db.DateTime, 
+        default=datetime.now(timezone.utc), 
+        nullable=False
+    )
 
-    theme_mode: Mapped[str] = mapped_column(db.String(20), nullable=True)
+    def __repr__(self) -> str:
+        return f'<Identity {self.name}>'
 
-    @property
-    def display_name(self):
-        return self.user_name
 
 class Project(db.Model):
     __tablename__ = "projects"
-
-    # Primary Key
     id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
+    owner_id: Mapped[int] = mapped_column(db.ForeignKey("profiles.id"))
+    identity_id: Mapped[int] = mapped_column(
+        db.ForeignKey("profile_identities.id")
+    )
+    name: Mapped[str] = mapped_column(db.String(100), nullable=False)
+    description: Mapped[str | None] = mapped_column(db.String(500))
+    profile: Mapped["Profile"] = db.relationship(
+        back_populates="projects", lazy="select"
+    )
+    thoughts: Mapped[List["Thought"]] = db.relationship(
+        back_populates="project",
+        cascade="all, delete-orphan", # ADDED: Ensures thoughts are deleted with the project
+        lazy="select"
+    )
 
-    # Owner
-    owner_id: Mapped[int] = mapped_column(db.ForeignKey("users.id"))
+    profile_identity: Mapped["ProfileIdentity"] = db.relationship(
+        back_populates="projects"
+    )
 
-    # Project Name
-    project_name: Mapped[str] = mapped_column(db.String(100), nullable=False)
-
-    # Project Description
-    project_description: Mapped[str | None] = mapped_column(db.String(500))
-
-    # Created At
+    tasks: Mapped[List["Task"]] = db.relationship(
+        back_populates="project", 
+        cascade="all, delete-orphan", # ADDED: Ensures tasks are deleted with the project
+        lazy="selectin"
+    )
+    is_active: Mapped[Boolean] = mapped_column(db.Boolean, default=False)
+    is_complete: Mapped[Boolean] = mapped_column(db.Boolean, default=False)
     created_at: Mapped[datetime] = mapped_column(
         db.DateTime, 
         default=datetime.now(timezone.utc), 
         nullable=False
     )
 
-    # Tasks
-    tasks: Mapped[list["Task"]] = db.relationship("Task", backref="project", lazy=True)
-
-    # Status
-    is_active: Mapped[bool] = mapped_column(db.Boolean, default=False)
-    is_complete: Mapped[bool] = mapped_column(db.Boolean, default=False)
-
     def __repr__(self) -> str:
-        return f"ID: {self.id}\nProject Name: {self.project_name}"
+        return f"<Project {self.name}>"
 
 class Task(db.Model):
     __tablename__ = "tasks"
-
-    # Primary Key
     id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-
-    # Task Name
-    task_name: Mapped[str] = mapped_column(db.String(100), nullable=False)
-
-    # Created At
+    name: Mapped[str] = mapped_column(db.String(100), nullable=False)
+    project_id: Mapped[int] = mapped_column(db.ForeignKey("projects.id"))
+    is_complete: Mapped[bool] = mapped_column(db.Boolean, default=False)
+    project: Mapped["Project"] = db.relationship(
+        back_populates="tasks",
+        lazy="joined"
+    )
     created_at: Mapped[datetime] = mapped_column(
         db.DateTime, 
         default=datetime.now(timezone.utc), 
         nullable=False
     )
 
-    # Related Project
-    project_id: Mapped[int] = mapped_column(db.ForeignKey("projects.id"))
-
-    # Status
-    is_complete: Mapped[bool] = mapped_column(db.Boolean, default=False)
-
     def __repr__(self) -> str:
-        return f"ID: {self.id}\nTask Name: {self.task_name}"
-
+        return f"<Task {self.name}>"
 class Thought(db.Model):
     __tablename__ = "thoughts"
-
-    # Primary Key
     id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-
-    # Owner
-    owner_id: Mapped[int] = mapped_column(db.ForeignKey("users.id"))
-
-    # Thought Name
-    thought_title: Mapped[str] = mapped_column(db.String(30), nullable=False)
-
-    # Thought Content
-    thought_content: Mapped[str] = mapped_column(db.String(200), nullable=False)
-
-    # Created At
+    owner_id: Mapped[int] = mapped_column(db.ForeignKey("profiles.id"))
+    project_id: Mapped[int] = mapped_column(db.ForeignKey("projects.id"))
+    title: Mapped[str] = mapped_column(db.String(30), nullable=False)
+    content: Mapped[str] = mapped_column(db.String(200), nullable=False)
+    profile: Mapped["Profile"] = db.relationship(
+        back_populates="thoughts",
+        lazy="joined"
+    )
+    project: Mapped["Project"] = db.relationship(
+        back_populates="thoughts",
+        lazy="joined"
+    )
     created_at: Mapped[datetime] = mapped_column(
         db.DateTime, 
         default=datetime.now(timezone.utc), 
@@ -117,42 +155,30 @@ class Thought(db.Model):
     )
 
     def __repr__(self) -> str:
-        return f"ID: {self.id}\nTask Name: {self.thought_title}"
-
+        return f"<Thought {self.title}>"
 class Theme(db.Model):
     __tablename__ = "themes"
-
-    # Primary Key
     id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-
-    # Theme Name
-    theme_name: Mapped[str] = mapped_column(db.String(30), unique=True)
-
-    # Primary Color
-    pri_clr = mapped_column(db.String(7))
-
-    # Secondary Color
-    sec_clr = mapped_column(db.String(7))
-
-    # Accent Color
-    acc_clr = mapped_column(db.String(7))
-
-    # Text Color
-    text_clr = mapped_column(db.String(7))
+    name: Mapped[str] = mapped_column(db.String(30), unique=True)
+    is_default: Mapped[Boolean] = mapped_column(db.Boolean, default=False, nullable=False)
+    bg_base_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    bg_alt_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    acc_base_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    acc_alt_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    text_base_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    text_alt_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    success_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    warning_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    failure_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    bg_base_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    bg_alt_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    acc_base_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    acc_alt_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    text_base_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    text_alt_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    success_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    failure_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    warning_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
 
     def __repr__(self) -> str:
-        return f"ID: {self.id}\nTask Name: {self.theme_name}"
-
-# Reset DB State
-def reset_tables(app):
-    with app.app_context():
-        # Drop Existing DB Tables
-        db.drop_all()
-
-        # Recreate them
-        db.create_all()
-
-    from .seed import seed_initial_user
-
-    # Run test user insertion script
-    seed_initial_user(app)
+        return f"<Theme {self.name}>"

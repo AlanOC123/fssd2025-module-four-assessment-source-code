@@ -3,19 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/root/styles/root.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/root/styles/spacing.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/root/styles/typography.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/root/styles/shadows.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/root/styles/themes.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/root/styles/borders.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='components/page.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='components/column-wrapper.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='components/buttons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/root.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/spacing.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/typography.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/shadows.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/themes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/borders.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components/_layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components/_buttons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components/_inputs.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components/_icons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components/_cards.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components/_headers.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components/_forms.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon">
     {% block styles %}{% endblock %}
     {% block scripts %} {% endblock %}
     <title>Projectify</title>
 </head>
-{% block body %}{% endblock %}
+<body>
+    {% block body %}{% endblock %}
+</body>
 </html>

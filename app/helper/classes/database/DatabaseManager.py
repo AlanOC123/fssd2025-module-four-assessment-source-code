@@ -1,13 +1,30 @@
 from flask import Flask
 from .BaseManager import BaseManager
-from .UserManager import UserManager
+from .ProfileManager import ProfileManager
+from .IdentityTemplateManager import IdentityTemplateManager
+from .ProfileIdentityManager import ProfileIdentityManager
+from .ThemeManager import ThemeManager
 
 class DatabaseManager(BaseManager):
-    _user_manager: UserManager | None = None
     def __init__(self, app: Flask) -> None:
-        super().__init__(app)
-        self._user_manager = UserManager(app)
+        super().__init__(app, self)
+        self._profile_manager = ProfileManager(app, self)
+        self._identity_template_manager = IdentityTemplateManager(app, self)
+        self._profile_identity_manager = ProfileIdentityManager(app, self)
+        self._theme_manager = ThemeManager(app, self)
+
+    @property
+    def profile(self) -> ProfileManager:
+        return self._profile_manager
     
     @property
-    def user(self):
-        return self._user_manager
+    def identity_template(self) -> IdentityTemplateManager:
+        return self._identity_template_manager
+    
+    @property
+    def profile_identity(self) -> ProfileIdentityManager:
+        return self._profile_identity_manager
+    
+    @property
+    def theme(self) -> ThemeManager:
+        return self._theme_manager

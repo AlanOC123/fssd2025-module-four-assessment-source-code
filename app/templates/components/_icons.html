@@ -1,0 +1,105 @@
+{% macro email(size, id="") %}
+<span
+    class="material-symbols-outlined {{size}}"
+    {%
+    if
+    id
+    !=""
+    %}id="{{ id }}"
+    {%
+    endif
+    %}
+    >mail</span
+>
+{% endmacro %} {% macro new_user(size, id="") %}
+<span
+    class="material-symbols-outlined {{size}}"
+    {%
+    if
+    id
+    !=""
+    %}id="{{ id }}"
+    {%
+    endif
+    %}
+    >person_add</span
+>
+{% endmacro %} {% macro create(size, id="") %}
+<span
+    class="material-symbols-outlined {{size}}"
+    {%
+    if
+    id
+    !=""
+    %}id="{{ id }}"
+    {%
+    endif
+    %}
+    >add</span
+>
+{% endmacro %} {% macro edit(size, id="") %}
+<span
+    class="material-symbols-outlined {{size}}"
+    {%
+    if
+    id
+    !=""
+    %}id="{{ id }}"
+    {%
+    endif
+    %}
+    >key</span
+>
+{% endmacro %} {% macro delete(size, id="") %}
+<span
+    class="material-symbols-outlined {{size}}"
+    {%
+    if
+    id
+    !=""
+    %}id="{{ id }}"
+    {%
+    endif
+    %}
+    >delete</span
+>
+{% endmacro %} {% macro options(size, id="") %}
+<span
+    class="material-symbols-outlined {{size}}"
+    {%
+    if
+    id
+    !=""
+    %}id="{{ id }}"
+    {%
+    endif
+    %}
+    >edit</span
+>
+{% endmacro %} {% macro menu(size, id="") %}
+<span
+    class="material-symbols-outlined {{size}}"
+    {%
+    if
+    id
+    !=""
+    %}id="{{ id }}"
+    {%
+    endif
+    %}
+    >menu</span
+>
+{% endmacro %} {% macro continue(size, id="") %}
+<span
+    class="material-symbols-outlined {{size}}"
+    {%
+    if
+    id
+    !=""
+    %}id="{{ id }}"
+    {%
+    endif
+    %}
+    >arrow_circle_right</span
+>
+{% endmacro %}

@@ -1,59 +1,33 @@
 from flask import session
-from datetime import datetime, timezone
-from pprint import pprint
+from app.helper.functions.response_schemas import success_res, error_res
 
 class SessionManager:
+    _SESSION_PROFILE_KEY: str = "profile_id"
     _SESSION_USER_KEY: str = "user_id"
-    _LOG: list = []
 
     def __init__(self) -> None:
-        self._LOG = []
         print("Session Manager ready...")
-
-    def create_res(self, action: str, success_flag: bool, user: int | None) -> dict:
-        return {
-            "action": action,
-            "success": success_flag,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "user": user
-        }
     
-    def update_log_count(self) -> None:
-        self._NUM_LOGS = len(self._LOG)
+    def get_logged_in(self) -> dict:
+        profile_id = session.get(self._SESSION_PROFILE_KEY, None)
+        return success_res(payload={ "profile_id": profile_id  }, msg="Profile Found") if profile_id else error_res(msg="Profile Not Found")
 
-    def print_logs(self) -> None:
-        print(f"\n--- SESSION MANAGER LOGS: {len(self._LOG)}--- ")
-        for log in self._LOG:
-            pprint(log)
+    def login_profile(self, profile_id: int) -> dict:
+        session[self._SESSION_PROFILE_KEY] = profile_id
+        success = session[self._SESSION_PROFILE_KEY] == profile_id
+        return success_res(payload={ "user_id": profile_id }, msg="Profile logged in") if success else error_res(msg="Error logging in profile")
 
-    def push_log(self, res: dict) -> None:
-        self._LOG.append(res)
-        return self.update_log_count()
+    def logout_profile(self) -> dict:
+        profile_id = session[self._SESSION_PROFILE_KEY]
+        session.pop(self._SESSION_PROFILE_KEY, None)
 
-    def get_last_log(self) -> dict:
-        if self._LOG:
-            return self._LOG[-1]
-        return {}
-    
-    def get_current_user_id(self) -> int | None:
-        user_id = session.get(self._SESSION_USER_KEY)
-        return int(user_id) if user_id is not None else None
+        return success_res(payload={"logged_out": profile_id}, msg="Profile logged out") if self._SESSION_PROFILE_KEY not in session else error_res(msg="Error logging user out")
 
-    def login_user(self, user_id: int) -> dict:
-        session[self._SESSION_USER_KEY] = id
+    def set_user_selected(self, user_id: int) -> dict:
+        session[self._SESSION_USER_KEY] = user_id
+        success = session[self._SESSION_USER_KEY] == user_id
+        return success_res(payload={ "user_id": user_id }, msg="User set") if success else error_res(msg="Error setting user")
 
-        success = session.get(self._SESSION_USER_KEY) == user_id
-        res = self.create_res("Logged in", success, user_id)
-        self.push_log(res)
-
-        return res
-
-    def logout_user(self):
-        user_id = session[self._SESSION_USER_KEY]
-        session.pop(self._SESSION_USER_KEY, None)
-        success = self._SESSION_USER_KEY not in session
-
-        res = self.create_res("Logged out", success, user_id)
-        self.push_log(res)
-
-        return res
+    def get_user_id(self) -> dict:
+        user_id = session.get(self._SESSION_USER_KEY, None)
+        return success_res(payload={ "user_id": user_id  }, msg="User Found") if user_id else error_res(msg="User Not Found")

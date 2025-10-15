@@ -1,0 +1,19 @@
+{% macro page(id, class='') %}
+<main id="{{ id }}" class="page {{ class }}"> {{ caller() }} </main>
+{% endmacro %}
+
+{% macro grid_col(id='', md_span='', lg_span='', class='') %}
+    <section 
+    id="{% if id != '' %}{{ id }}{% endif %}" 
+    class="grid-col 
+    {% if md_span != '' %}md:grid-col--{{ md_span }}{% endif %}
+    {% if lg_span != '' %}lg:grid-col--{{ lg_span }}{% endif %}
+    {% if class != '' %}{{ class }}{% endif %}"
+    >
+        {{ caller() }} 
+    </section>
+{% endmacro %}
+
+{% macro container(tag="div", class='') %}
+<{{ tag }} class="container {{ class }}"> {{ caller() }} </{{ tag }}>
+{% endmacro %}

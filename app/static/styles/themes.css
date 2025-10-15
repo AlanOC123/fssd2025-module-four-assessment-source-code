@@ -1,0 +1,301 @@
+:root {
+    /* Root Colors */
+
+    /* Base Colors */
+    --bg-base-light: #FFFFFA;
+    --bg-alt-light: #F8F4E3;
+    --acc-base-light: #A43651;
+    --acc-alt-light: #EA9010;
+    --text-base-light: #2F2F2F;
+    --text-alt-light: #132E32;
+    --success-light: #5DD39E;
+    --warning-light: #F5CB5C;
+    --failure-light: #B9314F;
+
+    --bg-base-dark: #1A1A1B;
+    --bg-alt-dark: #40434E;
+    --acc-base-dark: #EB4070;
+    --acc-alt-dark: #FF975B;
+    --text-base-dark: #EEE2DF;
+    --text-alt-dark: #B8DDD8;
+    --success-dark: #5DD39E;
+    --failure-dark: #B9314F;
+    --warning-dark: #F5CB5C;
+
+    --clr-transparent: transparent;
+    --clr-shadow-light: #FFFFFA;
+    --clr-shadow-dark: #1A1A1B;
+
+    /* Light */
+
+    /* Background */
+    --clr-bg-base-light: var(--bg-base-light);
+    --clr-bg-base-light-1: oklch(from var(--clr-bg-base-light) calc(l - 0.1) c h);
+    --clr-bg-base-light-2: oklch(from var(--clr-bg-base-light) calc(l - 0.2) c h);
+
+    --clr-bg-alt-light: var(--bg-alt-light);
+    --clr-bg-alt-light-1: oklch(from var(--clr-bg-alt-light) calc(l - 0.1) c h);
+    --clr-bg-alt-light-2: oklch(from var(--clr-bg-alt-light) calc(l - 0.2) c h);
+
+    /* Accent */
+    --clr-acc-base-light: var(--acc-base-light);
+    --clr-acc-base-light-1: oklch(from var(--clr-acc-base-light) calc(l - 0.1) c h);
+    --clr-acc-base-light-2: oklch(from var(--clr-acc-base-light) calc(l - 0.2) c h);
+
+    --clr-acc-alt-light: var(--acc-alt-light);
+    --clr-acc-alt-light-1: oklch(from var(--clr-acc-alt-light) calc(l - 0.1) c h);
+    --clr-acc-alt-light-2: oklch(from var(--clr-acc-alt-light) calc(l - 0.2) c h);
+
+    /* Text */
+    --clr-text-base-light: var(--text-base-light);
+    --clr-text-base-light-1: oklch(from var(--clr-text-base-light) calc(l + 0.1) c h);
+    --clr-text-base-light-2: oklch(from var(--clr-text-base-light) calc(l + 0.2) c h);
+
+    --clr-text-alt-light: var(--text-alt-light);
+    --clr-text-alt-light-1: oklch(from var(--clr-text-alt-light) calc(l + 0.1) c h);
+    --clr-text-alt-light-2: oklch(from var(--clr-text-alt-light) calc(l + 0.2) c h);
+
+    /* Indicator */
+    --clr-success-light: var(--success-light);
+    --clr-success-light-1: oklch(from var(--clr-success-light) calc(l - 0.1) c h);
+    --clr-success-light-2: oklch(from var(--clr-success-light) calc(l - 0.2) c h);
+
+    --clr-warning-light: var(--warning-light);
+    --clr-warning-light-1: oklch(from var(--clr-warning-light) calc(l - 0.1) c h);
+    --clr-warning-light-2: oklch(from var(--clr-warning-light) calc(l - 0.2) c h);
+
+    --clr-failure-light: var(--failure-light);
+    --clr-failure-light-1: oklch(from var(--clr-failure-light) calc(l - 0.1) c h);
+    --clr-failure-light-2: oklch(from var(--clr-failure-light) calc(l - 0.2) c h);
+
+    /* Dark */
+
+    /* Background */
+    --clr-bg-base-dark: var(--bg-base-dark);
+    --clr-bg-base-dark-1: oklch(from var(--clr-bg-base-dark) calc(l + 0.1) c h);
+    --clr-bg-base-dark-2: oklch(from var(--clr-bg-base-dark) calc(l + 0.2) c h);
+
+    --clr-bg-alt-dark: var(--bg-alt-dark);
+    --clr-bg-alt-dark-1: oklch(from var(--clr-bg-alt-dark) calc(l + 0.1) c h);
+    --clr-bg-alt-dark-2: oklch(from var(--clr-bg-alt-dark) calc(l + 0.2) c h);
+
+    /* Accent */
+    --clr-acc-base-dark: var(--acc-base-dark);
+    --clr-acc-base-dark-1: oklch(from var(--clr-acc-base-dark) calc(l + 0.1) c h);
+    --clr-acc-base-dark-2: oklch(from var(--clr-acc-base-dark) calc(l + 0.2) c h);
+
+    --clr-acc-alt-dark: var(--acc-alt-dark);
+    --clr-acc-alt-dark-1: oklch(from var(--clr-acc-alt-dark) calc(l + 0.1) c h);
+    --clr-acc-alt-dark-2: oklch(from var(--clr-acc-alt-dark) calc(l + 0.2) c h);
+
+    /* Text */
+    --clr-text-base-dark: var(--text-base-dark);
+    --clr-text-base-dark-1: oklch(from var(--clr-text-base-dark) calc(l - 0.1) c h);
+    --clr-text-base-dark-2: oklch(from var(--clr-text-base-dark) calc(l - 0.2) c h);
+
+    --clr-text-alt-dark: var(--text-alt-dark);
+    --clr-text-alt-dark-1: oklch(from var(--clr-text-alt-dark) calc(l - 0.1) c h);
+    --clr-text-alt-dark-2: oklch(from var(--clr-text-alt-dark) calc(l - 0.2) c h);
+
+    /* Indicators */
+    --clr-success-dark: var(--success-dark);
+    --clr-success-dark-1: oklch(from var(--clr-success-dark) calc(l + 0.1) c h);
+    --clr-success-dark-2: oklch(from var(--clr-success-dark) calc(l + 0.2) c h);
+
+    --clr-warning-dark: var(--warning-dark);
+    --clr-warning-dark-1: oklch(from var(--clr-warning-dark) calc(l + 0.1) c h);
+    --clr-warning-dark-2: oklch(from var(--clr-warning-dark) calc(l + 0.2) c h);
+
+    --clr-failure-dark: var(--failure-dark);
+    --clr-failure-dark-1: oklch(from var(--clr-failure-dark) calc(l + 0.1) c h);
+    --clr-failure-dark-2: oklch(from var(--clr-failure-dark) calc(l + 0.2) c h);
+
+    /* Tokens */
+
+    /* Backgrounds */
+    --clr-bg-base: var(--clr-bg-base-light);
+    --clr-bg-base-1: var(--clr-bg-base-light-1);
+    --clr-bg-base-2: var(--clr-bg-base-light-2);
+
+    --clr-bg-alt: var(--clr-bg-alt-light);
+    --clr-bg-alt-1: var(--clr-bg-alt-light-1);
+    --clr-bg-alt-2: var(--clr-bg-alt-light-2);
+
+    /* Accents */
+    --clr-acc-base: var(--clr-acc-base-light);
+    --clr-acc-base-1: var(--clr-acc-base-light-1);
+    --clr-acc-base-2: var(--clr-acc-base-light-2);
+
+    --clr-acc-alt: var(--clr-acc-alt-light);
+    --clr-acc-alt-1: var(--clr-acc-alt-light-1);
+    --clr-acc-alt-2: var(--clr-acc-alt-light-2);
+
+    /* Text */
+    --clr-text-base: var(--clr-text-base-light);
+    --clr-text-base-1: var(--clr-text-base-light-1);
+    --clr-text-base-2: var(--clr-text-base-light-2);
+
+    --clr-text-alt: var(--clr-text-alt-light);
+    --clr-text-alt-1: var(--clr-text-alt-light-1);
+    --clr-text-alt-2: var(--clr-text-alt-light-2);
+
+    /* Opacity */
+
+    /* Backgrounds */
+    --clr-bg-base-80: oklch(from var(--clr-bg-base) l c h / 0.8);
+    --clr-bg-base-60: oklch(from var(--clr-bg-base) l c h / 0.6);
+    --clr-bg-base-40: oklch(from var(--clr-bg-base) l c h / 0.4);
+    --clr-bg-base-20: oklch(from var(--clr-bg-base) l c h / 0.2);
+
+    --clr-bg-base-1-80: oklch(from var(--clr-bg-base-1) l c h / 0.8);
+    --clr-bg-base-1-60: oklch(from var(--clr-bg-base-1) l c h / 0.6);
+    --clr-bg-base-1-40: oklch(from var(--clr-bg-base-1) l c h / 0.4);
+    --clr-bg-base-1-20: oklch(from var(--clr-bg-base-1) l c h / 0.2);
+
+    --clr-bg-base-2-80: oklch(from var(--clr-bg-base-2) l c h / 0.8);
+    --clr-bg-base-2-60: oklch(from var(--clr-bg-base-2) l c h / 0.6);
+    --clr-bg-base-2-40: oklch(from var(--clr-bg-base-2) l c h / 0.4);
+    --clr-bg-base-2-20: oklch(from var(--clr-bg-base-2) l c h / 0.2);
+    
+    --clr-bg-alt-80: oklch(from var(--clr-bg-alt) l c h / 0.8);
+    --clr-bg-alt-60: oklch(from var(--clr-bg-alt) l c h / 0.6);
+    --clr-bg-alt-40: oklch(from var(--clr-bg-alt) l c h / 0.4);
+    --clr-bg-alt-20: oklch(from var(--clr-bg-alt) l c h / 0.2);
+
+    --clr-bg-alt-1-80: oklch(from var(--clr-bg-alt-1) l c h / 0.8);
+    --clr-bg-alt-1-60: oklch(from var(--clr-bg-alt-1) l c h / 0.6);
+    --clr-bg-alt-1-40: oklch(from var(--clr-bg-alt-1) l c h / 0.4);
+    --clr-bg-alt-1-20: oklch(from var(--clr-bg-alt-1) l c h / 0.2);
+
+    --clr-bg-alt-2-80: oklch(from var(--clr-bg-alt-2) l c h / 0.8);
+    --clr-bg-alt-2-60: oklch(from var(--clr-bg-alt-2) l c h / 0.6);
+    --clr-bg-alt-2-40: oklch(from var(--clr-bg-alt-2) l c h / 0.4);
+    --clr-bg-alt-2-20: oklch(from var(--clr-bg-alt-2) l c h / 0.2);
+
+    /* Accents */
+    --clr-acc-base-80: oklch(from var(--clr-acc-base) l c h / 0.8);
+    --clr-acc-base-60: oklch(from var(--clr-acc-base) l c h / 0.6);
+    --clr-acc-base-40: oklch(from var(--clr-acc-base) l c h / 0.4);
+    --clr-acc-base-20: oklch(from var(--clr-acc-base) l c h / 0.2);
+
+    --clr-acc-base-1-80: oklch(from var(--clr-acc-base-1) l c h / 0.8);
+    --clr-acc-base-1-60: oklch(from var(--clr-acc-base-1) l c h / 0.6);
+    --clr-acc-base-1-40: oklch(from var(--clr-acc-base-1) l c h / 0.4);
+    --clr-acc-base-1-20: oklch(from var(--clr-acc-base-1) l c h / 0.2);
+
+    --clr-acc-base-2-80: oklch(from var(--clr-acc-base-2) l c h / 0.8);
+    --clr-acc-base-2-60: oklch(from var(--clr-acc-base-2) l c h / 0.6);
+    --clr-acc-base-2-40: oklch(from var(--clr-acc-base-2) l c h / 0.4);
+    --clr-acc-base-2-20: oklch(from var(--clr-acc-base-2) l c h / 0.2);
+    
+    --clr-acc-alt-80: oklch(from var(--clr-acc-alt) l c h / 0.8);
+    --clr-acc-alt-60: oklch(from var(--clr-acc-alt) l c h / 0.6);
+    --clr-acc-alt-40: oklch(from var(--clr-acc-alt) l c h / 0.4);
+    --clr-acc-alt-20: oklch(from var(--clr-acc-alt) l c h / 0.2);
+
+    --clr-acc-alt-1-80: oklch(from var(--clr-acc-alt-1) l c h / 0.8);
+    --clr-acc-alt-1-60: oklch(from var(--clr-acc-alt-1) l c h / 0.6);
+    --clr-acc-alt-1-40: oklch(from var(--clr-acc-alt-1) l c h / 0.4);
+    --clr-acc-alt-1-20: oklch(from var(--clr-acc-alt-1) l c h / 0.2);
+
+    --clr-acc-alt-2-80: oklch(from var(--clr-acc-alt-2) l c h / 0.8);
+    --clr-acc-alt-2-60: oklch(from var(--clr-acc-alt-2) l c h / 0.6);
+    --clr-acc-alt-2-40: oklch(from var(--clr-acc-alt-2) l c h / 0.4);
+    --clr-acc-alt-2-20: oklch(from var(--clr-acc-alt-2) l c h / 0.2);
+
+    --clr-text-base-80: oklch(from var(--clr-text-base) l c h / 0.8);
+    --clr-text-base-60: oklch(from var(--clr-text-base) l c h / 0.6);
+    --clr-text-base-40: oklch(from var(--clr-text-base) l c h / 0.4);
+    --clr-text-base-20: oklch(from var(--clr-text-base) l c h / 0.2);
+
+    --clr-text-base-1-80: oklch(from var(--clr-text-base-1) l c h / 0.8);
+    --clr-text-base-1-60: oklch(from var(--clr-text-base-1) l c h / 0.6);
+    --clr-text-base-1-40: oklch(from var(--clr-text-base-1) l c h / 0.4);
+    --clr-text-base-1-20: oklch(from var(--clr-text-base-1) l c h / 0.2);
+
+    --clr-text-base-2-80: oklch(from var(--clr-text-base-2) l c h / 0.8);
+    --clr-text-base-2-60: oklch(from var(--clr-text-base-2) l c h / 0.6);
+    --clr-text-base-2-40: oklch(from var(--clr-text-base-2) l c h / 0.4);
+    --clr-text-base-2-20: oklch(from var(--clr-text-base-2) l c h / 0.2);
+
+    --clr-text-alt-80: oklch(from var(--clr-text-alt) l c h / 0.8);
+    --clr-text-alt-60: oklch(from var(--clr-text-alt) l c h / 0.6);
+    --clr-text-alt-40: oklch(from var(--clr-text-alt) l c h / 0.4);
+    --clr-text-alt-20: oklch(from var(--clr-text-alt) l c h / 0.2);
+
+    --clr-text-alt-1-80: oklch(from var(--clr-text-alt-1) l c h / 0.8);
+    --clr-text-alt-1-60: oklch(from var(--clr-text-alt-1) l c h / 0.6);
+    --clr-text-alt-1-40: oklch(from var(--clr-text-alt-1) l c h / 0.4);
+    --clr-text-alt-1-20: oklch(from var(--clr-text-alt-1) l c h / 0.2);
+
+    --clr-text-alt-2-80: oklch(from var(--clr-text-alt-2) l c h / 0.8);
+    --clr-text-alt-2-60: oklch(from var(--clr-text-alt-2) l c h / 0.6);
+    --clr-text-alt-2-40: oklch(from var(--clr-text-alt-2) l c h / 0.4);
+    --clr-text-alt-2-20: oklch(from var(--clr-text-alt-2) l c h / 0.2);
+
+    /* Shadow */
+    --clr-shadow-dark-80: oklch(from var(--clr-shadow-dark) l c h / 0.8);
+    --clr-shadow-dark-60: oklch(from var(--clr-shadow-dark) l c h / 0.6);
+    --clr-shadow-dark-40: oklch(from var(--clr-shadow-dark) l c h / 0.4);
+    --clr-shadow-dark-20: oklch(from var(--clr-shadow-dark) l c h / 0.2);
+
+    --clr-shadow-light-80: oklch(from var(--clr-shadow-light) l c h / 0.8);
+    --clr-shadow-light-60: oklch(from var(--clr-shadow-light) l c h / 0.6);
+    --clr-shadow-light-40: oklch(from var(--clr-shadow-light) l c h / 0.4);
+    --clr-shadow-light-20: oklch(from var(--clr-shadow-light) l c h / 0.2);
+}
+
+@supports (color-scheme: light-dark) {
+    :root {
+        /* Base Colors */
+        color-scheme: light dark;
+
+        /* Background */
+        --clr-bg-base: light-dark(var(--clr-bg-base-light), var(--clr-bg-base-dark));
+        --clr-bg-alt: light-dark(var(--clr-bg-alt-light), var(--clr-bg-alt-dark));
+
+        /* Accent */
+        --clr-acc-base: light-dark(var(--clr-acc-base-light), var(--clr-acc-base-dark));
+        --clr-acc-alt: light-dark(var(--clr-acc-alt-light), var(--clr-acc-alt-dark));
+
+        /* Text */
+        --clr-text-base: light-dark(var(--clr-text-base-light), var(--clr-text-base-dark));
+        --clr-text-alt: light-dark(var(--clr-text-alt-light), var(--clr-text-alt-dark));
+
+        /* Indicators */
+        --clr-success: light-dark(var(--clr-success-light), var(--clr-success-dark));
+        --clr-warning: light-dark(var(--clr-warning-light), var(--clr-warning-dark));
+        --clr-failure: light-dark(var(--clr-failure-light), var(--clr-failure-dark));
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Backgrounds */
+        --clr-bg-base: var(--clr-bg-base-dark);
+        --clr-bg-base-1: var(--clr-bg-base-dark-1);
+        --clr-bg-base-2: var(--clr-bg-base-dark-2);
+
+        --clr-bg-alt: var(--clr-bg-alt-dark);
+        --clr-bg-alt-1: var(--clr-bg-alt-dark-1);
+        --clr-bg-alt-2: var(--clr-bg-alt-dark-2);
+
+        /* Accents */
+        --clr-acc-base: var(--clr-acc-base-dark);
+        --clr-acc-base-1: var(--clr-acc-base-dark-1);
+        --clr-acc-base-2: var(--clr-acc-base-dark-2);
+
+        --clr-acc-alt: var(--clr-acc-alt-dark);
+        --clr-acc-alt-1: var(--clr-acc-alt-light-1);
+        --clr-acc-alt-2: var(--clr-acc-alt-light-2);
+
+        /* Text */
+        --clr-text-base: var(--clr-text-base-dark);
+        --clr-text-base-1: var(--clr-text-base-dark-1);
+        --clr-text-base-2: var(--clr-text-base-dark-2);
+
+        --clr-text-alt: var(--clr-text-alt-dark);
+        --clr-text-alt-1: var(--clr-text-alt-dark-1);
+        --clr-text-alt-2: var(--clr-text-alt-dark-2);
+    }
+}
