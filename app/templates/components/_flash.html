@@ -1,0 +1,5 @@
+{% macro flash_message(category="info", msg="") %}
+    <div class="alert alert-{{ category }}">
+        <span class="flash-msg">{{ msg }}</span>
+    </div>
+{% endmacro %}

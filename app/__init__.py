@@ -25,7 +25,7 @@ def create_app(config_key: str):
     csrf.init_app(app)
     from .helper.classes.database.DatabaseManager import DatabaseManager
 
-    app.db_manager = DatabaseManager(app)
+    app.db_manager = DatabaseManager(app.config)
     app.session_manager = SessionManager()
     migrate = Migrate(app, db)
 

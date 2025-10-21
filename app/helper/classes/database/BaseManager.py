@@ -6,14 +6,9 @@ from sqlalchemy.exc import IntegrityError
 
 class BaseManager():
     _db_manager = None
-    _app: Flask | None = None
 
-    def __init__(self, app: Flask, db_manager_instance) -> None:
-        self._app = app
+    def __init__(self, db_manager_instance) -> None:
         self._db_manager = db_manager_instance
-
-        if not self._app:
-            raise ValueError("Invalid Database Initialisation. App not provided")
     
     @property
     def _session(self):
@@ -48,7 +43,8 @@ class BaseManager():
 
             res = success_res(payload={ item_name.lower(): item }, msg=f"{item_name} found") if item else error_res(msg=f"{item_name} not found")
 
-            self._cache[cache_key] = res
+            if res.get("success"):
+                self._cache[cache_key] = res
 
             return res
 
@@ -60,6 +56,7 @@ class BaseManager():
         cache_key = f"{model.__name__}-{'&'.join(cache_key_parts)}"
 
         if cache_key in self._cache:
+            print("Cached")
             return self._cache[cache_key]
         
         try:
@@ -73,7 +70,8 @@ class BaseManager():
 
             res = success_res(payload={ item_name.lower(): items }, msg=f"{item_name} found") if items else error_res(msg=f"{item_name} not found")
 
-            self._cache[cache_key] = res
+            if res.get("success"):
+                self._cache[cache_key] = res
 
             return res
         

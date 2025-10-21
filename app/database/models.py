@@ -7,13 +7,13 @@ from datetime import datetime, timezone
 class Profile(db.Model):
     __tablename__ = "profiles"
     id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
+    first_name: Mapped[str] = mapped_column(db.String(50), nullable=False)
+    surname: Mapped[str] = mapped_column(db.String(80), nullable=False)
+    date_of_birth: Mapped[datetime.date] = mapped_column(db.Date, nullable=False)
     email: Mapped[str] = mapped_column(db.String(50), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(db.String(128), nullable=False)
-    name: Mapped[str] = mapped_column(db.String(50), nullable=False)
-    surname: Mapped[str] = mapped_column(db.String(80), nullable=False)
-    date_of_birth: Mapped[datetime.date] = mapped_column(db.Date, nullable=True)
-    stay_logged_in: Mapped[Boolean] = mapped_column(db.Boolean, default=False)
     theme_id: Mapped[int] = mapped_column(db.ForeignKey("themes.id"))
+    stay_logged_in: Mapped[Boolean] = mapped_column(db.Boolean, default=False)
     identities: Mapped[List["ProfileIdentity"]] = db.relationship(
         back_populates="profile", cascade="all, delete-orphan", lazy="selectin"
     )
@@ -38,6 +38,7 @@ class ProfileIdentity(db.Model):
     profile_id: Mapped[int] = mapped_column(db.ForeignKey('profiles.id'))
     template_id: Mapped[int] = mapped_column(db.ForeignKey('identity_templates.id'))
     is_active: Mapped[Boolean] = mapped_column(db.Boolean, default=False)
+    custom_name: Mapped[str] = mapped_column(db.String(30), nullable=True)
     profile: Mapped["Profile"] = db.relationship(
         back_populates="identities"
     )

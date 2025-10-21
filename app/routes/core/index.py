@@ -14,14 +14,18 @@ def index():
     profile_res = current_app.db_manager.profile.get_profile_by_id(profile_id)
     success = profile_res.get("success")
 
+    print(profile_res)
+
     if not success:
         return redirect(url_for('auth.sign_in'))
+    
+    profile = profile_res.get("payload").get("profile")
 
-    user_selected = current_app.session_manager.get_user_id().get("success")
+    identities = profile.identities
+    active_identity = list(filter(lambda identity: identity.is_active, identities))[0]
 
-    if not user_selected:
-        return redirect(url_for('users.select'))
+    print(active_identity)
 
-    return render_template("pages/core/index.html")
+    return render_template("pages/core/index.html", identities=identities, active_identity=active_identity)
 
 main_index_route = core_schema(rule="/", endpoint="index", methods=["GET"], view_func=index)

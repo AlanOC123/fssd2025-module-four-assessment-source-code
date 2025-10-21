@@ -36,3 +36,30 @@ class ProfileIdentityManager(BaseManager):
             success_msg="Identity created", 
             item_name="Profile_Identity", 
         )
+    
+    def initialise_profile_identities(self, profile_id):
+        # Get all the templates
+        template_res = self._db_manager.identity_template.get_all()
+        print(template_res)
+
+        # Verify the response is okay before continuing
+        if not template_res.get("success"):
+            return error_res(f"{template_res.get("msg")}")
+        
+        all_templates = template_res.get("payload", {}).get("identity_templates")
+        
+        # Add all identities to a list
+        identities_to_add = []
+        for template in all_templates:
+            new_identity = ProfileIdentity(
+                profile_id=profile_id,
+                template_id=template.id,
+                is_active=False
+            )
+            identities_to_add.append(new_identity)
+        
+        # Set the first as the default
+        identities_to_add[0].is_active = True
+
+        # Return the list but dont commit
+        return success_res(payload={ "identities_list": identities_to_add }, msg="Identities successfully created...")

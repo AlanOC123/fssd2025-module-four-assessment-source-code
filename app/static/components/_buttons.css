@@ -1,3 +1,7 @@
+button {
+    border: 0;
+}
+
 .btn-container {
     width: 100%;
     height: 100%;
@@ -80,6 +84,10 @@
     align-items: center;
 }
 
+.btn-icon:hover {
+    cursor: pointer;
+}
+
 .btn-icon.btn-secondary {
     width: 100%;
     display: flex;
@@ -101,6 +109,26 @@
     border-radius: var(--brd-r-full);
     padding: var(--pad-md);
     box-shadow: var(--shadow-input-m);
+}
+
+.btn-icon.btn-standard {
+    background-color: var(--clr-transparent);
+    border-radius: var(--brd-r-full);
+}
+
+.btn-icon.btn-standard .icon-wrapper {
+    background-color: var(--clr-transparent);
+    box-shadow: none;
+    padding: 0;
+}
+
+.icon {
+    padding: var(--pad-xs);
+    border-radius: var(--brd-r-full);
+}
+
+.btn-icon.btn-standard:hover .icon {
+    background-color: var(--clr-bg-base-2);
 }
 
 @media (min-width: 768px) {

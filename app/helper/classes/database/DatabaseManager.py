@@ -1,17 +1,17 @@
 from flask import Flask
 from .BaseManager import BaseManager
-from .ProfileManager import ProfileManager
+from .ProfileManager import ProfileManager, PasswordManager
 from .IdentityTemplateManager import IdentityTemplateManager
 from .ProfileIdentityManager import ProfileIdentityManager
 from .ThemeManager import ThemeManager
 
 class DatabaseManager(BaseManager):
-    def __init__(self, app: Flask) -> None:
-        super().__init__(app, self)
-        self._profile_manager = ProfileManager(app, self)
-        self._identity_template_manager = IdentityTemplateManager(app, self)
-        self._profile_identity_manager = ProfileIdentityManager(app, self)
-        self._theme_manager = ThemeManager(app, self)
+    def __init__(self, config) -> None:
+        super().__init__(self)
+        self._profile_manager = ProfileManager(self, PasswordManager(config))
+        self._identity_template_manager = IdentityTemplateManager(self)
+        self._profile_identity_manager = ProfileIdentityManager(self)
+        self._theme_manager = ThemeManager(self)
 
     @property
     def profile(self) -> ProfileManager:

@@ -40,3 +40,9 @@
     color: var(--clr-text-alt);
     line-height: var(--lh-base);
 }
+
+.text-shadow {
+    text-shadow:
+        0px 4px 2px var(--clr-shadow-dark-40)
+    ;
+}

@@ -1,0 +1,50 @@
+@keyframes disappear {
+    from {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateX(-50%) scale(1);
+    } to {
+        opacity: 0;
+        pointer-events: none;
+        transform:  translateX(-50%) scale(0);
+    }
+}
+
+.flash-messages {
+    width: 50dvw;
+    border-radius: var(--brd-r-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-base);
+    position: absolute;
+    top: var(--sp-lg);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    animation: disappear 300ms 2000ms ease-in-out forwards;
+    background-color: var(--clr-bg-base-40);
+    backdrop-filter: blur(48px);
+}
+
+.alert {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: inherit;
+    padding: var(--pad-md);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-sm);
+}
+
+.alert-error {
+    background-color: var(--clr-failure);
+    border: var(--brd-error-lg);
+    color: var(--clr-failure-2);
+}
+
+.alert-success {
+    background-color: var(--clr-success-60);
+    border: var(--brd-success-lg);
+    color: var(--clr-success-2);
+}

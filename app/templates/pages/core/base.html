@@ -1,0 +1,87 @@
+{% extends "base.html" %} {% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='pages/core/styles/base.css') }}"
+/>
+{% block substyles %}{% endblock %} 
+{% endblock %}
+{% block body %}
+<main id="dashboard" class="page main-grid">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                {% from 'components/_flash.html' import flash_message %}
+                    {{ flash_message(msg=message, category=category) }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <header>
+        <div class="identity-container">
+            {% from 'components/_buttons.html' import icon_btn %}
+            <div class="curr-identity">
+                <div class="identity-img">
+                    <img src="{{ url_for('static', filename='assets/avatars/' ~ active_identity.template.image) }}" alt="">
+                </div>
+                <div class="identity-name">
+                    <span class="identity-name-field active">
+                        {% if active_identity.custom_name %}
+                            {{ active_identity.custom_name }}
+                        {% else %}
+                            {{ active_identity.template.name }}
+                        {% endif %}
+                    </span>
+                    <input type="text" value="" id="change-name" class="identity-name-field">
+                    {{ icon_btn(icon="edit", variant="standard") }}
+                </div>
+            </div>
+            <div class="select-identity">
+                {{ icon_btn(icon="arrow_drop_down_circle", variant="standard") }}
+                <div class="identities-container">
+                    <ul class="identities-list">
+                        {% for identity in identities %}
+                            {% if not identity.is_active %}
+                                <li class="identity-list-item">
+                                    <div class="identity-list-img">
+                                        <img src="{{ url_for('static', filename='assets/avatars/' ~ identity.template.image) }}" alt="">
+                                    </div>
+                                    <div class="identity-list-item-name">
+                                        <span class="identity-list-item-name-text">
+                                            {% if identity.custom_name %}
+                                                {{ identity.custom_name }}
+                                            {% else %}
+                                                {{ identity.template.name }}
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        {% from 'components/_buttons.html' import icon_btn %}
+        {{ icon_btn(icon="home", variant="standard") }}
+        {{ icon_btn(icon="work", variant="standard") }}
+        {{ icon_btn(icon="chat_bubble", variant="standard") }}
+        {{ icon_btn(icon="task_alt", variant="standard") }}
+        {{ icon_btn(icon="settings", variant="standard") }}
+        {{ icon_btn(icon="logout", variant="standard") }}
+    </nav>
+
+    <section class="grid-col" id="content-container">
+        <div id="content-controls">
+            <h3>Home</h3>
+            {% block content_control %}{% endblock %}
+        </div>
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+    </section>
+</main>
+{% endblock %}

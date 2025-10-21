@@ -16,6 +16,8 @@ class DefaultConfig():
     SITE_TAGLINE = "Organise Thoughts into Actions"
     PASSWORD_MIN_LENGTH = 8
     PASSWORD_MAX_LENGTH = 128
+    PASSWORD_CONTAINS_SYMBOL = True
+    PASSWORD_CONTAINS_CAP = True
 
 class ProductionConfig(DefaultConfig):
     # 1. Load Database Configuration
@@ -31,12 +33,12 @@ class TestingConfig(DefaultConfig):
     TESTING = True
 
     TEST_USER = {
-        "email": "testuser@projectify.com",
-        "password": "Test!12345",
-        "name": "Alan",
+        "first_name": "Alan",
         "surname": "O'Connor",
         "date_of_birth": "1995-11-07",
-        "theme_id": "Default"
+        "email": "testuser@projectify.com",
+        "password": "Test!12345",
+        "theme_name": "Default"
     }
 
 config = {

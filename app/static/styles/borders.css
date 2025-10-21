@@ -127,4 +127,25 @@
     --brd-transparent-xl: var(--brd-1l) var(--clr-transparent);
     --brd-transparent-2xl: var(--brd-2l) var(--clr-transparent);
     --brd-transparent-3xl: var(--brd-3l) var(--clr-transparent);
+
+    --brd-error-sm: var(--brd-sm) var(--clr-failure-1);
+    --brd-error-md: var(--brd-md) var(--clr-failure-1);
+    --brd-error-lg: var(--brd-lg) var(--clr-failure-1);
+    --brd-error-xl: var(--brd-1l) var(--clr-failure-1);
+    --brd-error-2xl: var(--brd-2l) var(--clr-failure-1);
+    --brd-error-3xl: var(--brd-3l) var(--clr-failure-1);
+
+    --brd-success-sm: var(--brd-sm) var(--clr-success-1);
+    --brd-success-md: var(--brd-md) var(--clr-success-1);
+    --brd-success-lg: var(--brd-lg) var(--clr-success-1);
+    --brd-success-xl: var(--brd-1l) var(--clr-success-1);
+    --brd-success-2xl: var(--brd-2l) var(--clr-success-1);
+    --brd-success-3xl: var(--brd-3l) var(--clr-success-1);
+
+    --brd-warning-sm: var(--brd-sm) var(--clr-warning-1);
+    --brd-warning-md: var(--brd-md) var(--clr-warning-1);
+    --brd-warning-lg: var(--brd-lg) var(--clr-warning-1);
+    --brd-warning-xl: var(--brd-1l) var(--clr-warning-1);
+    --brd-warning-2xl: var(--brd-2l) var(--clr-warning-1);
+    --brd-warning-3xl: var(--brd-3l) var(--clr-warning-1);
 }

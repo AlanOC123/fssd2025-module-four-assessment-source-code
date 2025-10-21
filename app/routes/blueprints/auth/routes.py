@@ -1,85 +1,71 @@
-from flask import render_template, redirect, request, url_for, current_app
+from flask import render_template, redirect, request, url_for, current_app, flash
 from . import bp
+from datetime import datetime
+from app.helper.classes.database.DatabaseManager import DatabaseManager
+from app.helper.classes.core.SessionManager import SessionManager
 
 @bp.route(rule="/sign-in", endpoint="sign_in", methods=["GET", "POST"])
 def sign_in():
     method = request.method;
+    db_manager: DatabaseManager = current_app.db_manager
+    session_manager: SessionManager = current_app.session_manager
+    print("Signing In...")
 
     if method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
-    
-        if not email or not password:
-            error = { "success": False, "msg": "Please fill out all fields" }
-            return render_template('pages/auth/sign-in.html', pg_name="sign_in", error=error)
 
-        db_res = current_app.db_manager.profile.get_profile_by_email(email)
-        success = db_res.get("success")
+        sign_in_attempt = db_manager.profile.check_sign_in(**{ "email": email, "password": password })
 
-        if not success:
-            error = { "success": success, "msg": "Invalid email or password" }
-            return render_template('pages/auth/sign-in.html', pg_name="sign_in", error=error)
+        if not sign_in_attempt.get("success"):
+            flash(message=sign_in_attempt.get("msg", ""), category='success')
+            return render_template('pages/auth/sign-in.html', pg_name="sign_in")
 
-        payload = db_res.get("payload", {})
-        profile = payload.get("profile")
-
-        is_correct_password = current_app.db_manager.profile.check_password(profile, password)
-
-        if not is_correct_password:
-            error = { "success": success, "msg": "Invalid email or password" }
-            return render_template('pages/auth/sign-in.html',pg_name="sign_in", error=error)
-
-        session_res = current_app.session_manager.login_profile(profile.id)
+        session_res = session_manager.login(sign_in_attempt.get("payload", {}).get("profile_id", 0))
 
         if not session_res.get("success"):
-            error = { "success": False, "msg": session_res.get("msg") }
-            render_template('pages/auth/sign-in.html', pg_name="sign_in", error=error)
+            flash(message=session_res.get("msg", ""), category='error')
+            render_template('pages/auth/sign-in.html', pg_name="sign_in")
 
+        flash(message=sign_in_attempt.get("msg", ""), category='success')
         return redirect(url_for("index"))
     
-    is_logged_in = current_app.session_manager.get_logged_in().get("success")
-
+    is_logged_in = session_manager.get_logged_in().get("success")
     if is_logged_in: return redirect(url_for('index'))
 
-    return render_template('pages/auth/sign-in.html', pg_name="sign_in", error=None)
+    return render_template('pages/auth/sign-in.html', pg_name="sign_in")
 
 @bp.route(rule="/register", endpoint="register", methods=["POST", "GET"])
 def register():
+    db_manager: DatabaseManager = current_app.db_manager
+    session_manager: SessionManager = current_app.session_manager
+
+    session_manager.logout()
     method = request.method
 
     if method == "POST":
+        first_name = request.form.get("first-name")
+        surname = request.form.get("surname")
+        date_of_birth = request.form.get("dob")
         email = request.form.get("email", None)
         password = request.form.get("password", None)
 
-        if not email:
-            error = { "success": False, "msg": "Please enter an email", "class": None, "id": None  }
-            return render_template('pages/auth/register.html', pg_name='register', error=error)
-        if not password:   
-            error = { "success": False, "msg": "Please create a password", "class": None, "id": None  }
-            return render_template('pages/auth/register.html', pg_name='register', error=error)
-        
         profile_raw = {
+            "first_name": first_name,
+            "surname": surname,
+            "date_of_birth": date_of_birth,
             "email": email,
-            "password": password
+            "password": password,
+            "theme_name": "Default"
         }
-        
-        db_res = current_app.db_manager.profile.create_profile(**profile_raw)
-        success = db_res.get("success")
 
-        if not success:
-            msg: str = db_res.get("msg", "")
-            if "Email" in msg or "email" in msg:
-                error = { "success": False, "msg": msg, "class": None, "id": None  }
-                return render_template('pages/auth/register.html', pg_name='register', error=error)
+        db_res = db_manager.profile.create_profile(**profile_raw)
 
-            if "Password" in msg or "password" in msg:
-                error = { "success": False, "msg": msg, "class": None, "id": None  }
-                return render_template('pages/auth/register.html', pg_name='register', error=error)
-            
-            else:
-                error = { "success": False, "msg": msg, "class": None, "id": None  }
-                return render_template('pages/auth/register.html', pg_name='register', error=error)
+        if not db_res.get("success"):
+            flash(message=db_res.get("msg", ""), category='error')
+            return render_template('pages/auth/register.html', pg_name='register')
 
+        flash(message="User created successfully", category='success')
         return redirect(url_for('auth.sign_in'))
 
-    return render_template('pages/auth/register.html', pg_name='register', error=None)
+    return render_template('pages/auth/register.html', pg_name='register')

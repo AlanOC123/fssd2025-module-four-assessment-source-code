@@ -24,7 +24,7 @@
     background-color: var(--clr-bg-base-1-20);
     backdrop-filter: blur(12px);
     box-shadow: var(--shadow-s);
-    border-radius: var(--brd-r-md);
+    border-radius: var(--brd-r-2xl);
 }
 
 

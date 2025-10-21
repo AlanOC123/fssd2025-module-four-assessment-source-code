@@ -9,6 +9,16 @@
 {% from 'components/_layout.html' import grid_col, container %} 
 {% from'components/_headers.html' import header %}
 <main id="auth" class="page main-grid" style="background-image: url({{ url_for('static', filename='assets/images/sign-in.png') }})">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                {% from 'components/_flash.html' import flash_message %}
+                    {{ flash_message(msg=message, category=category) }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
     {% block content %}{% endblock %}
 </main>
 {% endblock %}

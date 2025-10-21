@@ -9,7 +9,7 @@
 {% from 'components/_headers.html' import header %}
 {% call grid_col(md_span='8', lg_span='12') %}
 <div class="time-container">
-    {{ header(level=5, text="Register") }}
+    {{ header(level=5, text="Register", class="text-shadow") }}
     <h1 class="time-display"><span class="hour">22</span>:<span class="minute">03</span></h1>
 </div>
 
@@ -19,22 +19,20 @@
         {% from 'components/_inputs.html' import input %}
         {% from 'components/_buttons.html' import icon_btn, icon_link %}
         <div class="form-grouping" id="personal-information">
-            <p class="form-header">About You</p>
             <div class="inputs-grouping">
-                {{ input(type="text", placeholder="First Name", required=True) }}
-                {{ input(type="text", placeholder="Last Name", required=True) }}
+                {{ input(type="text", placeholder="First Name", required=True, name="first-name", label="First Name") }}
+                {{ input(type="text", placeholder="Last Name", required=True, name="surname", label="Last Name") }}
             </div>
         </div>
 
         <div class="form-grouping" id="birth-date">
-            <p class="form-header">Date of Birth</p>
-                {{ input(type="date", placeholder="Date of Birth", required=True) }}
+            {{ input(type="date", placeholder="Date of Birth", required=True, name="dob", label="Birth Date") }}
         </div>
+
         <div class="form-grouping" id="log-in-information">
-            <div class="form-header">Log In Information</div>
             <div class="inputs-grouping">
-                {{ input(type="email", placeholder="Email", required=True) }}
-                {{ input(type="password", placeholder="Password", required=True)}}
+                {{ input(type="email", placeholder="Email", required=True, name="email", label="Email Address") }}
+                {{ input(type="password", placeholder="Password", required=True, name="password", label="Password")}}
             </div>
         </div>
         <div class="form-controls">

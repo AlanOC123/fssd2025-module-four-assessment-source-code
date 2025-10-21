@@ -139,6 +139,19 @@
     --clr-text-alt-1: var(--clr-text-alt-light-1);
     --clr-text-alt-2: var(--clr-text-alt-light-2);
 
+    /* Indicators */
+    --clr-failure: var(--clr-failure-light);
+    --clr-failure-1: var(--clr-failure-light-1);
+    --clr-failure-2: var(--clr-failure-light-2);
+
+    --clr-warning: var(--clr-warning-light);
+    --clr-warning-1: var(--clr-warning-light-1);
+    --clr-warning-2: var(--clr-warning-light-2);
+
+    --clr-success: var(--clr-success-light);
+    --clr-success-1: var(--clr-success-light-1);
+    --clr-success-2: var(--clr-success-light-2);
+
     /* Opacity */
 
     /* Backgrounds */
@@ -233,6 +246,52 @@
     --clr-text-alt-2-40: oklch(from var(--clr-text-alt-2) l c h / 0.4);
     --clr-text-alt-2-20: oklch(from var(--clr-text-alt-2) l c h / 0.2);
 
+    /* Indicators */
+    --clr-failure-80: oklch(from var(--clr-failure) l c h / 0.8);
+    --clr-failure-60: oklch(from var(--clr-failure) l c h / 0.6);
+    --clr-failure-40: oklch(from var(--clr-failure) l c h / 0.4);
+    --clr-failure-20: oklch(from var(--clr-failure) l c h / 0.2);
+
+    --clr-failure-1-80: oklch(from var(--clr-failure-1) l c h / 0.8);
+    --clr-failure-1-60: oklch(from var(--clr-failure-1) l c h / 0.6);
+    --clr-failure-1-40: oklch(from var(--clr-failure-1) l c h / 0.4);
+    --clr-failure-1-20: oklch(from var(--clr-failure-1) l c h / 0.2);
+
+    --clr-failure-2-80: oklch(from var(--clr-failure-2) l c h / 0.8);
+    --clr-failure-2-60: oklch(from var(--clr-failure-2) l c h / 0.6);
+    --clr-failure-2-40: oklch(from var(--clr-failure-2) l c h / 0.4);
+    --clr-failure-2-20: oklch(from var(--clr-failure-2) l c h / 0.2);
+
+    --clr-warning-80: oklch(from var(--clr-warning) l c h / 0.8);
+    --clr-warning-60: oklch(from var(--clr-warning) l c h / 0.6);
+    --clr-warning-40: oklch(from var(--clr-warning) l c h / 0.4);
+    --clr-warning-20: oklch(from var(--clr-warning) l c h / 0.2);
+
+    --clr-warning-1-80: oklch(from var(--clr-warning-1) l c h / 0.8);
+    --clr-warning-1-60: oklch(from var(--clr-warning-1) l c h / 0.6);
+    --clr-warning-1-40: oklch(from var(--clr-warning-1) l c h / 0.4);
+    --clr-warning-1-20: oklch(from var(--clr-warning-1) l c h / 0.2);
+
+    --clr-warning-2-80: oklch(from var(--clr-warning-2) l c h / 0.8);
+    --clr-warning-2-60: oklch(from var(--clr-warning-2) l c h / 0.6);
+    --clr-warning-2-40: oklch(from var(--clr-warning-2) l c h / 0.4);
+    --clr-warning-2-20: oklch(from var(--clr-warning-2) l c h / 0.2);
+
+    --clr-success-80: oklch(from var(--clr-success) l c h / 0.8);
+    --clr-success-60: oklch(from var(--clr-success) l c h / 0.6);
+    --clr-success-40: oklch(from var(--clr-success) l c h / 0.4);
+    --clr-success-20: oklch(from var(--clr-success) l c h / 0.2);
+
+    --clr-success-1-80: oklch(from var(--clr-success-1) l c h / 0.8);
+    --clr-success-1-60: oklch(from var(--clr-success-1) l c h / 0.6);
+    --clr-success-1-40: oklch(from var(--clr-success-1) l c h / 0.4);
+    --clr-success-1-20: oklch(from var(--clr-success-1) l c h / 0.2);
+
+    --clr-success-2-80: oklch(from var(--clr-success-2) l c h / 0.8);
+    --clr-success-2-60: oklch(from var(--clr-success-2) l c h / 0.6);
+    --clr-success-2-40: oklch(from var(--clr-success-2) l c h / 0.4);
+    --clr-success-2-20: oklch(from var(--clr-success-2) l c h / 0.2);
+
     /* Shadow */
     --clr-shadow-dark-80: oklch(from var(--clr-shadow-dark) l c h / 0.8);
     --clr-shadow-dark-60: oklch(from var(--clr-shadow-dark) l c h / 0.6);
@@ -297,5 +356,10 @@
         --clr-text-alt: var(--clr-text-alt-dark);
         --clr-text-alt-1: var(--clr-text-alt-dark-1);
         --clr-text-alt-2: var(--clr-text-alt-dark-2);
+
+        /* Indicators */
+        --clr-failure: var(--clr-failure-dark);
+        --clr-warning: var(--clr-warning-dark);
+        --clr-success: var(--clr-success-dark);
     }
 }

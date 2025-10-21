@@ -49,41 +49,63 @@ def seed_profile():
     db_res = current_app.db_manager.profile.create_profile(**test_user)
 
     if not db_res.get("success"):
-        click.echo(f"Error creating profile {db_res.get("msg")}")
+        click.echo(f"{db_res.get("msg")}")
+        return
 
-    print(db_res.get("payload").get("profile").identities[0].template.name)
-    
-    click.echo("Test profile created")
+    click.echo("Test profile created...")
 
 def seed_identities():
     click.echo("Loading identities data...")
+    # Load the identities
     identities_data = _load_identities()
-    
-    click.echo("Identities data loaded. Seeding data...")
-    for identity_info in identities_data:
-        exists = current_app.db_manager.identity_template.get_by_name(identity_info["name"]).get("success")
 
-        if not exists:
-            click.echo(f"New identity found. Adding to table. '{identity_info['name']}'")
-            current_app.db_manager.identity_template.create(**identity_info)
-            click.echo(f"- Added identity: '{identity_info['name']}'")
-        else:
-            click.echo(f"Existing identity found '{identity_info['name']}'")
+    # Get the current ones in a set
+    curr_identities = set(
+        identity.name for identity in current_app.db_manager.identity_template.get_all().get("payload", {}).get("identity_template", [])
+    )
+
+    # Get the names of the new ones
+    new_identities = set(identity.get("name") for identity in identities_data)
+
+    # Check the difference between current and new
+    difference = new_identities.difference(curr_identities)
+
+    if len(difference) == 0:
+        click.echo("No new identities to seed...")
+        return
+    
+    click.echo("Identities data loaded. Starting seed...")
+    res = current_app.db_manager.identity_template.init(identities_data)
+
+    if not res.get("success"):
+        click.echo(f"Failed to initialise identities. Error: {res.get("msg")}")
+    else:
+        click.echo(f"Identities created: {res.get("payload", {}).get("templates", [])}")
 
 def seed_themes():
-    click.echo("Loading themes data...")
-    identities_data = _load_themes()
-    
-    click.echo("Themes data loaded. Seeding data...")
-    for theme_raw in identities_data:
-        db_res = current_app.db_manager.theme.get_theme_by_name(theme_raw["name"])
+    themes_data = _load_themes()
 
-        if not db_res.get("success"):
-            click.echo(f"New theme found. Adding to table. '{theme_raw['name']}'")
-            current_app.db_manager.theme.create_theme(**theme_raw)
-            click.echo(f"- Added theme: '{theme_raw['name']}'")
-        else:
-            click.echo(f"Existing theme found '{theme_raw['name']}'")
+    # Get the current ones in a set
+    curr_themes = set(
+        theme.name for theme in current_app.db_manager.theme.get_all().get("payload", {}).get("theme", [])
+    )
+
+    # Get the names of the new ones
+    new_themes = set(theme.get("name") for theme in themes_data)
+
+    # Check the difference between current and new
+    difference = new_themes.difference(curr_themes)
+
+    if len(difference) == 0:
+        click.echo("No new themes to seed...")
+        return
+
+    res = current_app.db_manager.theme.init(themes_data)
+
+    if not res.get("success"):
+        click.echo(f"Failed to initialise themes. Error: {res.get("msg")}")
+    else:
+        click.echo(f"Themes created: {res.get("payload", {}).get("themes", [])}")
 
 def seed_database():
     click.echo("Seeding initial data...")
