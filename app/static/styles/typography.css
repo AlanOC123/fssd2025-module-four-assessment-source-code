@@ -67,11 +67,12 @@
     );
 
     /* Line Heights */
+    --lh-none: 0;
     --lh-tight: 1.2;
     --lh-snug: 1.35;
     --lh-base: 1.5;
     --lh-relaxed: 1.65;
-    --lh-loose: 1.65;
+    --lh-loose: 1.85;
 
     /* Letter Spacing */
     --ls-tight: -0.02em;
@@ -80,31 +81,125 @@
     --ls-wider: 0.1em;
 
     /* Weights */
-    --fw-thin: 300;
-    --fw-normal: 500;
-    --fw-bold: 700;
-    --fw-black: 900;
+    --fw-300: 300;
+    --fw-400: 400;
+    --fw-500: 500;
+    --fw-600: 600;
+    --fw-700: 700;
+    --fw-800: 800;
+    --fw-900: 900;
+
+    /* Semantic Alisaing */
+    --fs-body: var(--fs-lg);
+    --fs-button: var(--fs-md);
+    --fs-input: var(--fs-md);
+    --fs-label: var(--fs-sm);
+    --fs-icon: var(--fs-lg);
+    --fs-h1: var(--fs-3xl);
+    --fs-h2: var(--fs-2xl);
+    --fs-h3: var(--fs-xl);
+
+    --lh-body: var(--lh-relaxed);
+    --lh-button: var(--lh-tight);
+    --lh-input: var(--lh-base);
+    --lh-label: var(--lh-relaxed);
+    --lh-h1: var(--lh-tight);
+    --lh-h2: var(--lh-snug);
+    --lh-h3: var(--lh-base);
+
+    --fw-body: var(--fw-400);
+    --fw-button: var(--fw-300);
+    --fw-input: var(--fw-500);
+    --fw-label: var(--fw-300);
+    --fw-h1: var(--fw-900);
+    --fw-h2: var(--fw-700);
+    --fw-h3: var(--fw-600);
 }
 
-html {
+/* Tablet */
+@media (min-width: 768px) {
+    :root {
+        --fs-body: var(--fs-md);
+        --fs-button: var(--fs-base);
+        --fs-input: var(--fs-base);
+        --fs-label: var(--fs-xs);
+        --fs-h1: var(--fs-2xl);
+        --fs-h2: var(--fs-xl);
+        --fs-h3: var(--fs-lg);
+    }
+}
+
+/* Laptop */
+@media (min-width: 1024px) {
+    :root {
+        --fs-body: var(--fs-base);
+        --fs-button: var(--fs-sm);
+        --fs-input: var(--fs-base);
+        --fs-label: var(--fs-xs);
+        --fs-h1: var(--fs-2xl);
+        --fs-h2: var(--fs-xl);
+        --fs-h3: var(--fs-lg);
+    }
+}
+
+html,
+body {
     font-family: "Inter", sans-serif;
-    font-size: var(--fs-base);
-    line-height: var(--lh-loose);
-    color: var(--clr-text-base);
+    font-size: var(--fs-body);
+    color: var(--clr-text-1);
+    line-height: var(--lh-body);
+    font-weight: var(--fw-body);
 }
 
 p,
-body,
-li,
 a,
-button,
-label,
-input {
+li {
     font-size: inherit;
-    color: var(--clr-text-base);
+    line-height: inherit;
+    font-weight: inherit;
 }
 
-p.light {
-    color: var(--clr-text-alt);
-    font-weight: var(--fw-thin);
+button {
+    font-size: var(--fs-button);
+    line-height: var(--lh-button);
+    color: var(--clr-text-2);
+    font-weight: var(--fw-button);
+}
+
+input,
+select,
+textarea {
+    font-size: var(--fs-input);
+    line-height: var(--lh-input);
+    color: var(--clr-text-2);
+    font-weight: var(--fw-input);
+}
+
+label,
+option {
+    font-size: var(--fs-label);
+    line-height: var(--lh-label);
+    color: var(--clr-text-2);
+    font-weight: var(--fw-label);
+}
+
+h1 {
+    font-size: var(--fs-h1);
+    line-height: var(--lh-h1);
+    color: var(--clr-text-3);
+    font-weight: var(--fw-h1);
+}
+
+h2 {
+    font-size: var(--fs-h2);
+    line-height: var(--lh-h2);
+    font-weight: var(--fw-h2);
+    color: var(--clr-text-2);
+}
+
+h3 {
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    font-weight: var(--fw-h3);
+    color: var(--clr-text-1);
 }

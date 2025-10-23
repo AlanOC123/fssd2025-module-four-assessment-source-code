@@ -1,0 +1,36 @@
+:root {
+    /* --- 1. Duration Scale --- */
+    --dur-100: 100ms;
+    --dur-200: 200ms;
+    --dur-300: 300ms;
+    --dur-500: 500ms;
+
+    /* --- 2. Timing Functions --- */
+    --timing-linear: linear;
+    --timing-ease-in: ease-in;
+    --timing-ease-out: ease-out;
+    --timing-ease-in-out: ease-in-out;
+    /* Custom Cubic Beziers */
+
+    /* --- Semantic Tokens --- */
+    --trans-default: var(--dur-200) var(--timing-ease-in-out);
+
+    --trans-fast: var(--dur-100) var(--timing-ease-out);
+    --trans-slow: var(--dur-500) var(--timing-ease-in-out);
+
+    /* Specific transitions if needed */
+    --trans-color: color var(--trans-default);
+    --trans-bg-color: background-color var(--trans-default);
+    --trans-transform: transform var(--trans-fast);
+    --trans-opacity: opacity var(--trans-fast);
+    --trans-shadow: box-shadow var(--trans-default);
+    --trans-border: border var(--trans-fast);
+
+    /* A token to apply multiple common transitions at once */
+    --trans-all-common: color var(--trans-default),
+        background-color var(--trans-default), border-color var(--trans-default),
+        opacity var(--trans-default), box-shadow var(--trans-default),
+        transform var(--trans-fast);
+    
+    --trans-all: all var(--trans-default);
+}

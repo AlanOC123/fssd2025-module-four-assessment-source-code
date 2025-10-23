@@ -1,52 +1,77 @@
 :root {
-    --shadow-x-s: 0;
-    --shadow-y-s: 2px;
-    --shadow-spread-s: 4px;
+    /* --- Base Shadow Color --- */
+    --shadow-base-h: var(--h-neutral);
+    --shadow-base-s: var(--s-10);
+    --shadow-base-l: var(--l-10);
 
-    --shadow-x-m: 0;
-    --shadow-y-m: 4px;
-    --shadow-spread-m: 8px;
+    /* --- Semantic Elevation Shadows --- */
+    --shadow-sm:
+        0 1px 2px 0 hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.05);
 
-    --shadow-x-l: 0;
-    --shadow-y-l: 8px;
-    --shadow-spread-l: 12px;
+    /* Default shadow for cards, buttons */
+    --shadow-md:
+        0 4px 6px -1px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.1),
+        0 2px 4px -2px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.1);
 
-    --shadow-x-xl: 0;
-    --shadow-y-xl: 12px;
-    --shadow-spread-xl: 16px;
+    /* Larger shadow for modals, dropdowns */
+    --shadow-lg:
+        0 10px 15px -3px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.1),
+        0 4px 6px -4px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.1);
 
-    --shadow-s-px: var(--shadow-x-s) var(--shadow-y-s) var(--shadow-spread-s);
-    --shadow-m-px: var(--shadow-x-m) var(--shadow-y-m) var(--shadow-spread-m);
-    --shadow-l-px: var(--shadow-x-l) var(--shadow-y-l) var(--shadow-spread-l);
-    --shadow-xl-px: var(--shadow-x-xl) var(--shadow-y-xl) var(--shadow-spread-xl);
+    /* Largest shadow for elements needing significant separation */
+    --shadow-xl:
+        0 20px 25px -5px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.1),
+        0 8px 10px -6px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.1);
 
-    --top-highlight-s: var(--shadow-s-px) var(--clr-shadow-light-40);
-    --dark-shadow-s: var(--shadow-s-px) var(--clr-shadow-dark-40);
-    --soft-shadow-s: var(--shadow-m-px) var(--clr-shadow-dark-20);
+    /* Inner shadow, often used for input focus or pressed states */
+    --shadow-inner:
+        inset 0 2px 4px 0 hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.05);
 
-    --top-highlight-m: var(--shadow-s-px) var(--clr-shadow-light-40);
-    --dark-shadow-m: var(--shadow-m-px) var(--clr-shadow-dark-40);
-    --soft-shadow-m: var(--shadow-l-px) var(--clr-shadow-dark-20);
+    /* --- Text Shadow --- */
+    /* Text shadows usually use a slightly darker version of the base text color */
+    --shadow-text: 1px 1px 3px hsla(var(--h-text), var(--s-10), var(--l-05), 0.2);
 
-    --top-highlight-l: var(--shadow-s-px) var(--clr-shadow-light-40);
-    --dark-shadow-l: var(--shadow-l-px) var(--clr-shadow-dark-40);
-    --soft-shadow-l: var(--shadow-xl-px) var(--clr-shadow-dark-20);
+    /* --- Component Aliases (for clarity) --- */
+    --shadow-card: var(--shadow-md);
+    --shadow-button-hover: var(--shadow-sm);
+    --shadow-button: var(--shadow-md);
+    --shadow-input-focus: var(--shadow-inner);
+    --shadow-modal: var(--shadow-lg);
+}
 
-    --shadow-s: inset var(--top-highlight-s), var(--dark-shadow-s), var(--soft-shadow-s);
-    --shadow-m: inset var(--top-highlight-m), var(--dark-shadow-m), var(--soft-shadow-m);
-    --shadow-l: inset var(--top-highlight-l), var(--dark-shadow-l), var(--soft-shadow-l);
+/* --- Dark Mode Adjustments --- */
+@media (prefers-color-scheme: dark) {
+    :root {
+    --shadow-sm:
+        0 1px 2px 0 hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.15); 
+    --shadow-md:
+        0 4px 6px -1px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25),
+        0 2px 4px -2px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25);
+    --shadow-lg:
+        0 10px 15px -3px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25),
+        0 4px 6px -4px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25);
+    --shadow-xl:
+        0 20px 25px -5px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25),
+        0 8px 10px -6px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25);
+    --shadow-inner:
+        inset 0 2px 4px 0 hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.15);
+    --shadow-text: 1px 1px 3px hsla(var(--h-text), var(--s-00), var(--l-00), 0.4);
+    }
+}
 
-    --text-shadow: var(--clr-shadow-dark) var(--shadow-y-s) 0 var(--shadow-spread-l);
-
-    --shadow-card-s: inset var(--top-highlight-s), var(--dark-shadow-s), var(--soft-shadow-s);
-    --shadow-card-m: inset var(--top-highlight-m), var(--dark-shadow-m), var(--soft-shadow-m);
-    --shadow-card-l: inset var(--top-highlight-l), var(--dark-shadow-l), var(--soft-shadow-l);
-
-    --shadow-button-s: var(--dark-shadow-s), var(--soft-shadow-s);
-    --shadow-button-m: var(--dark-shadow-m), var(--soft-shadow-m);
-    --shadow-button-l: var(--dark-shadow-l), var(--soft-shadow-l);
-
-    --shadow-input-s: var(--dark-shadow-s), var(--soft-shadow-s);
-    --shadow-input-m: var(--dark-shadow-m), var(--soft-shadow-m);
-    --shadow-input-l: var(--dark-shadow-l), var(--soft-shadow-l);
+:root[data-theme='dark'] {
+    --shadow-sm:
+        0 1px 2px 0 hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.15); 
+    --shadow-md:
+        0 4px 6px -1px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25),
+        0 2px 4px -2px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25);
+    --shadow-lg:
+        0 10px 15px -3px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25),
+        0 4px 6px -4px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25);
+    --shadow-xl:
+        0 20px 25px -5px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25),
+        0 8px 10px -6px hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.25);
+    --shadow-inner:
+        inset 0 2px 4px 0 hsla(var(--shadow-base-h), var(--shadow-base-s), var(--shadow-base-l), 0.15);
+    --shadow-text: 1px 1px 3px hsla(var(--h-text), var(--s-00), var(--l-00), 0.4);
 }

@@ -84,26 +84,10 @@ h6 {
     isolation: isolate;
 }
 
-/* Remove default margin */
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-figure,
-blockquote,
-dl,
-dd {
-    margin: 0;
-}
-
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
 ul[role="list"],
 ol[role="list"] {
     list-style: none;
-    margin: 0;
-    padding: 0;
 }
 
 /* Set core root defaults */
@@ -114,7 +98,6 @@ html:focus-within {
 /* Set core body defaults */
 body {
     text-rendering: optimizeSpeed;
-    line-height: 1.5;
 }
 
 /* A elements that don't have a class get default styles */
@@ -165,7 +148,7 @@ main {
     height: 100%;
     overflow-y: auto;
     overflow-x: clip;
-    background-color: var(--clr-bg-base);
+    background-color: var(--clr-neutral-1);
 }
 
 @view-transition {
@@ -178,7 +161,7 @@ main {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, var(--clr-acc-base), var(--clr-acc-alt));
+    background: linear-gradient(to bottom, var(--clr-primary-1), var(--clr-secondary-1));
 }
 
 @media (max-width: 425px) {
@@ -188,6 +171,6 @@ main {
     }
 
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(to right, var(--clr-acc-base), var(--clr-acc-alt));
+        background: linear-gradient(to right, var(--clr-primary-1), var(--clr-secondary-1));
     }
 }

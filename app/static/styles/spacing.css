@@ -52,39 +52,150 @@
     --sp-md: clamp(var(--sp-md-floor), var(--sp-md-pref), var(--sp-md-ceil));
     --sp-lg: clamp(var(--sp-lg-floor), var(--sp-lg-pref), var(--sp-lg-ceil));
     --sp-xl: clamp(var(--sp-xl-floor), var(--sp-xl-pref), var(--sp-xl-ceil));
-    --sp-2xl: clamp(var(--sp-2xl-floor), var(--sp-2xl-pref), var(--sp-2xl-ceil));
-    --sp-3xl: clamp(var(--sp-3xl-floor), var(--sp-3xl-pref), var(--sp-3xl-ceil));
-    --sp-max: clamp(var(--sp-max-floor), var(--sp-max-pref), var(--sp-max-ceil));
+    --sp-2xl: clamp(
+        var(--sp-2xl-floor),
+        var(--sp-2xl-pref),
+        var(--sp-2xl-ceil)
+    );
+    --sp-3xl: clamp(
+        var(--sp-3xl-floor),
+        var(--sp-3xl-pref),
+        var(--sp-3xl-ceil)
+    );
+    --sp-max: clamp(
+        var(--sp-max-floor),
+        var(--sp-max-pref),
+        var(--sp-max-ceil)
+    );
 
     /* Negative Spacing */
     --sp-neg-xs: calc(var(--sp-xs) * -1);
     --sp-neg-sm: calc(var(--sp-sm) * -1);
     --sp-neg-md: calc(var(--sp-md) * -1);
 
-    /* Semantic Aliasing */
-
-    /* Gap & Margin */
-    --gap-xs: clamp(var(--sp-xs-floor), var(--sp-xs-pref), var(--sp-xs-ceil));
-    --gap-sm: clamp(var(--sp-sm-floor), var(--sp-sm-pref), var(--sp-sm-ceil));
-    --gap-base: clamp(var(--sp-base-floor), var(--sp-base-pref), var(--sp-base-ceil));
-    --gap-md: clamp(var(--sp-md-floor), var(--sp-md-pref), var(--sp-md-ceil));
-    --gap-lg: clamp(var(--sp-lg-floor), var(--sp-lg-pref), var(--sp-lg-ceil));
-    --gap-xl: clamp(var(--sp-xl-floor), var(--sp-xl-pref), var(--sp-xl-ceil));
-    --gap-2xl: clamp(var(--sp-2xl-floor), var(--sp-2xl-pref), var(--sp-2xl-ceil));
-    --gap-3xl: clamp(var(--sp-3xl-floor), var(--sp-3xl-pref), var(--sp-3xl-ceil));
+    /* Semantic Tokens */
+    --page-row-spacing: var(--sp-2xl);
+    --page-col-spacing: var(--sp-xl);
+    --section-spacing: var(--sp-lg);
+    --card-block-spacing: var(--sp-md);
+    --card-inline-spacing: var(--sp-base);
+    --list-item-spacing: var(--sp-lg);
+    --form-group-spacing: var(--sp-lg);
+    --input-group-spacing: var(--sp-base);
+    --button-group-spacing: var(--sp-base);
 
     /* Padding */
     --pad-xs: 0.25rem; /* 4px */
-    --pad-sm: 0.5rem;  /* 8px */
-    --pad-md: 1rem;    /* 16px */
-    --pad-lg: 1.5rem;  /* 24px */
-    --pad-xl: 2rem;    /* 32px */
+    --pad-sm: 0.5rem; /* 8px */
+    --pad-base: 0.75rem; /* 12px */
+    --pad-md: 1rem; /* 16px */
+    --pad-lg: 1.25rem; /* 20px */
+    --pad-xl: 1.5rem; /* 24px */
+    --pad-2xl: 1.75rem; /* 28px */
+    --pad-3xl: 2rem; /* 32px */
+    --pad-4xl: 2.25rem; /* 36px */
+    --pad-5xl: 2.5rem; /* 40px */
 
-    --pad-btn: var(--pad-sm) var(--pad-md);
-    --pad-card: var(--pad-md);
-    --pad-list: var(--pad-sm) var(--pad-md);
-    --pad-input: var(--pad-xs) var(--pad-sm);
-    --pad-column: var(--pad-xs) var(--pad-sm);
-    --pad-ul: var(--pad-sm) var(--pad-xs);
-    --pad-li: var(--pad-sm) var(--pad-xs);
+    /* Semantic Tokens */
+    --page-padding-block: var(--pad-xl);
+    --page-padding-inline: var(--pad-lg);
+    --section-padding-block: var(--pad-lg);
+    --section-padding-inline: var(--pad-md);
+    --card-padding-block: var(--pad-md);
+    --card-padding-inline: var(--pad-base);
+    --button-padding-block: var(--pad-lg);
+    --button-padding-inline: var(--pad-md);
+    --input-padding-block: var(--pad-md);
+    --input-padding-inline: var(--pad-base);
+    --icon-padding-block: var(--pad-md);
+    --icon-padding-inline: var(--pad-md);
+    --list-item-padding-block: var(--pad-md);
+    --list-item-padding-inline: var(--pad-base);
+    --form-group-wrapper-padding-block: var(--pad-md);
+    --form-group-wrapper-padding-inline: var(--pad-base);
+    --modal-padding-block: var(--pad-md);
+    --modal-padding-inline: var(--pad-base);
+    --alert-padding-block: var(--pad-md);
+    --alert-padding-inline: var(--pad-base);
+
+    --page-padding: var(--page-padding-block) var(--page-padding-inline);
+    --section-padding: var(--section-padding-block) var(--section-padding-inline);
+    --card-padding: var(--card-padding-block) var(--card-padding-inline);
+    --button-padding: var(--button-padding-block) var(--button-padding-inline);
+    --input-padding: var(--input-padding-block) var(--input-padding-inline);
+    --icon-padding: var(--icon-padding-block) var(--icon-padding-inline);
+    --list-item-padding: var(--page-padding-block) var(--list-padding-inline);
+    --form-group-wrapper-padding: var(--form-group-padding-wrapper-block) var(--form-group-wrapper-padding-inline);
+    --modal-padding: var(--modal-padding-block) var(--modal-padding-inline);
+    --alert-padding: var(--alert-padding-block) var(--alert-padding-inline);
+}
+
+@media (min-width: 768px) {
+    :root {
+        --page-row-spacing: var(--sp-xl);
+        --page-col-spacing: var(--sp-lg);
+        --section-spacing: var(--sp-md);
+        --card-block-spacing: var(--sp-base);
+        --card-inline-spacing: var(--sp-sm);
+        --list-item-spacing: var(--sp-md);
+        --form-group-spacing: var(--sp-md);
+        --input-group-spacing: var(--sp-sm);
+        --button-group-spacing: var(--sp-sm);
+
+        --page-padding-block: var(--pad-2xl);
+        --page-padding-inline: var(--pad-xl);
+        --section-padding-block: var(--pad-xl);
+        --section-padding-inline: var(--pad-lg);
+        --card-padding-block: var(--pad-md);
+        --card-padding-inline: var(--pad-base);
+        --button-padding-block: var(--pad-md);
+        --button-padding-inline: var(--pad-base);
+        --input-padding-block: var(--pad-md);
+        --input-padding-inline: var(--pad-base);
+        --icon-padding-block: var(--pad-lg);
+        --icon-padding-inline: var(--pad-lg);
+        --list-item-padding-block: var(--pad-md);
+        --list-item-padding-inline: var(--pad-base);
+        --form-group-wrapper-padding-block: var(--pad-lg);
+        --form-group-wrapper-padding-inline: var(--pad-md);
+        --modal-padding-block: var(--pad-lg);
+        --modal-padding-inline: var(--pad-md);
+        --alert-padding-block: var(--pad-lg);
+        --alert-padding-inline: var(--pad-md);
+    }
+}
+
+@media (min-width: 1024px) {
+    :root {
+        --page-row-spacing: var(--sp-lg);
+        --page-col-spacing: var(--sp-md);
+        --section-spacing: var(--sp-base);
+        --card-block-spacing: var(--sp-sm);
+        --card-inline-spacing: var(--sp-xs);
+        --list-item-spacing: var(--sp-base);
+        --form-group-spacing: var(--sp-base);
+        --input-group-spacing: var(--sp-xs);
+        --button-group-spacing: var(--sp-xs);
+    
+        --page-padding-block: var(--pad-3xl);
+        --page-padding-inline: var(--pad-2xl);
+        --section-padding-block: var(--pad-2xl);
+        --section-padding-inline: var(--pad-xl);
+        --card-padding-block: var(--pad-lg);
+        --card-padding-inline: var(--pad-md);
+        --button-padding-block: var(--pad-md);
+        --button-padding-inline: var(--pad-base);
+        --input-padding-block: var(--pad-base);
+        --input-padding-inline: var(--pad-sm);
+        --icon-padding-block: var(--pad-sm);
+        --icon-padding-inline: var(--pad-sm);
+        --list-item-padding-block: var(--pad-md);
+        --list-item-padding-inline: var(--pad-base);
+        --form-group-wrapper-padding-block: var(--pad-base);
+        --form-group-wrapper-padding-inline: var(--pad-sm);
+        --modal-padding-block: var(--pad-md);
+        --modal-padding-inline: var(--pad-base);
+        --alert-padding-block: var(--pad-md);
+        --alert-padding-inline: var(--pad-base);
+    }
 }
