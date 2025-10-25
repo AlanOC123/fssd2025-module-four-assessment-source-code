@@ -1,3 +1,40 @@
+const domController = () => {
+    const _cache = {
+        buttons: {
+            openIdentitiesBtn: document.getElementById("toggle-identities"),
+            closeIdentitiesBtn: document.getElementById("close-identities"),
+            openFooterBtn: document.getElementById("open-footer"),
+            closeFooterBtn: document.getElementById("close-footer"),
+            openMobileMenu: document.getElementById("show-mobile-options"),
+        },
+        containers: {
+            identities: document.getElementById("select-identity"),
+            footer: document.querySelector("footer"),
+        }
+    };
+
+    const toggleIdentities = () => {
+        if (identitesContainer.classList.contains("show-all")) {
+            openIdentitiesBtn.classList.remove("rotate-up");
+            identitesContainer.classList.remove("show-all");
+            return;
+        }
+
+        _cache.containers.classList.add("rotate-up");
+        identitesContainer.classList.add("show-all");
+    }
+
+    const toggleFooter = () => {
+        mobileOptionsContainer.classList.remove("expanded");
+        footerContainer.classList.add("expanded");
+    }
+
+    return {
+        
+    }
+}
+domController()
+
 const openIdentitiesBtn = document.getElementById("toggle-identities");
 const closeIdentitiesBtn = document.getElementById("close-identities");
 const identitesContainer = document.getElementById("select-identity");

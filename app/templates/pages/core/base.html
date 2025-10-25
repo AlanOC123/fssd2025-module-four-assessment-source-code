@@ -3,6 +3,8 @@
     rel="stylesheet"
     href="{{ url_for('static', filename='pages/core/styles/base.css') }}"
 />
+<link rel="stylesheet" href="{{ url_for('static', filename='components/_header.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='components/_footer.css') }}">
 {% block substyles %}{% endblock %} 
 {% endblock %}
 {% block body %}
@@ -21,6 +23,8 @@
         <header>
             {% from 'components/_buttons.html' import button %}
             {% from 'components/_cards.html' import identity_card %}
+            {% from 'components/_header.html' import header %}
+            {% from 'components/_footer.html' import footer %}
             <div id="identity">
                 {% call identity_card(active_identity, id="curr-identity") %}
                     {{ button(icon_name="arrow_drop_down", class="btn--icon-only", variant="ghost", id="toggle-identities") }}

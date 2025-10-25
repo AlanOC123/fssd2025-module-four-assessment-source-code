@@ -1,0 +1,299 @@
+header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "identity nav";
+    grid-area: header;
+    grid-auto-flow: column;
+    grid-auto-columns: auto;
+    padding: var(--pad-sm);
+    gap: var(--sp-lg);
+}
+
+#identity {
+    grid-area: identity;
+}
+
+#identity .identity-name {
+    display: none;
+}
+
+#toggle-identities {
+    transform: rotate(180deg);
+}
+
+header nav {
+    grid-area: nav;
+}
+
+header nav ul {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: auto;
+    align-items: center;
+    justify-items: center;
+}
+
+header nav ul li {
+    display: flex;
+}
+
+.collapseable {
+    display: none;
+}
+
+#mobile-menu {
+    position: relative;
+}
+
+#mobile-nav-group {
+    pointer-events: none;
+    opacity: 0;
+    max-height: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateY(calc(-100% - var(--sp-lg)));
+    background-color: var(--clr-neutral-2-80);
+    backdrop-filter: blur(12px);
+    border-radius: var(--brd-r-card);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+    grid-auto-rows: 1fr;
+    gap: var(--sp-md);
+    box-shadow: var(--shadow-card);
+    transition: padding var(--trans-default), border var(--trans-default), height var(--trans-default), opacity var(--trans-default);
+}
+
+#mobile-nav-group.expanded {
+    pointer-events: all;
+    opacity: 1;
+    max-height: fit-content;
+    padding: var(--card-padding);
+    border: var(--brd-sm);
+    border-color: var(--clr-neutral-3);
+}
+
+#mobile-nav-group.expanded li {
+    width: 100%;
+}
+
+#mobile-nav-group .btn {
+    width: 100%;
+    z-index: 1;
+}
+
+#mobile-nav-group .btn .btn__text {
+    display: flex;
+}
+
+#select-identity {
+    position: absolute;
+    pointer-events: none;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    width: 100dvw;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    background-color: var(--clr-neutral-2-20);
+    backdrop-filter: blur(24px);
+    transition: height var(--trans-default), padding var(--trans-default), border var(--trans-default),opacity var(--trans-default);
+}
+
+#select-identity.show-all {
+    position: absolute;
+    pointer-events: all;
+    opacity: 1;
+    max-height: fit-content;
+    padding: var(--section-padding);
+    gap: var(--sp-md);
+    border-top-right-radius: var(--brd-r-lg);
+    border-top-left-radius: var(--brd-r-lg);
+    z-index: 3;
+    box-shadow: var(--shadow-md);
+    bottom: 0;
+    border: var(--brd-sm);
+    border-color: var(--clr-neutral-2);
+}
+
+#identity-list {
+    display: grid;
+    grid-auto-flow: row;
+    gap: var(--sp-lg);
+}
+
+#identity-list .card__text {
+    display: flex;
+    font-size: var(--fs-base);
+}
+
+#identity-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (min-width: 425px) {
+        header {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        grid-template-areas: "identity" "nav";
+        grid-area: header;
+        padding: var(--pad-sm);
+        gap: var(--sp-lg);
+    }
+
+    header nav {
+        max-height: fit-content;
+        background-color: var(--clr-neutral-2);
+        padding: var(--card-padding);
+        border-radius: var(--brd-r-card);
+    }
+
+    header nav ul {
+        position: relative;
+        display: grid;
+        grid-auto-flow: row;
+        gap: var(--sp-base);
+    }
+
+    header nav ul li {
+        width: 100%;
+    }
+
+    #identity .identity-name {
+        display: inline-flex;
+        font-size: var(--fs-sm);
+    }
+
+    #toggle-identities {
+        transform: rotate(270deg);
+    }
+
+    #select-identity {
+        position: absolute;
+        pointer-events: none;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        max-width: 0;
+        max-height: fit-content;
+        height: fit-content;
+        right: calc(var(--sp-xs) * -1);
+        top: var(--sp-lg);
+        left: auto;
+        bottom: auto;
+        transform: translateX(100%);
+        opacity: 1;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+    }
+
+    #select-identity.show-all {
+        position: absolute;
+        max-width: 100%;
+        padding: var(--section-padding);
+        gap: var(--sp-md);
+        border-radius: var(--brd-r-lg);
+        box-shadow: var(--shadow-md);
+        border: var(--brd-sm);
+        border-color: var(--clr-neutral-2);
+    }
+}
+
+@media (min-width: 1024px) {
+        header {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        grid-area: header;
+        border-radius: var(--brd-r-card);
+        gap: var(--sp-md);
+    }
+
+    header nav ul {
+        width: 100%;
+        display: grid;
+        gap: var(--list-item-spacing);
+    }
+
+        #identity {
+        position: relative;
+        display: grid;
+        grid-template-rows: auto 0fr;
+        transition: grid var(--trans-default),
+            background-color var(--trans-default), border var(--trans-default);
+        max-height: 25svh;
+        border-radius: var(--brd-r-md);
+        border: var(--brd-md);
+        border-color: var(--clr-transparent);
+    }
+
+    #identity .card.card--identity-card {
+        padding: var(--pad-sm);
+    }
+
+    #toggle-identities {
+        transform: rotate(0deg);
+    }
+
+    #toggle-identities.rotate-up {
+        transform: rotate(180deg);
+    }
+
+    #identity-list-header {
+        font-size: var(--fs-xs);
+    }
+
+    #identity.show-all .btn--icon-only {
+        transform: rotate(180deg);
+    }
+
+    #select-identity {
+        overflow-y: auto;
+        pointer-events: all;
+        max-width: 100%;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        transform: translateY(100%);
+        z-index: 5;
+        right: auto;
+        top: auto;
+        border-radius: var(--brd-r-lg);
+        gap: var(--sp-md);
+        max-height: 0;
+        opacity: 0;
+        padding: 0;
+    }
+
+    #select-identity.show-all {
+        max-height: 66dvh;
+        overflow: hidden;
+        border: var(--brd-sm);
+        border-color: var(--clr-neutral-3);
+    }
+
+    #identity-list {
+        overflow-y: scroll;
+        scroll-margin-block: var(--sp-lg);
+        padding-bottom: var(--sp-base);
+    }
+
+    #identity-list .card.card--identity-card {
+        cursor: pointer;
+    }
+
+    #identity-list .card.card--identity-card:hover {
+        background-color: var(--clr-info-1);
+    }
+}

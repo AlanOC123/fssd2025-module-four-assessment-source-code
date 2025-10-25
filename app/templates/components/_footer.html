@@ -1,0 +1,24 @@
+{% macro footer %}
+    <footer>
+        {% from 'components/_buttons.html' import button %}
+        <nav>
+            <ul>
+                <li>
+                    {{ button(text="Contact Us", variant="ghost", icon_name="contact_page", class="btn--nav") }}
+                </li>
+                <li>
+                    {{ button(text="About Us", variant="ghost", icon_name="info", class="btn--nav") }}
+                </li>
+                <li>
+                    {{ button(text="Site Map", variant="ghost", icon_name="account_tree", class="btn--nav") }}
+                </li>
+                <li>
+                    {{ button(text="Log Out", variant="ghost", icon_name="logout", class="btn--nav") }}
+                </li>
+                <li>
+                    {{ button(text="Close", variant="ghost", icon_name="cancel", class="btn--cancel mobile-only", id="close-footer") }}
+                </li>
+            </ul>
+        </nav>
+    </footer>
+{% endmacro %}

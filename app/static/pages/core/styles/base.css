@@ -363,18 +363,7 @@ footer.expanded nav ul li {
         gap: var(--list-item-spacing);
     }
 
-    footer nav ul {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        justify-items: start;
-        align-items: center;
-    }
-
-    footer nav ul .btn {
-        font-size: var(--fs-sm);
-    }
-
-    #identity {
+        #identity {
         position: relative;
         display: grid;
         grid-template-rows: auto 0fr;
@@ -443,5 +432,16 @@ footer.expanded nav ul li {
 
     #identity-list .card.card--identity-card:hover {
         background-color: var(--clr-info-1);
+    }
+
+    footer nav ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        justify-items: start;
+        align-items: center;
+    }
+
+    footer nav ul .btn {
+        font-size: var(--fs-sm);
     }
 }
