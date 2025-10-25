@@ -1,0 +1,114 @@
+/* Form Containers */
+.form-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--form-group-spacing);
+    background-color: var(--clr-neutral-2-20);
+    padding: var(--form-padding);
+    box-shadow: var(--shadow-md);
+    border-radius: var(--brd-r-lg);
+    backdrop-filter: blur(12px);
+}
+
+.form-header {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.form-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--form-group-wrapper-spacing);
+    justify-content: center;
+    align-items: center;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Form Inputs */
+.form-input-group {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: var(--input-group-spacing);
+}
+
+.form-input {
+    padding: var(--input-padding);
+    font-size: var(--fs-input);
+    font-weight: var(--fw-input);
+    line-height: var(--lh-input);
+    color: var(--clr-text-1);
+    background-color: var(--clr-neutral-2-80);
+    border: var(--brd-s) solid var(--clr-neutral-3);
+    border-radius: var(--brd-r-full);
+    box-shadow: var(--shadow-inner);
+    backdrop-filter: blur(12px);
+    transition: border-color var(--trans-default), box-shadow var(--trans-default), background-color var(--trans-default);
+    display: flex;
+    align-items: center;
+}
+
+.form-input:hover {
+    background-color: var(--clr-neutral-2);
+}
+
+.form-input-group:has(.form-input:focus) .form-label, 
+.form-input-group:has(.form-input:focus-visible) .form-label {
+    color: var(--clr-primary-3);
+} 
+
+.form-input::placeholder {
+    color: var(--clr-text-3-60);
+}
+
+/* Focus */
+.form-input:focus,
+.form-input:focus-visible {
+    outline: none;
+    border-color: var(--brd-clr-interactive);
+    box-shadow: var(--shadow-md);
+    color: var(--clr-primary-1);
+}
+
+/* Error */
+.form-input.error {
+    border-color: var(--brd-color-danger);
+    background-color: var(--clr-danger-1-20);
+    color: var(--clr-danger-3);
+}
+
+.form-label {
+    grid-row: 1;
+    font-size: var(--fs-label);
+    font-weight: var(--fw-label);
+    line-height: var(--lh-label);
+    color: var(--clr-text-2);
+    padding-left: var(--pad-sm);
+}
+
+.form-input[type="text"] {
+}
+
+.form-input[type="radio"],
+.form-input[type="check"] {
+    width: auto;
+    accent-color: var(--clr-primary-1);
+}
+
+.form-input[type="radio"] {
+}
+
+.form-input[type="check"] {
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 1024px) {
+}

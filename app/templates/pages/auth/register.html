@@ -1,45 +1,43 @@
-{% extends 'pages/auth/base.html' %}
+{% extends 'pages/auth/base.html' %} {% block substyles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='pages/auth/styles/register.css') }}"
+/>
+{% endblock %} 
 
-{% block substyles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/auth/styles/register.css') }}">
+{% block form_header %}Register{% endblock %}
+
+{% block form_section %}
+    <div class="form-input-group">
+        <label class="form-label" for="first-name">First Name</label>
+        <input type="text" class="form-input" placeholder="John" required>
+        <span class="error-msg">{% block first_name_error %}{% endblock %}</span>
+    </div>
+    <div class="form-input-group">
+        <label class="form-label" for="last-name">Last Name</label>
+        <input type="password" class="form-input" placeholder="Doe" required>
+        <span class="error-msg">{% block surname_error %}{% endblock %}</span>
+    </div>
+    <div class="form-input-group">
+        <label class="form-label" for="dob">Date of Birth</label>
+        <input type="date" class="form-input" placeholder="dd/mm/yyyy" required>
+        <span class="error-msg">{% block dob_error %}{% endblock %}</span>
+    </div>
+    <div class="form-input-group">
+        <label class="form-label" for="email">Email</label>
+        <input type="email" class="form-input" placeholder="example@example.com" required>
+        <span class="error-msg">{% block email_error %}{% endblock %}</span>
+    </div>
+    <div class="form-input-group">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" class="form-input" placeholder="********" required>
+        <span class="error-msg">{% block password_error %}{% endblock %}</span>
+    </div>
 {% endblock %}
 
-{% block content %}
-{% from 'components/_layout.html' import grid_col %}
-{% from 'components/_headers.html' import header %}
-{% call grid_col(md_span='8', lg_span='12') %}
-<div class="time-container">
-    {{ header(level=5, text="Register", class="text-shadow") }}
-    <h1 class="time-display"><span class="hour">22</span>:<span class="minute">03</span></h1>
-</div>
+{% block form_action %}{{ url_for('auth.register') }}{% endblock %}
 
-<div class="form-container">
-    <form id="register-form" action="{{ url_for('auth.register') }}" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        {% from 'components/_inputs.html' import input %}
-        {% from 'components/_buttons.html' import icon_btn, icon_link %}
-        <div class="form-grouping" id="personal-information">
-            <div class="inputs-grouping">
-                {{ input(type="text", placeholder="First Name", required=True, name="first-name", label="First Name") }}
-                {{ input(type="text", placeholder="Last Name", required=True, name="surname", label="Last Name") }}
-            </div>
-        </div>
-
-        <div class="form-grouping" id="birth-date">
-            {{ input(type="date", placeholder="Date of Birth", required=True, name="dob", label="Birth Date") }}
-        </div>
-
-        <div class="form-grouping" id="log-in-information">
-            <div class="inputs-grouping">
-                {{ input(type="email", placeholder="Email", required=True, name="email", label="Email Address") }}
-                {{ input(type="password", placeholder="Password", required=True, name="password", label="Password")}}
-            </div>
-        </div>
-        <div class="form-controls">
-            {{ icon_link(href=url_for('auth.sign_in'), icon='login', variant="secondary") }}
-            {{ icon_btn(type="submit", icon='person_add', variant="primary") }}
-        </div>
-    </form>
-</div>
-{% endcall %}
+{% block form_footer %}
+    <button type="submit" class="btn btn--primary">Register</button>
+    <a href="{{ url_for('auth.sign_in') }}" class="btn btn--tertiary">Log In</a>
 {% endblock %}

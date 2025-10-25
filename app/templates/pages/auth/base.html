@@ -19,6 +19,19 @@
             </div>
         {% endif %}
     {% endwith %}
-    {% block content %}{% endblock %}
+
+    <div class="grid-col lg:grid-col--9 md:grid-col--5">
+        <div class="hero">
+            <div class="img-container">
+                <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="" srcset="">
+            </div>
+        </div>
+        <form class="form-container" action="{% block form_action %}{% endblock %}" method="post">
+            <input type="hidden" value="{{ csrf_token() }}" name="csrf_token">
+            <h3 class="form-header">{% block form_header %}Sign In{% endblock %}</h3>
+            <div class="form-section">{% block form_section %}{% endblock %}</div>
+            <div class="form-footer">{% block form_footer %}{% endblock %}</div>
+        </form>
+    </div>
 </main>
 {% endblock %}

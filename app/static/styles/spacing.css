@@ -81,10 +81,12 @@
     --card-inline-spacing: var(--sp-base);
     --list-item-spacing: var(--sp-lg);
     --form-group-spacing: var(--sp-lg);
+    --form-group-wrapper-spacing: var(--sp-md);
     --input-group-spacing: var(--sp-base);
     --button-group-spacing: var(--sp-base);
 
     /* Padding */
+    --pad-2xs: 0.125rem; /* 2px */
     --pad-xs: 0.25rem; /* 4px */
     --pad-sm: 0.5rem; /* 8px */
     --pad-base: 0.75rem; /* 12px */
@@ -103,14 +105,16 @@
     --section-padding-inline: var(--pad-md);
     --card-padding-block: var(--pad-md);
     --card-padding-inline: var(--pad-base);
-    --button-padding-block: var(--pad-lg);
+    --button-padding-block: var(--pad-md);
     --button-padding-inline: var(--pad-md);
     --input-padding-block: var(--pad-md);
     --input-padding-inline: var(--pad-base);
-    --icon-padding-block: var(--pad-md);
-    --icon-padding-inline: var(--pad-md);
+    --icon-padding-block: var(--pad-sm);
+    --icon-padding-inline: var(--pad-sm);
     --list-item-padding-block: var(--pad-md);
     --list-item-padding-inline: var(--pad-base);
+    --form-padding-block: var(--pad-sm);
+    --form-padding-inline: var(--pad-md);
     --form-group-wrapper-padding-block: var(--pad-md);
     --form-group-wrapper-padding-inline: var(--pad-base);
     --modal-padding-block: var(--pad-md);
@@ -125,12 +129,13 @@
     --input-padding: var(--input-padding-block) var(--input-padding-inline);
     --icon-padding: var(--icon-padding-block) var(--icon-padding-inline);
     --list-item-padding: var(--page-padding-block) var(--list-padding-inline);
+    --form-padding: var(--form-padding-block) var(--form-padding-inline);
     --form-group-wrapper-padding: var(--form-group-padding-wrapper-block) var(--form-group-wrapper-padding-inline);
     --modal-padding: var(--modal-padding-block) var(--modal-padding-inline);
     --alert-padding: var(--alert-padding-block) var(--alert-padding-inline);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 425px) {
     :root {
         --page-row-spacing: var(--sp-xl);
         --page-col-spacing: var(--sp-lg);
@@ -148,14 +153,16 @@
         --section-padding-inline: var(--pad-lg);
         --card-padding-block: var(--pad-md);
         --card-padding-inline: var(--pad-base);
-        --button-padding-block: var(--pad-md);
-        --button-padding-inline: var(--pad-base);
-        --input-padding-block: var(--pad-md);
-        --input-padding-inline: var(--pad-base);
-        --icon-padding-block: var(--pad-lg);
-        --icon-padding-inline: var(--pad-lg);
+        --button-padding-block: var(--pad-sm);
+        --button-padding-inline: var(--pad-md);
+        --input-padding-block: var(--pad-lg);
+        --input-padding-inline: var(--pad-md);
+        --icon-padding-block: var(--pad-sm);
+        --icon-padding-inline: var(--pad-sm);
         --list-item-padding-block: var(--pad-md);
         --list-item-padding-inline: var(--pad-base);
+        --form-padding-block: var(--pad-base);
+        --form-padding-inline: var(--pad-sm);
         --form-group-wrapper-padding-block: var(--pad-lg);
         --form-group-wrapper-padding-inline: var(--pad-md);
         --modal-padding-block: var(--pad-lg);
@@ -172,7 +179,7 @@
         --section-spacing: var(--sp-base);
         --card-block-spacing: var(--sp-sm);
         --card-inline-spacing: var(--sp-xs);
-        --list-item-spacing: var(--sp-base);
+        --list-item-spacing: var(--sp-xs);
         --form-group-spacing: var(--sp-base);
         --input-group-spacing: var(--sp-xs);
         --button-group-spacing: var(--sp-xs);
@@ -185,10 +192,10 @@
         --card-padding-inline: var(--pad-md);
         --button-padding-block: var(--pad-md);
         --button-padding-inline: var(--pad-base);
-        --input-padding-block: var(--pad-base);
+        --input-padding-block: var(--pad-xs);
         --input-padding-inline: var(--pad-sm);
-        --icon-padding-block: var(--pad-sm);
-        --icon-padding-inline: var(--pad-sm);
+        --icon-padding-block: var(--pad-xs);
+        --icon-padding-inline: var(--pad-xs);
         --list-item-padding-block: var(--pad-md);
         --list-item-padding-inline: var(--pad-base);
         --form-group-wrapper-padding-block: var(--pad-base);

@@ -17,6 +17,88 @@
             </div>
         {% endif %}
     {% endwith %}
-    
+    <aside class="grid-col">
+        <header>
+            {% from 'components/_buttons.html' import button %}
+            {% from 'components/_cards.html' import identity_card %}
+            <div id="identity">
+                {% call identity_card(active_identity, id="curr-identity") %}
+                    {{ button(icon_name="arrow_drop_down", class="btn--icon-only", variant="ghost", id="toggle-identities") }}
+                {% endcall %}
+                <div id="select-identity">
+                    <div id="identity-list-header">
+                        <span>Select Identity</span>
+                        {{ button(icon_name="cancel", class="btn--cancel btn--icon-only mobile-only", variant="ghost", id="close-identities") }}
+                    </div>
+                    <ul id="identity-list">
+                        {% for identity in identities %}
+                            {% if not identity.is_active %}
+                                {% call identity_card(identity, tag="li") %}{% endcall %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    {% from 'components/_buttons.html' import button %}
+                    <li>
+                        {{ button(text="Home", variant="ghost", icon_name="home", class="btn--nav") }}
+                    </li>
+                    <li>
+                        {{ button(text="Projects", variant="ghost", icon_name="workspaces", class="btn--nav") }}
+                    </li>
+                    <li class="collapseable">
+                        {{ button(text="Tasks", variant="ghost", icon_name="task_alt", class="btn--nav collapseable") }}
+                    </li>
+                    <li class="collapseable">
+                        {{ button(text="Settings", variant="ghost", icon_name="settings", class="btn--nav collapseable") }}
+                    </li>
+                    <li id="mobile-menu" class="expandable mobile-only">
+                        {{ button(text="", variant="ghost", icon_name="more_horiz", class="btn--nav expandable mobile-only", id="show-mobile-options") }}
+                        <ul id="mobile-nav-group">
+                            <li>
+                                {{ button(text="Tasks", variant="ghost", icon_name="task_alt", class="btn--nav mobile-only") }}
+                            </li>
+                            <li>
+                                {{ button(text="Settings", variant="ghost", icon_name="settings", class="btn--nav mobile-only") }}
+                            </li>
+                            <li>
+                                {{ button(text="Other", variant="ghost", icon_name="unfold_more", class="btn--nav mobile-only", id="open-footer") }}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <footer>
+            <nav>
+                <ul>
+                    <li>
+                        {{ button(text="Contact Us", variant="ghost", icon_name="contact_page", class="btn--nav") }}
+                    </li>
+                    <li>
+                        {{ button(text="About Us", variant="ghost", icon_name="info", class="btn--nav") }}
+                    </li>
+                    <li>
+                        {{ button(text="Site Map", variant="ghost", icon_name="account_tree", class="btn--nav") }}
+                    </li>
+                    <li>
+                        {{ button(text="Log Out", variant="ghost", icon_name="logout", class="btn--nav") }}
+                    </li>
+                    <li>
+                        {{ button(text="Close", variant="ghost", icon_name="cancel", class="btn--cancel mobile-only", id="close-footer") }}
+                    </li>
+                </ul>
+            </nav>
+        </footer>
+    </aside>
+    <section class="grid-col" id="content">
+
+    </section>
 </main>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='scripts/header.js') }}" type="module"></script>
 {% endblock %}

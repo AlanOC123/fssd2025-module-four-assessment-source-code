@@ -1,43 +1,28 @@
 {% from 'components/_icons.html' import create, delete, edit, cancel %}
 
-{% macro button(text, id='', variant='primary', class='', type="button", icon='') %}
-<div class="btn-container">
-    <button id="{{ id }}" class="btn-{{ variant }} {% if icon == '' and variant == 'primary' %}no-icon{% endif %} {{ class }}" type="{{ type }}">
-        <span class="btn-text-container">{{ text }}</span>
-        {% if variant == 'primary' and icon != '' %}
-        <div class="btn-icon-container">
-            <span class="material-symbols-outlined btn-icon">{{ icon }}</span>
-        </div>
+{# In your components/_macros.html or similar #}
+
+{% macro button(text, variant='primary', icon_name=None, href=None, id='', class='', type='button') %}
+    {# Determine the tag based on whether href is provided #}
+    {% set tag = 'a' if href else 'button' %}
+
+    {# Start building the tag #}
+    <{{ tag }}
+        {% if id %}id="{{ id }}"{% endif %}
+        {# Apply base class, variant modifier, and any extra classes #}
+        class="btn btn--{{ variant }} {{ class }}"
+        {# Add button-specific type or link href #}
+        {% if tag == 'button' %}type="{{ type }}"{% endif %}
+        {% if href %}href="{{ href }}"{% endif %}
+    >
+        {# Conditionally include the icon span #}
+        {% if icon_name %}
+            {# Apply size class if provided (maps to .small, .medium etc. on the icon) #}
+            <span class="material-symbols-outlined btn__icon" aria-hidden="true">{{ icon_name }}</span>
         {% endif %}
-    </button>
-</div>
-{% endmacro %}
 
-{% macro link_btn(text, href, id='', variant='primary', icon='') %}
-<div class="btn-container">
-    <a id="{{ id }}" class="btn-{{ variant }} {% if icon == '' and variant == 'primary' %}no-icon{% endif %} {{ class }}" href="{{ href }}">
-        <span class="btn-text-container">{{ text }}</span>
-        {% if variant == 'primary' and icon != '' %}
-        <div class="btn-icon-container">
-            <span class="material-symbols-outlined btn-icon">{{ icon }}</span>
-        </div>
-        {% endif %}
-    </a>
-</div>
-{% endmacro %}
+        {# Always include the text span (CSS handles hiding it on mobile) #}
+        <span class="btn__text">{{ text }}</span>
 
-{% macro icon_btn(id='', variant='primary', class='', icon='', type="button") %}
-    <button id="{{ id }}" class="btn-icon btn-{{ variant }} {{ class }}" type="{{ type }}">
-        <div class="icon-wrapper">
-            <span class="material-symbols-outlined icon">{{ icon }}</span>
-        </div>
-    </button>
-{% endmacro %}
-
-{% macro icon_link(id='', variant='primary', class='', icon='', href="button") %}
-    <a id="{{ id }}" class="btn-icon btn-{{ variant }} {{ class }}" href="{{ href }}">
-        <div class="icon-wrapper">
-            <span class="material-symbols-outlined btn-icon">{{ icon }}</span>
-        </div>
-    </a>
+    </{{ tag }}>
 {% endmacro %}

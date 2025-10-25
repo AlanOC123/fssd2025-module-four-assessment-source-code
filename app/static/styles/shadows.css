@@ -33,7 +33,7 @@
 
     /* --- Component Aliases (for clarity) --- */
     --shadow-card: var(--shadow-md);
-    --shadow-button-hover: var(--shadow-sm);
+    --shadow-button-hover: var(--shadow-lg);
     --shadow-button: var(--shadow-md);
     --shadow-input-focus: var(--shadow-inner);
     --shadow-modal: var(--shadow-lg);

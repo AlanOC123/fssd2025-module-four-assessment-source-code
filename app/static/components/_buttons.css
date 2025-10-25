@@ -5,7 +5,7 @@
     vertical-align: middle;
     gap: var(--button-group-spacing);
     border-radius: var(--brd-r-btn);
-    border: var(--brd-btn);
+    border: var(--brd-m) solid transparent;
     min-height: 44px;
     box-shadow: var(--shadow-button);
     padding: var(--button-padding);
@@ -27,6 +27,7 @@
 }
 
 .btn__icon {
+    transition: font-variation-settings var(--trans-default);
     flex-shrink: 0;
 }
 
@@ -38,6 +39,8 @@
     background-color: var(--clr-primary-1);
     color: var(--clr-text-on-primary);
     border-color: var(--clr-primary-1);
+    font-weight: var(--fw-button-primary);
+    border-radius: var(--brd-r-button-primary);
 }
 
 .btn--primary:hover,
@@ -50,6 +53,7 @@
     background-color: var(--clr-neutral-2);
     color: var(--clr-text-1);
     border-color: var(--clr-neutral-2);
+    border-radius: var(--brd-r-button-secondary);
 }
 
 .btn--secondary:hover,
@@ -61,6 +65,7 @@
     background-color: var(--clr-neutral-1);
     color: var(--clr-text-2);
     border-color: var(--clr-neutral-2);
+    border-radius: var(--brd-r-button-tertiary);
 }
 
 .btn--tertiary:hover,
@@ -70,16 +75,66 @@
 
 .btn--ghost {
     background-color: var(--clr-transparent);
-    color: var(--clr-primary-1);
-    border-color: var(--clr-transparent);
+    color: var(--clr-text-2);
+    border: var(--brd-sm);
+    border-color: var(--clr-neutral-2);
+    border-radius: var(--brd-r-full);
 }
 
 .btn--ghost:hover,
 .btn--ghost:focus-visible {
-    background-color: var(--clr-primary-1-20);
+    background-color: var(--clr-neutral-3);
 }
 
-@media (min-width: 768px) {
+.btn--primary:hover,
+.btn--secondary:hover,
+.btn--tertiary:hover {
+    transform: var(--button-hover-transform);
+}
+
+.btn--icon-only .btn__text {
+    display: none !important;
+}
+
+.btn--icon-only {
+    padding: var(--icon-padding);
+    aspect-ratio: 1;
+    gap: 0;
+}
+
+.btn--icon-only.btn--cancel {
+    justify-content: center;
+    align-items: center;
+}
+
+.btn--nav {
+    flex: 1;
+    justify-content: flex-start;
+    background-color: var(--clr-neutral-3);
+}
+
+.btn--cancel {
+    justify-content: flex-start;
+    color: var(--clr-danger-3);
+    background-color: var(--clr-danger-1-40);
+    border: var(--brd-sm);
+    border-color: var(--clr-danger-2);
+}
+
+.btn--nav:hover {
+    color: var(--clr-info-3);
+}
+
+.btn--nav:hover .btn__icon {
+    font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 24;
+}
+
+@media (min-width: 425px) {
+    .btn {
+        border: var(--brd-sm);
+        border-color: var(--clr-neutral-2);
+    }
+
     .btn__text {
         display: inline;
     }

@@ -1,17 +1,13 @@
-{% macro card(title, image_url=None, class='') %}
-<div class="card {{ class }}">
-    {% if image_url %}
-        <div class="card__header">
-            <div class="img-container">
-                <img src="{{ image_url }}" alt="Card image for {{ title }}">
-            </div>
-        </div>
-    {% endif %}
-
-    <div class="card-body">
-        <h3 class="card__title">{{ title }}</h3>
-
-        {{ caller() }}
-    </div>
-</div>
+{% macro identity_card(identity, tag="div", class="", id="") %}
+<{{ tag }} class="card card--identity-card {{ class }} id="{{ id }}">
+    <img class="card__img identity-img" src="{{ url_for('static', filename='assets/avatars/' ~ identity.template.image) }}" alt="" srcset="">
+    <p class="card__text identity-name">
+        {% if identity.custom_name %}
+            {{ identity.custom_name }}
+        {% else %}
+            {{ identity.template.name }}
+        {% endif %}
+    </p>
+    {{ caller() }}
+</{{ tag }}>
 {% endmacro %}

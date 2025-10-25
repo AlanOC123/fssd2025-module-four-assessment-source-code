@@ -18,6 +18,10 @@
     --brd-r-3xl: 28px;
     --brd-r-full: 999px;
     --brd-r-pill: 50%;
+    --brd-r-button-primary: 999px;
+    --brd-r-button-secondary: 999px;
+    --brd-r-button-tertiary: 999px;
+    --brd-r-card: 16px;
 
     /* Shape */
     --brd-sm: solid var(--brd-s);

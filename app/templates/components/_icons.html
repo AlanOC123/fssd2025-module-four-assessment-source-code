@@ -102,4 +102,19 @@
     %}
     >arrow_circle_right</span
 >
+{% endmacro %} {% macro generic(icon, id="") %}
+<span
+    class="material-symbols-outlined"
+    {%
+    if
+    id
+    !=""
+    %}
+    id="{{ id }}"
+    {%
+    endif
+    %}
+>
+    {{ icon }}
+</span>
 {% endmacro %}

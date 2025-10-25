@@ -92,7 +92,7 @@
     /* Semantic Alisaing */
     --fs-body: var(--fs-lg);
     --fs-button: var(--fs-md);
-    --fs-input: var(--fs-md);
+    --fs-input: var(--fs-base);
     --fs-label: var(--fs-sm);
     --fs-icon: var(--fs-lg);
     --fs-h1: var(--fs-3xl);
@@ -109,6 +109,7 @@
 
     --fw-body: var(--fw-400);
     --fw-button: var(--fw-300);
+    --fw-button-primary: var(--fw-600);
     --fw-input: var(--fw-500);
     --fw-label: var(--fw-300);
     --fw-h1: var(--fw-900);
@@ -117,11 +118,11 @@
 }
 
 /* Tablet */
-@media (min-width: 768px) {
+@media (min-width: 425px) {
     :root {
         --fs-body: var(--fs-md);
         --fs-button: var(--fs-base);
-        --fs-input: var(--fs-base);
+        --fs-input: var(--fs-sm);
         --fs-label: var(--fs-xs);
         --fs-h1: var(--fs-2xl);
         --fs-h2: var(--fs-xl);
@@ -134,19 +135,22 @@
     :root {
         --fs-body: var(--fs-base);
         --fs-button: var(--fs-sm);
-        --fs-input: var(--fs-base);
+        --fs-input: var(--fs-sm);
         --fs-label: var(--fs-xs);
-        --fs-h1: var(--fs-2xl);
-        --fs-h2: var(--fs-xl);
-        --fs-h3: var(--fs-lg);
+        --fs-h1: var(--fs-3xl);
+        --fs-h2: var(--fs-lg);
+        --fs-h3: var(--fs-md);
     }
 }
 
-html,
+html {
+    font-size: 16px;
+}
+
 body {
     font-family: "Inter", sans-serif;
     font-size: var(--fs-body);
-    color: var(--clr-text-1);
+    color: var(--clr-text-2);
     line-height: var(--lh-body);
     font-weight: var(--fw-body);
 }
