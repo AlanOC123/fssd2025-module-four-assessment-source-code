@@ -4,15 +4,15 @@ from app.helper.classes.database.ProfileIdentityManager import ProfileIdentityMa
 from app.helper.classes.database.ProfileManager import ProfileManager
 from app.helper.classes.core.SessionManager import SessionManager
 from flask_login import current_user
-from . import bp
+from . import api_bp
 
 # TODO Get Active Identity
-@bp.post(rule="/get-identity", endpoint="get_identity")
+@api_bp.post(rule="/get-identity", endpoint="get_identity")
 def get_identity():
     return jsonify({}), 501
 
 # TODO Set New Identity
-@bp.post(rule="/set-identity", endpoint="set_identity")
+@api_bp.post(rule="/set-identity", endpoint="set_identity")
 def set_identity():
     if request.is_json:
         try:
@@ -74,6 +74,6 @@ def set_identity():
         return jsonify({"success": False, "message": f"Request must be JSON"}), 400
 
 # TODO Change Identity Name
-@bp.post(rule="/edit-identity", endpoint="edit_identity")
+@api_bp.post(rule="/edit-identity", endpoint="edit_identity")
 def edit_identity():
     return jsonify({}), 501

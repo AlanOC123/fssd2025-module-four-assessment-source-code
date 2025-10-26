@@ -1,15 +1,13 @@
-from .blueprints.projects import project_bp
-from .core.playground import test_route
-from .core.index import main_index_route
-from .core.settings import settings_route
-from .blueprints.auth import auth_bp
-from .blueprints.api import api_bp
+from .index import index_route
+from .auth import auth_bp_schema
+from .api import api_bp_schema
+from .main import app_bp_schema
+from .settings import settings_bp_schema
 
 ROUTES = [
-    project_bp,
-    auth_bp,
-    api_bp,
-    test_route,
-    main_index_route,
-    settings_route
+    index_route,
+    auth_bp_schema,
+    api_bp_schema,
+    app_bp_schema,
+    settings_bp_schema
 ]
