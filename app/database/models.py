@@ -3,8 +3,9 @@ from sqlalchemy import Boolean
 from typing import List
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime, timezone
+from flask_login import UserMixin
 
-class Profile(db.Model):
+class Profile(db.Model, UserMixin):
     __tablename__ = "profiles"
     id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
     first_name: Mapped[str] = mapped_column(db.String(50), nullable=False)

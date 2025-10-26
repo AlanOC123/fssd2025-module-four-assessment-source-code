@@ -1,9 +1,6 @@
 from flask import Flask
 from .config import config, DEFAULT
-from .helper.classes.routes.RouteInitialiser import RouteInitialiser
-from .helper.classes.routes.RouteValidator import RouteValidator
-from .helper.classes.core.SessionManager import SessionManager
-from .extensions import db, csrf
+from .extensions import db, csrf, login_manager
 from .seed.commands import register_commands
 from flask_migrate import Migrate
 
@@ -23,11 +20,30 @@ def create_app(config_key: str):
     # Connect DB to application instance and set up manager
     db.init_app(app)
     csrf.init_app(app)
+    login_manager.init_app(app)
+    from .helper.classes.routes.RouteInitialiser import RouteInitialiser
+    from .helper.classes.routes.RouteValidator import RouteValidator
+    from .helper.classes.core.SessionManager import SessionManager
+    from .helper.classes.core.AuthManager import AuthManager
+    from .helper.classes.database.ProfileManager import ProfileManager, PasswordManager
     from .helper.classes.database.DatabaseManager import DatabaseManager
 
     app.db_manager = DatabaseManager(app.config)
     app.session_manager = SessionManager()
+    auth_pw_manager = app.db_manager.profile.pw_manager or PasswordManager(app.config)
+    app.auth_manager = AuthManager(app.db_manager.profile, auth_pw_manager)
     migrate = Migrate(app, db)
+
+    @login_manager.user_loader
+    def load_user(profile_id: int):
+        db_res = app.db_manager.profile.get_profile_by_id(profile_id)
+
+        is_success = db_res.get("success", False)
+
+        if not is_success:
+            return None
+
+        return db_res.get("payload", {}).get("profile")
 
     @app.context_processor
     def inject_meta_data() -> dict:

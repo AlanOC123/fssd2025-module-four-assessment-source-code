@@ -7,7 +7,7 @@ header {
     grid-auto-flow: column;
     grid-auto-columns: auto;
     padding: var(--pad-sm);
-    gap: var(--sp-lg);
+    gap: var(--sp-md);
 }
 
 #identity {
@@ -22,11 +22,12 @@ header {
     transform: rotate(180deg);
 }
 
-header nav {
+#header-nav {
     grid-area: nav;
+    height: 100%;
 }
 
-header nav ul {
+#header-nav-list {
     position: relative;
     display: grid;
     grid-auto-flow: column;
@@ -35,7 +36,7 @@ header nav ul {
     justify-items: center;
 }
 
-header nav ul li {
+#header-nav-list li {
     display: flex;
 }
 
@@ -131,6 +132,10 @@ header nav ul li {
     gap: var(--sp-lg);
 }
 
+#curr-identity.card.card--identity-card {
+    justify-content: space-between;
+}
+
 #identity-list .card__text {
     display: flex;
     font-size: var(--fs-base);
@@ -143,37 +148,40 @@ header nav ul li {
 }
 
 @media (min-width: 425px) {
-        header {
+    .mobile-only {
+        display: none;
+    }
+
+    .collapseable {
+        display: flex;
+    }
+
+    header {
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: auto 1fr;
         grid-template-areas: "identity" "nav";
         grid-area: header;
         padding: var(--pad-sm);
-        gap: var(--sp-lg);
+        gap: var(--sp-base);
     }
 
-    header nav {
+    #header-nav {
         max-height: fit-content;
         background-color: var(--clr-neutral-2);
-        padding: var(--card-padding);
+        padding: var(--pad-base);
         border-radius: var(--brd-r-card);
     }
 
-    header nav ul {
+    #header-nav-list {
         position: relative;
         display: grid;
         grid-auto-flow: row;
         gap: var(--sp-base);
     }
 
-    header nav ul li {
+    #header-nav-list li {
         width: 100%;
-    }
-
-    #identity .identity-name {
-        display: inline-flex;
-        font-size: var(--fs-sm);
     }
 
     #toggle-identities {
@@ -186,7 +194,7 @@ header nav ul li {
         display: grid;
         grid-template-rows: auto 1fr;
         max-width: 0;
-        max-height: fit-content;
+        max-height: 50svh;
         height: fit-content;
         right: calc(var(--sp-xs) * -1);
         top: var(--sp-lg);
@@ -201,7 +209,8 @@ header nav ul li {
 
     #select-identity.show-all {
         position: absolute;
-        max-width: 100%;
+        width: max(100%, 40dvw);
+        max-width: 40dvw;
         padding: var(--section-padding);
         gap: var(--sp-md);
         border-radius: var(--brd-r-lg);
@@ -212,21 +221,21 @@ header nav ul li {
 }
 
 @media (min-width: 1024px) {
-        header {
+    header {
         display: grid;
         grid-template-rows: auto 1fr;
         grid-area: header;
         border-radius: var(--brd-r-card);
-        gap: var(--sp-md);
+        gap: var(--sp-sm);
     }
 
-    header nav ul {
+    #header-nav-list {
         width: 100%;
         display: grid;
         gap: var(--list-item-spacing);
     }
 
-        #identity {
+    #identity {
         position: relative;
         display: grid;
         grid-template-rows: auto 0fr;
@@ -240,6 +249,11 @@ header nav ul li {
 
     #identity .card.card--identity-card {
         padding: var(--pad-sm);
+    }
+
+    #identity .identity-name {
+        display: inline-flex;
+        font-size: var(--fs-sm);
     }
 
     #toggle-identities {
@@ -265,7 +279,7 @@ header nav ul li {
         width: 100%;
         left: 0;
         bottom: 0;
-        transform: translateY(100%);
+        transform: translateY(calc(100% + var(--sp-base)));
         z-index: 5;
         right: auto;
         top: auto;
@@ -277,6 +291,8 @@ header nav ul li {
     }
 
     #select-identity.show-all {
+        width: 100%;
+        max-width: 100%;
         max-height: 66dvh;
         overflow: hidden;
         border: var(--brd-sm);
@@ -286,7 +302,8 @@ header nav ul li {
     #identity-list {
         overflow-y: scroll;
         scroll-margin-block: var(--sp-lg);
-        padding-bottom: var(--sp-base);
+        padding-right: var(--pad-base);
+        padding-bottom: var(--pad-base);
     }
 
     #identity-list .card.card--identity-card {

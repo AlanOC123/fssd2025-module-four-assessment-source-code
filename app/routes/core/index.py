@@ -1,31 +1,23 @@
-from flask import Flask, render_template, redirect, url_for, current_app
+from flask import render_template, current_app, abort
+from flask_login import current_user, login_required
 from ..route_schemas import core_schema
+from app.helper.classes.database.ProfileIdentityManager import ProfileIdentityManager
 
+@login_required
 def index():
-    session_res = current_app.session_manager.get_logged_in()
+    identity_manager: ProfileIdentityManager = current_app.db_manager.profile_identity
+    identities = current_user.identities
+    active_identity = [identity for identity in identities if identity.is_active]
 
-    is_logged_in = session_res.get("success")
+    if not active_identity:
+        default_set_res = identity_manager.set_default_identity(current_user)
+        is_success = default_set_res.get("success")
 
-    if not is_logged_in:
-        return redirect(url_for('auth.sign_in'))
+        if not is_success:
+            return abort(500)
+        
+        active_identity = default_set_res.get("payload", {}).get("active_identity")
 
-    profile_id = session_res.get("payload").get("profile_id")
-
-    profile_res = current_app.db_manager.profile.get_profile_by_id(profile_id)
-    success = profile_res.get("success")
-
-    print(profile_res)
-
-    if not success:
-        return redirect(url_for('auth.sign_in'))
-    
-    profile = profile_res.get("payload").get("profile")
-
-    identities = profile.identities
-    active_identity = list(filter(lambda identity: identity.is_active, identities))[0]
-
-    print(active_identity)
-
-    return render_template("pages/core/index.html", identities=identities, active_identity=active_identity)
+    return render_template("pages/core/index.html", identities=identities, active_identity=active_identity[0])
 
 main_index_route = core_schema(rule="/", endpoint="index", methods=["GET"], view_func=index)

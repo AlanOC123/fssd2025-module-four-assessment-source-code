@@ -5,4 +5,4 @@ bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 auth_bp = blueprint_schema(bp)
 
-from .routes import sign_in, register
+from .routes import login, register, logout

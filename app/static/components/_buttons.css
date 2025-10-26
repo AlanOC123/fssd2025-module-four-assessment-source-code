@@ -38,6 +38,7 @@
 .btn--primary {
     background-color: var(--clr-primary-1);
     color: var(--clr-text-on-primary);
+    border: var(--brd-sm);
     border-color: var(--clr-primary-1);
     font-weight: var(--fw-button-primary);
     border-radius: var(--brd-r-button-primary);

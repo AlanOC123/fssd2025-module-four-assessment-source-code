@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 # Load environment variables
 load_dotenv()
@@ -18,6 +19,7 @@ class DefaultConfig():
     PASSWORD_MAX_LENGTH = 128
     PASSWORD_CONTAINS_SYMBOL = True
     PASSWORD_CONTAINS_CAP = True
+    REMEMBER_COOKIE_DURATION = timedelta(days=30)
 
 class ProductionConfig(DefaultConfig):
     # 1. Load Database Configuration

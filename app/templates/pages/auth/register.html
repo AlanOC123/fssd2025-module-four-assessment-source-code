@@ -9,35 +9,64 @@
 
 {% block form_section %}
     <div class="form-input-group">
-        <label class="form-label" for="first-name">First Name</label>
-        <input type="text" class="form-input" placeholder="John" required>
-        <span class="error-msg">{% block first_name_error %}{% endblock %}</span>
+        {{ form.first_name.label(class="form-label") }}
+        {{ form.first_name(class="form-input", placeholder="John") }}
+        {% if form.first_name.errors %}
+            {% for error in form.first_name.errors %}
+                <span class="error-msg">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
     </div>
     <div class="form-input-group">
-        <label class="form-label" for="last-name">Last Name</label>
-        <input type="password" class="form-input" placeholder="Doe" required>
-        <span class="error-msg">{% block surname_error %}{% endblock %}</span>
+        {{ form.last_name.label(class="form-label") }}
+        {{ form.last_name(class="form-input", placeholder="Doe") }}
+        {% if form.last_name.errors %}
+            {% for error in form.last_name.errors %}
+                <span class="error-msg">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
     </div>
     <div class="form-input-group">
-        <label class="form-label" for="dob">Date of Birth</label>
-        <input type="date" class="form-input" placeholder="dd/mm/yyyy" required>
-        <span class="error-msg">{% block dob_error %}{% endblock %}</span>
+        {{ form.dob.label(class="form-label") }}
+        {{ form.dob(class="form-input", placeholder="dd/mm/yyyy") }}
+        {% if form.dob.errors %}
+            {% for error in form.dob.errors %}
+                <span class="error-msg">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
     </div>
     <div class="form-input-group">
-        <label class="form-label" for="email">Email</label>
-        <input type="email" class="form-input" placeholder="example@example.com" required>
-        <span class="error-msg">{% block email_error %}{% endblock %}</span>
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-input", placeholder="example@example.com") }}
+        {% if form.email.errors %}
+            {% for error in form.email.errors %}
+                <span class="error-msg">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
     </div>
     <div class="form-input-group">
-        <label class="form-label" for="password">Password</label>
-        <input type="password" class="form-input" placeholder="********" required>
-        <span class="error-msg">{% block password_error %}{% endblock %}</span>
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-input", placeholder="********") }}
+        {% if form.password.errors %}
+            {% for error in form.password.errors %}
+                <span class="error-msg">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="form-input-group">
+        {{ form.confirm_password.label(class="form-label") }}
+        {{ form.confirm_password(class="form-input", placeholder="********") }}
+        {% if form.confirm_password.errors %}
+            {% for error in form.confirm_password.errors %}
+                <span class="error-msg">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}
 
 {% block form_action %}{{ url_for('auth.register') }}{% endblock %}
 
 {% block form_footer %}
-    <button type="submit" class="btn btn--primary">Register</button>
-    <a href="{{ url_for('auth.sign_in') }}" class="btn btn--tertiary">Log In</a>
+    {{ form.submit(class="btn btn--primary") }}
+    <a href="{{ url_for('auth.login') }}" class="btn btn--tertiary">Log In</a>
 {% endblock %}

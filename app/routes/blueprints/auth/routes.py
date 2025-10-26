@@ -1,71 +1,96 @@
-from flask import render_template, redirect, request, url_for, current_app, flash
+from flask import render_template, redirect, url_for, current_app, flash
 from . import bp
-from datetime import datetime
+from .forms import LoginForm, RegisterForm
 from app.helper.classes.database.DatabaseManager import DatabaseManager
+from app.helper.classes.database.ProfileManager import ProfileManager
+from app.helper.classes.database.ProfileIdentityManager import ProfileIdentityManager
 from app.helper.classes.core.SessionManager import SessionManager
+from app.helper.classes.core.AuthManager import AuthManager
+from app.database.models import Profile
+from flask_login import current_user
 
-@bp.route(rule="/sign-in", endpoint="sign_in", methods=["GET", "POST"])
-def sign_in():
-    method = request.method;
-    db_manager: DatabaseManager = current_app.db_manager
-    session_manager: SessionManager = current_app.session_manager
-    print("Signing In...")
-
-    if method == "POST":
-        email = request.form.get("email")
-        password = request.form.get("password")
-
-        sign_in_attempt = db_manager.profile.check_sign_in(**{ "email": email, "password": password })
-
-        if not sign_in_attempt.get("success"):
-            flash(message=sign_in_attempt.get("msg", ""), category='success')
-            return render_template('pages/auth/sign-in.html', pg_name="sign_in")
-
-        session_res = session_manager.login(sign_in_attempt.get("payload", {}).get("profile_id", 0))
-
-        if not session_res.get("success"):
-            flash(message=session_res.get("msg", ""), category='error')
-            render_template('pages/auth/sign-in.html', pg_name="sign_in")
-
-        flash(message=sign_in_attempt.get("msg", ""), category='success')
-        return redirect(url_for("index"))
+@bp.route(rule="/login", endpoint="login", methods=["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     
-    is_logged_in = session_manager.get_logged_in().get("success")
-    if is_logged_in: return redirect(url_for('index'))
+    form = LoginForm()
 
-    return render_template('pages/auth/sign-in.html', pg_name="sign_in")
+    if form.validate_on_submit():
+        auth_manager: AuthManager = current_app.auth_manager
+        auth_res: dict = auth_manager.login(
+            form.email.data,
+            form.password.data,
+            form.remember_me.data
+        )
+
+        is_success = auth_res.get("success", False)
+
+        if is_success:
+            active_identity = None
+            profile: Profile = auth_res.get("payload", {}).get("profile")
+            profile_identity_manager: ProfileIdentityManager = current_app.db_manager.profile_identity
+            session_manager: SessionManager = current_app.session_manager
+
+            profile_identity_res = profile_identity_manager.get_active_identity(profile)
+            is_success = profile_identity_res.get("success")
+
+            if not is_success:
+                profile_identity_res = profile_identity_manager.set_default_identity(profile)
+            
+            active_identity = profile_identity_res.get("payload", {}).get("active_identity")
+
+            print(active_identity)
+            
+            session_manager.set_identity(active_identity.id)
+
+            flash(message=auth_res.get("msg", ""), category="success")
+            return redirect(url_for('index'))
+
+        if not is_success:
+            flash(message=auth_res.get("msg", ""), category="error")
+    
+    return render_template('pages/auth/login.html', form=form, pg_name="Log In")
 
 @bp.route(rule="/register", endpoint="register", methods=["POST", "GET"])
 def register():
-    db_manager: DatabaseManager = current_app.db_manager
-    session_manager: SessionManager = current_app.session_manager
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    
+    form = RegisterForm()
 
-    session_manager.logout()
-    method = request.method
+    if form.validate_on_submit():
+        profile_manager: ProfileManager = current_app.db_manager.profile
 
-    if method == "POST":
-        first_name = request.form.get("first-name")
-        surname = request.form.get("surname")
-        date_of_birth = request.form.get("dob")
-        email = request.form.get("email", None)
-        password = request.form.get("password", None)
-
-        profile_raw = {
-            "first_name": first_name,
-            "surname": surname,
-            "date_of_birth": date_of_birth,
-            "email": email,
-            "password": password,
-            "theme_name": "Default"
+        profile_data = {
+            "first_name": form.first_name.data,
+            "last_name": form.last_name.data,
+            "date_of_birth": form.dob.data,
+            "email": form.email.data,
+            "password": form.password.data,
         }
 
-        db_res = db_manager.profile.create_profile(**profile_raw)
+        profile_res: dict = profile_manager.create_profile(**profile_data)
 
-        if not db_res.get("success"):
-            flash(message=db_res.get("msg", ""), category='error')
-            return render_template('pages/auth/register.html', pg_name='register')
+        is_success = profile_res.get("success", False)
 
-        flash(message="User created successfully", category='success')
-        return redirect(url_for('auth.sign_in'))
+        if is_success:
+            flash(message=profile_res.get("msg", ""))
+            return redirect(url_for('auth.login'))
 
-    return render_template('pages/auth/register.html', pg_name='register')
+        if not is_success:
+            flash(message=profile_res.get("msg", ""))
+    
+    return render_template('pages/auth/register.html', form=form)
+
+@bp.get(rule="/logout", endpoint="logout")
+def logout():
+    auth_manager:AuthManager = current_app.auth_manager
+    session_manager: SessionManager = current_app.session_manager
+
+    session_manager.clear_session()
+    auth_manager.logout()
+
+    flash(message="Logged Out...", category="info")
+
+    return redirect(url_for("auth.login"))

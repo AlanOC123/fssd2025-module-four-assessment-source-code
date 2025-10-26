@@ -154,7 +154,7 @@
         --card-padding-block: var(--pad-md);
         --card-padding-inline: var(--pad-base);
         --button-padding-block: var(--pad-sm);
-        --button-padding-inline: var(--pad-md);
+        --button-padding-inline: var(--pad-sm);
         --input-padding-block: var(--pad-lg);
         --input-padding-inline: var(--pad-md);
         --icon-padding-block: var(--pad-sm);
@@ -190,8 +190,8 @@
         --section-padding-inline: var(--pad-xl);
         --card-padding-block: var(--pad-lg);
         --card-padding-inline: var(--pad-md);
-        --button-padding-block: var(--pad-md);
-        --button-padding-inline: var(--pad-base);
+        --button-padding-block: var(--pad-base);
+        --button-padding-inline: var(--pad-sm);
         --input-padding-block: var(--pad-xs);
         --input-padding-inline: var(--pad-sm);
         --icon-padding-block: var(--pad-xs);

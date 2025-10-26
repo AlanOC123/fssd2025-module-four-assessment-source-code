@@ -32,19 +32,19 @@ footer.expanded .btn {
     width: 100%;
 }
 
-footer.expanded nav ul {
+footer.expanded #footer-nav-list {
     display: grid;
     grid-auto-flow: row;
     gap: var(--sp-lg);
 }
 
-footer.expanded nav ul li {
+footer.expanded #footer-nav-list li {
     width: 100%;
     display: flex;
 }
 
 @media (min-width: 425px) {
-        footer {
+    footer {
         pointer-events: all;
         position: static;
         grid-area: footer;
@@ -59,23 +59,32 @@ footer.expanded nav ul li {
         transition: height var(--trans-default), padding var(--trans-default), border var(--trans-default),opacity var(--trans-default);
     }
 
-    footer nav {
+    #footer-nav {
         border-radius: var(--brd-r-card);
         background-color: var(--clr-neutral-2);
         padding: var(--card-padding);
     }
 
-    footer nav ul {
+    #footer-nav-list {
         display: grid;
-        gap: var(--sp-md);
+        gap: var(--sp-sm);
     }
 
-    footer nav ul li {
+    #footer-nav-list li {
         width: 100%;
         display: flex;
     }
 }
 
-@media (min-width: 425px) {
-    
+@media (min-width: 1024px) {
+    #footer-nav-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        justify-items: start;
+        align-items: center;
+    }
+
+    #footer-nav-list .btn {
+        font-size: var(--fs-sm);
+    }
 }
