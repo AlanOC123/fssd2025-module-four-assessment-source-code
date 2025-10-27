@@ -98,9 +98,3 @@ const domController = () => {
 }
 
 domController().bindEvents();
-
-const openIdentitiesBtn = document.getElementById("toggle-identities");
-const closeIdentitiesBtn = document.getElementById("close-identities");
-const mobileOptionsBtn = document.getElementById("show-mobile-options");
-const openFooterBtn = document.getElementById("open-footer");
-const closeFooterBtn = document.getElementById("close-footer");

@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, current_app, flash
-from . import bp
+from . import auth_bp
 from .forms import LoginForm, RegisterForm
 from app.helper.classes.database.DatabaseManager import DatabaseManager
 from app.helper.classes.database.ProfileManager import ProfileManager
@@ -9,7 +9,7 @@ from app.helper.classes.core.AuthManager import AuthManager
 from app.database.models import Profile
 from flask_login import current_user
 
-@bp.route(rule="/login", endpoint="login", methods=["GET", "POST"])
+@auth_bp.route(rule="/login", endpoint="login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -52,7 +52,7 @@ def login():
     
     return render_template('pages/auth/login.html', form=form, pg_name="Log In")
 
-@bp.route(rule="/register", endpoint="register", methods=["POST", "GET"])
+@auth_bp.route(rule="/register", endpoint="register", methods=["POST", "GET"])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -83,7 +83,7 @@ def register():
     
     return render_template('pages/auth/register.html', form=form)
 
-@bp.get(rule="/logout", endpoint="logout")
+@auth_bp.get(rule="/logout", endpoint="logout")
 def logout():
     auth_manager:AuthManager = current_app.auth_manager
     session_manager: SessionManager = current_app.session_manager

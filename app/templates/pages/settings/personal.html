@@ -1,0 +1,49 @@
+{% extends 'pages/settings/base.html' %}
+
+{% block substyles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages/settings/styles/personal.css') }}">
+{% endblock %}
+
+{% block subscripts %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages/core/scripts/settings.js') }}">
+{% endblock %}
+
+{% block content %}
+    {% from 'components/_buttons.html' import button %}
+    <div id="personal-settings">
+        <h3>Personal</h3>
+        <form action="{{ url_for('settings.personal') }}" class="form-container" method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="form-input-group">
+                {{ form.first_name.label(class="form-label") }}
+                {{ form.first_name(class="form-input") }}
+                {% if form.first_name.errors %}
+                    {% for error in form.first_name.errors %}
+                        <span class="error-msg">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-input-group">
+                {{ form.surname.label(class="form-label") }}
+                {{ form.surname(class="form-input") }}
+                {% if form.surname.errors %}
+                    {% for error in form.surname.errors %}
+                        <span class="error-msg">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-input-group">
+                {{ form.date_of_birth.label(class="form-label") }}
+                {{ form.date_of_birth(class="form-input") }}
+                {% if form.date_of_birth.errors %}
+                    {% for error in form.date_of_birth.errors %}
+                        <span class="error-msg">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {{ form.submit(class="btn btn--primary") }}
+        </form>
+    </div>
+{% endblock %}
+
+{% block page_name %}Personal{% endblock %}

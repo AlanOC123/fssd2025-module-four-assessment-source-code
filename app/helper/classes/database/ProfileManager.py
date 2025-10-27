@@ -244,3 +244,19 @@ class ProfileManager(BaseManager):
 
         # Return a successful login
         return success_res(payload={ "profile_id": profile.id }, msg="Sign in successful...")
+    
+    def update_profile(self, profile,  **profile_data):
+        if not profile:
+            return error_res("No profile given.")
+        
+        for key, value in profile_data.items():
+            if hasattr(profile, key):
+                setattr(profile, key, value)
+        
+        try:
+            self._session.add(profile)
+            self._session.commit()
+            return success_res(payload={}, msg="Settings saved!")
+        except Exception as e:
+            self._session.rollback()
+            return error_res(f"Error updating profile. Error: {e}")

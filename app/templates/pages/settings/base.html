@@ -1,1 +1,33 @@
 {% extends "base.html" %}
+
+{% block scripts %}
+    {% block subscripts %}{% endblock %}
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='pages/settings/styles/base.css') }}">
+    {% block substyles %}{% endblock %}
+{% endblock %}
+
+{% block body %}
+    {% from 'components/_buttons.html' import button %}
+    <div class="main-grid" id="settings">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                    {% from 'components/_flash.html' import flash_message %}
+                        {{ flash_message(msg=message, category=category) }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <header id="settings-header">
+            {{ button(text="Back", icon_name="arrow_back", variant="secondary", href=url_for('app.home'), id="return-to-app") }}
+                <h2 id="blueprint-header">Settings</h2>
+        </header>
+        <section class="grid-col" id="content">
+            {% block content %}{% endblock %}
+        </section>
+    </div>
+{% endblock %}

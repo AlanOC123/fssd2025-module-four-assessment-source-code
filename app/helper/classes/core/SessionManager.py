@@ -12,5 +12,8 @@ class SessionManager:
         success = session[self._SESSION_IDENTITY_KEY] == identity_id
         return success_res(payload={ "identity_id": identity_id }, msg="Identity set") if success else error_res(msg="Error setting identity")
     
+    def get_identity(self):
+        return session[self._SESSION_IDENTITY_KEY]
+    
     def clear_session(self):
         session.clear()

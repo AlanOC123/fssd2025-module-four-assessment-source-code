@@ -1,0 +1,107 @@
+#settings {
+    justify-content: center;
+    align-content: center;
+}
+
+#content {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: space-evenly;
+    padding: var(--pad-base);
+    gap: var(--sp-lg);
+    overflow: auto;
+}
+
+.settings-container {
+    width: 100%;
+    background-color: var(--clr-neutral-2);
+    padding: var(--card-padding);
+    border-radius: var(--brd-r-lg);
+    box-shadow: var(--shadow-md);
+
+    display: grid;
+    grid-auto-flow: row;
+    position: relative;
+    gap: var(--sp-2xl);
+    height: 100%;
+}
+
+.settings-container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settings-options-container {
+    display: grid;
+    grid-auto-flow: row;
+    gap: var(--sp-lg);
+}
+
+.setting-value-container {
+    display: flex;
+    justify-content: start;
+    gap: var(--sp-3xl);
+}
+
+.setting-label {
+    flex: 0 0 33%;
+    color: var(--clr-text-3);
+    font-weight: var(--fw-h3);
+    padding: var(--pad-sm);
+    display: flex;
+    justify-content: center;
+    font-size: var(--fs-sm);
+}
+
+.setting-value {
+    font-size: var(--fs-sm);
+    flex: 1;
+    font-weight: var(--fw-label);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background-color: var(--clr-neutral-3);
+    padding: var(--pad-sm);
+    border-radius: var(--brd-r-md);
+}
+
+.theme-value {
+    justify-content: center;
+    align-items: center;
+}
+
+.setting-button-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#edit-personal-settings {
+    border: var(--brd-sm);
+    border-color: var(--clr-neutral-3);
+}
+
+@media (min-width: 425px) {
+    .settings-container {
+        gap: var(--sp-lg);
+    }
+
+    .settings-options-container {
+        gap: var(--sp-md);
+    }
+}
+
+@media (min-width: 1024px) {
+    #content {
+        gap: var(--sp-base);
+    }
+    .settings-container {
+        gap: var(--sp-md);
+    }
+
+    .settings-options-container {
+        gap: var(--sp-base);
+    }
+}

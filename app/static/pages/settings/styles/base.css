@@ -1,0 +1,25 @@
+#settings {
+    grid-template-rows: auto 1fr;
+    gap: var(--sp-3xl);
+}
+
+#content {
+    grid-column: 1 / -1;
+}
+
+#settings-header {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: var(--sp-3xl);
+    padding: var(--section-padding);
+}
+
+#blueprint-header {
+    grid-area: header-l;
+}
+
+#return-to-home {
+    grid-area: button;
+}

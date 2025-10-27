@@ -105,8 +105,8 @@
     --section-padding-inline: var(--pad-md);
     --card-padding-block: var(--pad-md);
     --card-padding-inline: var(--pad-base);
-    --button-padding-block: var(--pad-md);
-    --button-padding-inline: var(--pad-md);
+    --button-padding-block: var(--pad-sm);
+    --button-padding-inline: var(--pad-sm);
     --input-padding-block: var(--pad-md);
     --input-padding-inline: var(--pad-base);
     --icon-padding-block: var(--pad-sm);

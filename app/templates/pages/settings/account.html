@@ -1,0 +1,53 @@
+{% extends 'pages/settings/base.html' %}
+
+{% block substyles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages/settings/styles/account.css') }}">
+{% endblock %}
+
+{% block subscripts %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages/core/scripts/settings.js') }}">
+{% endblock %}
+
+{% block content %}
+    {% from 'components/_buttons.html' import button %}
+    <div id="account-settings" class="settings-controls-container">
+        <div class="other-settings">
+            <h3>Account</h3>
+            {{ button(text="Account Controls", variant="ghost", icon_name="menu", id='show-account-controls') }}
+            <nav id="account-settings-nav">
+                <ul>
+                    <li>
+                        {{ button(text="Delete Account", icon_name="delete", variant="primary", id="delete-account") }}
+                    </li>
+                    <li>
+                        {{ button(text="Update Password", icon_name="key", variant="secondary", id="update-password") }}
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <form action="{{ url_for('settings.account') }}" class="form-container" method="POST" novalidate>
+            {{ email_form.hidden_tag() }}
+            <div class="form-input-group">
+                {{ email_form.email.label(class="form-label") }}
+                {{ email_form.email(class="form-input") }}
+                {% if email_form.email.errors %}
+                    {% for error in email_form.email.errors %}
+                        <span class="error-msg">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-input-group">
+                {{ email_form.current_password.label(class="form-label") }}
+                {{ email_form.current_password(class="form-input") }}
+                {% if email_form.current_password.errors %}
+                    {% for error in email_form.current_password.errors %}
+                        <span class="error-msg">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {{ email_form.submit(class="btn btn--primary") }}
+        </form>
+    </div>
+{% endblock %}
+
+{% block page_name %}Account{% endblock %}

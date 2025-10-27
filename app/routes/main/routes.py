@@ -1,11 +1,15 @@
 from flask import render_template, redirect, url_for, current_app, flash
 from . import app_bp
 from flask_login import current_user, login_required
+from .helpers import get_identities
 
 @app_bp.get(rule="/home", endpoint="home")
 @login_required
 def home():
-    return render_template('pages/main/home.html')
+    identities = get_identities(current_user)
+    all_identities = identities.get("all")
+    active_identity = identities.get("active")
+    return render_template('pages/main/home.html', active_identity=active_identity, identities=all_identities)
 
 @app_bp.get(rule="/projects", endpoint="projects")
 @login_required

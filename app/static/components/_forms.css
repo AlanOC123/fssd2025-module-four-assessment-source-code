@@ -157,7 +157,7 @@
 
 .error-msg {
     color: var(--clr-danger-3);
-    background-color: var(--clr-danger-1);
+    background-color: var(--clr-danger-1-20);
     border: var(--brd-sm);
     border-color: var(--clr-danger-2);
     font-size: var(--fs-base);
@@ -168,7 +168,6 @@
 @media (min-width: 425px) {
     .error-msg {
         color: var(--clr-danger-3);
-        background-color: var(--clr-danger-1);
         border: var(--brd-sm);
         border-color: var(--clr-danger-2);
         font-size: var(--fs-sm);
@@ -179,12 +178,6 @@
 
 @media (min-width: 1024px) {
     .error-msg {
-        color: var(--clr-danger-3);
-        background-color: var(--clr-danger-1);
-        border: var(--brd-sm);
-        border-color: var(--clr-danger-2);
         font-size: var(--fs-xs);
-        border-radius: var(--brd-r-md);
-        padding: var(--pad-xs);
     }
 }

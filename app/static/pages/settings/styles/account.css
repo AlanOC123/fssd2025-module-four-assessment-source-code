@@ -1,0 +1,53 @@
+.settings-controls-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    padding: var(--section-padding);
+    gap: var(--sp-xl);
+}
+
+.other-settings {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+#account-settings-nav {
+    display: grid;
+    grid-template-rows: 0fr;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translateY(calc(100% + var(--sp-xs)));
+    z-index: 100;
+    opacity: 1;
+    overflow: hidden;
+    background-color: var(--clr-neutral-1-80);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(12px);
+    border-radius: var(--brd-r-md);
+    transition: padding var(--trans-default), opacity var(--trans-default), grid var(--trans-default);
+}
+
+#account-settings-nav.shown {
+    grid-template-rows: 1fr;
+    border: var(--brd-sm);
+    border-color: var(--clr-neutral-3);
+    padding: var(--pad-sm);
+    opacity: 1;
+}
+
+.other-settings-nav ul {
+    display: grid;
+    grid-auto-flow: row;
+    gap: var(--sp-sm);
+    overflow: hidden;
+}
+
+.other-settings-nav ul li {
+    display: flex;
+    width: 100%;
+}
+
+.other-settings-nav ul li .btn {
+    width: 100%;
+}
