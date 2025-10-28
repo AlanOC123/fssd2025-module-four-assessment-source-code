@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block subscripts %}
-<link rel="stylesheet" href="{{ url_for('static', filename='pages/core/scripts/settings.js') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='pages/core/scripts/personal.js') }}">
 {% endblock %}
 
 {% block content %}
     {% from 'components/_buttons.html' import button %}
-    <div id="personal-settings">
+    <div id="personal-settings" class="settings-controls-container">
         <h3>Personal</h3>
         <form action="{{ url_for('settings.personal') }}" class="form-container" method="POST" novalidate>
             {{ form.hidden_tag() }}

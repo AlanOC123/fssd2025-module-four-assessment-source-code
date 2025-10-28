@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, PasswordField, BooleanField, SubmitField, DateField
-from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
+from app.helper.classes.database.ProfileManager import ProfileManager
+from flask import current_app
 
 class LoginForm(FlaskForm):
     email = EmailField(
@@ -49,7 +51,7 @@ class RegisterForm(FlaskForm):
         ]
     )
 
-    last_name = StringField(
+    surname = StringField(
         "Last Name",
         validators=[
             DataRequired("Please enter your last name...")
@@ -81,7 +83,7 @@ class RegisterForm(FlaskForm):
     confirm_password = PasswordField(
         "Confirm Password",
         validators=[
-            DataRequired(message="Please enter your password..."),
+            DataRequired(message="Please confirm your password..."),
             EqualTo("password", message="Passwords don't match...")
         ]
     )
@@ -102,14 +104,41 @@ class RegisterForm(FlaskForm):
 
         msg = f"Password must be between {min_pw} and {max_pw} characters long..."
 
+        self.password_validators = list(self.password.validators)
         self.password.validators.append(
             Length(min=min_pw, max=max_pw, message=msg)
         )
-
+        
+        self.confirm_password_validators = list(self.confirm_password.validators)
         self.confirm_password.validators.append(
             Length(min=min_pw, max=max_pw, message=msg)
         )
 
+        self.email_validators = list(self.email.validators)
         self.email.validators.append(
             Email("Please enter a valid email...", check_deliverability=check_email),
         )
+    
+    def validate_password(self, field):
+        attempted_password = field.data
+
+        profile_manager: ProfileManager = current_app.db_manager.profile
+        pw_validator = profile_manager.pw_manager
+        
+        attempted_password = field.data
+
+        if not pw_validator.check_cap(attempted_password):
+            raise ValidationError("New password must include a capital letter.")
+
+        if not pw_validator.check_complexity(attempted_password):
+            raise ValidationError("New password must include a symbol.")
+        
+    def validate_email(self, field):
+        email = field.data.strip()
+
+        profile_manager: ProfileManager = current_app.db_manager.profile
+
+        is_duplicate = profile_manager.get_profile_by_email(email=email).get("success", True)
+
+        if is_duplicate:
+            raise ValidationError("Invalid email address...")

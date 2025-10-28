@@ -64,10 +64,12 @@ def register():
 
         profile_data = {
             "first_name": form.first_name.data,
-            "last_name": form.last_name.data,
+            "surname": form.surname.data,
             "date_of_birth": form.dob.data,
             "email": form.email.data,
             "password": form.password.data,
+            "theme_name": "Default",
+            "stay_logged_in": False
         }
 
         profile_res: dict = profile_manager.create_profile(**profile_data)
@@ -75,12 +77,13 @@ def register():
         is_success = profile_res.get("success", False)
 
         if is_success:
-            flash(message=profile_res.get("msg", ""))
+            flash(message=profile_res.get("msg", ""), category="success")
             return redirect(url_for('auth.login'))
 
         if not is_success:
-            flash(message=profile_res.get("msg", ""))
-    
+            print(profile_res.get("msg", ""))
+            flash(message=profile_res.get("msg", ""), category="error")
+
     return render_template('pages/auth/register.html', form=form)
 
 @auth_bp.get(rule="/logout", endpoint="logout")

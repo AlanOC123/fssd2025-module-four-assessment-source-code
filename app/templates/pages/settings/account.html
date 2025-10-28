@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block subscripts %}
-<link rel="stylesheet" href="{{ url_for('static', filename='pages/core/scripts/settings.js') }}">
+<script src="{{ url_for('static', filename='pages/settings/scripts/account.js') }}" type="module"></script>
 {% endblock %}
 
 {% block content %}
@@ -17,10 +17,10 @@
             <nav id="account-settings-nav">
                 <ul>
                     <li>
-                        {{ button(text="Delete Account", icon_name="delete", variant="primary", id="delete-account") }}
+                        {{ button(text="Delete Account", icon_name="delete", variant="primary", id="open-account-deletion") }}
                     </li>
                     <li>
-                        {{ button(text="Update Password", icon_name="key", variant="secondary", id="update-password") }}
+                        {{ button(text="Update Password", icon_name="key", variant="tertiary", id="open-update-password") }}
                     </li>
                 </ul>
             </nav>
@@ -37,16 +37,81 @@
                 {% endif %}
             </div>
             <div class="form-input-group">
-                {{ email_form.current_password.label(class="form-label") }}
-                {{ email_form.current_password(class="form-input") }}
-                {% if email_form.current_password.errors %}
-                    {% for error in email_form.current_password.errors %}
+                {{ email_form.current_password_for_email.label(class="form-label") }}
+                {{ email_form.current_password_for_email(class="form-input") }}
+                {% if email_form.current_password_for_email.errors %}
+                    {% for error in email_form.current_password_for_email.errors %}
                         <span class="error-msg">{{ error }}</span>
                     {% endfor %}
                 {% endif %}
             </div>
-            {{ email_form.submit(class="btn btn--primary") }}
+            {{ email_form.submit_email_change(class="btn btn--primary") }}
         </form>
+        <div class="hidden-form-container {% if change_password_open %}shown{% endif %}" id="update-password" >
+            <form action="{{ url_for('settings.account') }}" class="form-container" method="POST" novalidate>
+                {{ update_password_form.hidden_tag() }}
+                <div class="hidden-container-header">
+                    <h3>Change Password</h3>
+                    {{ button(variant="ghost", class="btn--icon-only btn--cancel", icon_name="cancel", id="close-update-password") }}
+                </div>
+                <div class="form-input-group">
+                    {{ update_password_form.current_password.label(class="form-label") }}
+                    {{ update_password_form.current_password(class="form-input") }}
+                    {% if update_password_form.current_password.errors %}
+                        {% for error in update_password_form.current_password.errors %}
+                            <span class="error-msg">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-input-group">
+                    {{ update_password_form.new_password.label(class="form-label") }}
+                    {{ update_password_form.new_password(class="form-input") }}
+                    {% if update_password_form.new_password.errors %}
+                        {% for error in update_password_form.new_password.errors %}
+                            <span class="error-msg">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-input-group">
+                    {{ update_password_form.confirm_password.label(class="form-label") }}
+                    {{ update_password_form.confirm_password(class="form-input") }}
+                    {% if update_password_form.confirm_password.errors %}
+                        {% for error in update_password_form.confirm_password.errors %}
+                            <span class="error-msg">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {{ update_password_form.submit_password_change(class="btn btn--primary") }}
+            </form>
+        </div>
+        <div class="hidden-form-container {% if account_deletion_open %}shown{% endif %}" id="delete-account" >
+            <form action="{{ url_for('settings.account') }}" class="form-container" method="POST" novalidate>
+                {{ delete_account_form.hidden_tag() }}
+                <div class="hidden-container-header">
+                    <h3>Delete Account</h3>
+                    {{ button(variant="ghost", class="btn--icon-only btn--cancel", icon_name="cancel", id="close-account-deletion") }}
+                </div>
+                <div class="form-input-group">
+                    {{ delete_account_form.deletion_confirmation_message.label(class="form-label") }}
+                    {{ delete_account_form.deletion_confirmation_message(class="form-input") }}
+                    {% if delete_account_form.deletion_confirmation_message.errors %}
+                        {% for error in delete_account_form.deletion_confirmation_message.errors %}
+                            <span class="error-msg">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-input-group">
+                    {{ delete_account_form.password_for_confirmation_deletion.label(class="form-label") }}
+                    {{ delete_account_form.password_for_confirmation_deletion(class="form-input") }}
+                    {% if delete_account_form.password_for_confirmation_deletion.errors %}
+                        {% for error in delete_account_form.password_for_confirmation_deletion.errors %}
+                            <span class="error-msg">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {{ delete_account_form.submit_deletion_request(class="btn btn--primary") }}
+            </form>
+        </div>
     </div>
 {% endblock %}
 

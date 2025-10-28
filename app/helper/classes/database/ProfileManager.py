@@ -62,7 +62,9 @@ class ProfileManager(BaseManager):
         # Extract Core Data and Basic Sanitisation
         first_name = profile_data.get("first_name", "").strip()
         surname = profile_data.get("surname", "").strip()
-        dob_str = profile_data.get("date_of_birth", "").strip()
+        dob_str = profile_data.get("date_of_birth", "")
+        if isinstance(dob_str, str):
+            dob_str = dob_str.strip()
         email = profile_data.get("email", "").strip()
         password = profile_data.get("password", "")
 
@@ -83,7 +85,9 @@ class ProfileManager(BaseManager):
 
         # Validate Date Format
         try:
-            datetime.strptime(dob_str, "%Y-%m-%d").date()
+            print(dob_str)
+            if isinstance(dob_str, str):
+                datetime.strptime(dob_str, "%Y-%m-%d").date()
         except ValueError as e:
             return error_res(f"Error parsing date. Ensure it is in the format YYYY-MM-DD. Date: {dob_str}")
 
@@ -95,12 +99,18 @@ class ProfileManager(BaseManager):
             return error_res(f"Password must contain a symbol like @, !, $, etc.")
 
         # Transform Data
+        if isinstance(dob_str, str):
+            try:
+                datetime.strptime(dob_str, "%Y-%m-%d").date()
+            except ValueError as e:
+                return error_res(f"Error parsing date. Ensure it is in the format YYYY-MM-DD. Date: {dob_str}")
+
         try:
             # Submit Required Data and Preserve Optional
             sanitised_data = {
                 "first_name": first_name.capitalize(),
                 "surname": surname,
-                "date_of_birth": datetime.strptime(dob_str, "%Y-%m-%d").date(),
+                "date_of_birth": dob_str,
                 "email" : email,
                 "password": self.pw_manager.hashpw(password.strip()).decode("utf-8"),
             }
@@ -151,6 +161,7 @@ class ProfileManager(BaseManager):
             # Get The Theme ID
             theme_name = sanitised_data.get("theme_name", "Default")
             theme_res = self._db_manager.theme.get_by_name(theme_name)
+            print(theme_name)
 
             # Check for failure
             if not theme_res.get("success"):
@@ -260,3 +271,47 @@ class ProfileManager(BaseManager):
         except Exception as e:
             self._session.rollback()
             return error_res(f"Error updating profile. Error: {e}")
+        
+    def change_password(self, profile, new_password):
+        if not profile:
+            return error_res("No profile given.")
+        
+        if not new_password:
+            return error_res("No password given.")
+
+        # Validate Password
+        if not self.pw_manager.check_len(new_password): 
+            return error_res(f"Password must be between {self.pw_manager.min_pw_length} and {self.pw_manager.max_pw_length} characters in length.")
+        if not self.pw_manager.check_cap(new_password): return error_res(f"Password must contain a capital letter.")
+        if not self.pw_manager.check_complexity(new_password): 
+            return error_res(f"Password must contain a symbol like @, !, $, etc.")
+
+        try:
+            profile.password = self.pw_manager.hashpw(new_password).decode('utf-8')
+            self._session.add(profile)
+            self._session.commit()
+            return success_res(payload={}, msg="Password updated!")
+
+        except Exception as e:
+            return error_res(f"Error updating profile. Error: {e}")
+        
+    def delete_account(self, profile):
+        if not profile:
+            return error_res("No profile given.")
+
+        try:
+            email = profile.email
+            self._session.delete(profile)
+            self._session.commit()
+
+            check_res = self.get_profile_by_email(email)
+            account_still_exists = check_res.get("success")
+
+            if account_still_exists:
+                raise ValueError("Account still exists!")
+
+            return success_res(payload={}, msg="Profile successfully deleted.")
+
+        except Exception as e:
+            self._session.rollback()
+            return error_res(f"Error deleting profile. Error: {e}")

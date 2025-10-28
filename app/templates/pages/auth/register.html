@@ -18,10 +18,10 @@
         {% endif %}
     </div>
     <div class="form-input-group">
-        {{ form.last_name.label(class="form-label") }}
-        {{ form.last_name(class="form-input", placeholder="Doe") }}
-        {% if form.last_name.errors %}
-            {% for error in form.last_name.errors %}
+        {{ form.surname.label(class="form-label") }}
+        {{ form.surname(class="form-input", placeholder="Doe") }}
+        {% if form.surname.errors %}
+            {% for error in form.surname.errors %}
                 <span class="error-msg">{{ error }}</span>
             {% endfor %}
         {% endif %}

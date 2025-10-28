@@ -10,59 +10,44 @@
 
 {% block content %}
     {% from 'components/_buttons.html' import button %}
-    <div class="settings-container" id="personal">
-        <div class="settings-container-header">
-            <h3 class="settings-container-header">Personal</h3>
-            {{ button(text="Edit Personal Settings", icon_name="edit", variant="ghost", href=url_for('settings.personal'), id="edit-personal-settings") }}
-        </div>
-        <div class="settings-options-container">
-            <div class="setting-value-container">
-                <p class="setting-label">First Name:</p>
-                <p class="setting-value">{{ user.first_name }}</p>
-            </div>
-            <div class="setting-value-container">
-                <p class="setting-label">Last Name:</p>
-                <p class="setting-value">{{ user.surname }}</p>
-            </div>
-            <div class="setting-value-container">
-                <p class="setting-label">Date of Birth:</p>
-                <p class="setting-value">{{ user.date_of_birth.strftime('%d %b %Y') }}</p>
-            </div>
+    <div class="secondary-settings">
+        <h3 class="settings-container-header">Preferences</h3>
+        <div id="preferences">
+            {{ button(text="Edit Theme", icon_name="colors", variant="secondary", href=url_for('settings.preferences'), id="edit-preference-settings") }}
+            {{ button(text="Edit Identities", icon_name="face", variant="secondary", href=url_for('settings.preferences'), id="edit-preference-settings") }}
         </div>
     </div>
-
-    <div class="settings-container" id="account">
-        <div class="settings-container-header">
-            <h3 class="settings-container-header">Account</h3>
-            {{ button(text="Edit Account Settings", icon_name="edit", variant="ghost", href=url_for('settings.account'), id="edit-personal-settings") }}
-        </div>
-        <div class="settings-options-container">
-            <div class="setting-value-container">
-                <p class="setting-label">Email:</p>
-                <p class="setting-value">{{ user.email }}</p>
+    <div class="primary-settings">
+        <div class="settings-container" id="personal">
+            <div class="settings-container-header">
+                <h3 class="settings-container-header">Personal</h3>
+                {{ button(text="Edit Personal Settings", icon_name="edit", variant="ghost", href=url_for('settings.personal'), id="edit-personal-settings", class="btn--icon-only") }}
             </div>
-            <div class="setting-value-container">
-                <p class="setting-label">Theme:</p>
-                <p class="setting-value theme-value">Default</p>
-                <p class="setting-value theme-value">System</p>
+            <div class="settings-options-container">
+                <div class="setting-value-container">
+                    <p class="setting-label">First Name:</p>
+                    <p class="setting-value">{{ user.first_name }}</p>
+                </div>
+                <div class="setting-value-container">
+                    <p class="setting-label">Last Name:</p>
+                    <p class="setting-value">{{ user.surname }}</p>
+                </div>
+                <div class="setting-value-container">
+                    <p class="setting-label">Date of Birth:</p>
+                    <p class="setting-value">{{ user.date_of_birth.strftime('%d %b %Y') }}</p>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="settings-container" id="preferences">
-        <div class="settings-container-header">
-            <h3 class="settings-container-header">Account</h3>
-            {{ button(text="Edit Account Settings", icon_name="edit", variant="ghost", href=url_for('settings.account'), id="edit-personal-settings") }}
-        </div>
-        <div class="settings-options-container">
-            <div class="setting-value-container">
-                <p class="setting-label">Email:</p>
-                <p class="setting-value">{{ user.email }}</p>
+        <div class="settings-container" id="account">
+            <div class="settings-container-header">
+                <h3 class="settings-container-header">Account</h3>
+                {{ button(text="Edit Account Settings", icon_name="edit", variant="ghost", href=url_for('settings.account'), id="edit-personal-settings", class="btn--icon-only") }}
             </div>
-            <div class="setting-value-container">
-                <p class="setting-label">Theme:</p>
-                <p class="setting-value theme-value">Default</p>
-                <p class="setting-value theme-value">System</p>
+            <div class="settings-options-container">
+                <div class="setting-value-container">
+                    <p class="setting-label">Email:</p>
+                    <p class="setting-value">{{ user.email }}</p>
+                </div>
             </div>
         </div>
     </div>

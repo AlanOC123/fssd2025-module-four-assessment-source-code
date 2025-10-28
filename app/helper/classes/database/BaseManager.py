@@ -49,6 +49,7 @@ class BaseManager():
             return res
 
         except Exception as e:
+            print(f"Unknown error occured. {e}")
             return error_res(msg=f"An unknown error occured {e}")
     
     def read_items(self, model, item_name, **filter_criteria):
