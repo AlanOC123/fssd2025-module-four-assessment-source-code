@@ -243,7 +243,7 @@
     }
 }
 
-:root[data-theme="dark"] {
+:root[data-theme-mode="dark"] {
     --clr-primary-1: hsl(var(--h-primary), var(--s-80), var(--l-30));
     --clr-primary-2: hsl(var(--h-primary), var(--s-90), var(--l-35));
     --clr-primary-3: hsl(var(--h-primary), var(--s-95), var(--l-40));
@@ -274,7 +274,7 @@
     --clr-tertiary-3: hsl(var(--h-tertiary), var(--s-50), var(--l-35));
 }
 
-:root[data-theme="light"] {
+:root[data-theme-mode="light"] {
     --clr-primary-1: hsl(var(--h-primary), var(--s-80), var(--l-70));
     --clr-primary-2: hsl(var(--h-primary), var(--s-90), var(--l-65));
     --clr-primary-3: hsl(var(--h-primary), var(--s-95), var(--l-60));

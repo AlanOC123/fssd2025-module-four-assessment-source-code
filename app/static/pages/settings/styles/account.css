@@ -1,89 +1,40 @@
-.settings-controls-container {
+.form-wrapper {
     display: grid;
-    grid-template-rows: auto 1fr;
-    padding: var(--section-padding);
-    gap: var(--sp-xl);
-    position: relative;
+    grid-template-rows: auto auto;
+    overflow: hidden;
+    gap: var(--sp-base);
 }
 
-.other-settings {
+.form-wrapper .form-header-container {
     display: flex;
     justify-content: space-between;
-    position: relative;
+    align-items: center;
 }
 
-#account-settings-nav {
+.form-wrapper .form-controller {
     display: grid;
     grid-template-rows: 0fr;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    transform: translateY(calc(100% + var(--sp-xs)));
-    z-index: 100;
-    opacity: 1;
     overflow: hidden;
-    background-color: var(--clr-neutral-1-80);
-    box-shadow: var(--shadow-sm);
-    backdrop-filter: blur(12px);
-    border-radius: var(--brd-r-md);
-    transition: padding var(--trans-default), opacity var(--trans-default), grid var(--trans-default);
-    pointer-events: none;
-}
-
-#account-settings-nav.shown {
-    grid-template-rows: 1fr;
-    border: var(--brd-sm);
-    border-color: var(--clr-neutral-3);
-    padding: var(--pad-xs);
-    opacity: 1;
-    pointer-events: all;
-}
-
-#account-settings-nav ul {
-    display: grid;
-    grid-auto-flow: row;
-    grid-auto-rows: auto;
-    overflow: hidden;
-}
-
-#account-settings-nav ul li {
-    display: flex;
-    width: 100%;
-    padding: var(--pad-sm);
-}
-
-#account-settings-nav ul li .btn {
-    width: 100%;
-}
-
-.hidden-form-container {
-    pointer-events: none;
-    position: absolute;
-    inset: 0;
-    height: fit-content;
-    background-color: var(--clr-neutral-1-40);
-    backdrop-filter: blur(24px);
-    padding: 0;
-    box-shadow: var(--shadow-md);
-    border-radius: var(--brd-r-lg);
-    pointer-events: none;
-    overflow: hidden;
+    transition: grid var(--trans-default), opacity var(--trans-default);
     opacity: 0;
-    transform: scale(0);
 }
 
-.hidden-form-container.shown {
+.form-wrapper.expanded .form-controller {
+    grid-template-rows: 1fr;
     opacity: 1;
-    padding: var(--card-padding);
-    transform: scale(1);
-    pointer-events: all;
 }
 
-.hidden-form-container .form-container {
-    background-color: var(--clr-neutral-3-40);
+.form-wrapper .form-controller .form-container {
+    overflow: hidden;
+    padding: 0;
+    border: 0;
 }
 
-.hidden-container-header {
-    display: flex;
-    justify-content: space-between;
+.form-wrapper.expanded .form-controller .form-container {
+    padding: var(--form-padding);
+}
+
+.form-wrapper.expanded .form-header-container .btn {
+    transition: transform var(--trans-default);
+    transform: rotate(180deg);
 }

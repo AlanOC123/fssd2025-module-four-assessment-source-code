@@ -1,6 +1,7 @@
 from .BaseManager import BaseManager
 from app.database.models import ProfileIdentity
 from app.helper.functions.response_schemas import success_res, error_res
+from sqlalchemy import select
 
 class ProfileIdentityManager(BaseManager):
     def get_by_profile_id(self, profile_id):
@@ -56,6 +57,7 @@ class ProfileIdentityManager(BaseManager):
                 template_id=template.id,
                 is_active=False
             )
+            new_identity.custom_name = template.name
             identities_to_add.append(new_identity)
         
         # Set the first as the default
@@ -146,6 +148,40 @@ class ProfileIdentityManager(BaseManager):
             self._session.add(default)
             self._session.commit()
             return success_res(payload={ "active_identity": default }, msg="Default identity set...")
+        except Exception as e:
+            self._session.rollback()
+            return error_res(f"Error commiting default identity. Error: {e}")
+        
+    def update_custom_names(self, profile_id, form_data):
+        try:
+            user_identities = self._session.scalars(
+                select(ProfileIdentity)
+                .where(ProfileIdentity.profile_id == profile_id)
+            ).all()
+
+            identity_map = { i.id: i for i in user_identities }
+            updated_count = 0
+
+            for item in form_data:
+                identity_id = int(item["id"])
+                new_name = item["name"].strip()
+
+                if identity_id not in identity_map:
+                    continue
+                    
+                identity_to_update = identity_map[identity_id]
+                template_name = identity_to_update.template.name
+
+                if new_name == template_name:
+                    continue
+                else:
+                    identity_to_update.custom_name = new_name
+                    updated_count += 1
+                    self._session.add(identity_to_update)
+            
+            self._session.commit()
+            return success_res(payload={ "updated_count": updated_count }, msg="Identities updated successfully...")
+    
         except Exception as e:
             self._session.rollback()
             return error_res(f"Error commiting default identity. Error: {e}")

@@ -161,11 +161,10 @@ class ProfileManager(BaseManager):
             # Get The Theme ID
             theme_name = sanitised_data.get("theme_name", "Default")
             theme_res = self._db_manager.theme.get_by_name(theme_name)
-            print(theme_name)
 
             # Check for failure
             if not theme_res.get("success"):
-                return error_res(f"Failed to load Theme. Required for Profile creation integrity...")
+                theme_res = self._db_manager.theme.get_default()
 
             # Redefining the theme to be referenced by ID for the Table Schema
             theme_id = theme_res.get("payload", {}).get("theme").id

@@ -1,6 +1,7 @@
 from .BaseManager import BaseManager
 from app.database.models import Theme
 from app.helper.functions.response_schemas import success_res, error_res
+from sqlalchemy import select
 
 class ThemeManager(BaseManager):
     def get_by_name(self, theme_name):
@@ -18,7 +19,7 @@ class ThemeManager(BaseManager):
         )
     
     def create_theme(self, **theme_kwargs):
-        theme_kwargs["name"] = theme_kwargs.get("name").strip()
+        theme_kwargs["name"] = theme_kwargs.get("name", "").strip()
 
         # Check for duplicates
         is_duplicate = self.get_by_name(theme_kwargs["name"]).get("success")
@@ -42,10 +43,14 @@ class ThemeManager(BaseManager):
         )
     
     def get_all(self):
-        return self.read_items(
-            model=Theme,
-            item_name="Theme"
-        )
+        themes = self._session.scalars(select(Theme).order_by(Theme.name)).all()
+
+        if not themes:
+            return error_res("Themes not found...")
+        
+        else:
+            return success_res(payload={ "themes": themes }, msg="Themes found...")
+
 
     def init(self, theme_data):
         # Empty list to add identities too

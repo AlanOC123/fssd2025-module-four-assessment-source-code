@@ -1,0 +1,106 @@
+#forms {
+    align-content: space-evenly
+}
+
+.form-wrapper {
+    display: grid;
+    grid-template-rows: auto auto;
+}
+
+.form-container {
+    align-items: center;
+    gap: 0;
+}
+
+#theme-mode .form-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
+.theme-card-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.radio-option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.radio-option input[type="radio"] {
+    appearance: none;
+}
+
+.radio-option label {
+    display: flex;
+    gap: var(--sp-base);
+    align-items: center;
+    background-color: var(--clr-neutral-3);
+    padding: var(--pad-md);
+    border-radius: var(--brd-r-md);
+    box-shadow: var(--shadow-sm);
+    transition: background-color var(--trans-default), box-shadow var(--trans-default), border var(--trans-default), color var(--trans-default);
+    border: var(--brd-sm);
+    border-color: var(--clr-transparent);
+}
+
+.radio-option input:checked + label {
+    background-color: var(--clr-info-1-40);
+    border: var(--brd-sm);
+    border-color: var(--clr-info-2);
+    color: var(--clr-info-3);
+}
+
+.radio-option input:checked + label .theme-mode-icon {
+    transition: font-variation-settings var(--trans-default);
+    font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 60;
+}
+
+.radio-option label:hover {
+    cursor: pointer;
+    background-color: var(--clr-neutral-3-80);
+    box-shadow: var(--shadow-md);
+}
+
+#theme-mode-btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theme-card-container {
+    gap: var(--sp-base);
+}
+
+#theme-scheme .theme-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.theme-card {
+    width: 100%;
+    justify-content: space-around;
+}
+
+.theme-preview {
+    flex-shrink: 0;
+    flex-grow: 0;
+    flex-basis: 20px;
+    aspect-ratio: 1;
+    border-radius: var(--brd-r-full);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip: rect(0 0 0 0);
+}

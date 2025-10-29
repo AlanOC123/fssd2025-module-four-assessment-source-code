@@ -1,10 +1,11 @@
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, Form
 from flask_login import current_user
 from flask_wtf.form import _Auto
-from wtforms import StringField, EmailField, PasswordField, BooleanField, SubmitField, DateField
+from wtforms import StringField, EmailField, PasswordField, BooleanField, SubmitField, DateField, RadioField, HiddenField, FieldList, FormField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
 from flask import current_app
 from app.helper.classes.database.ProfileManager import ProfileManager
+from app.database.models import ThemeMode
 
 class UpdateProfileForm(FlaskForm):
     first_name = StringField(
@@ -73,9 +74,6 @@ class UpdateEmailForm(FlaskForm):
 
         if not pw_validator_fn(stored_hash, attempted_password):
             raise ValidationError("Incorrect password. Please try again")
-
-
-
 class UpdatePasswordForm(FlaskForm):
     current_password = PasswordField(
         "Current Password",
@@ -135,8 +133,6 @@ class UpdatePasswordForm(FlaskForm):
 
         if not pw_validator.check_complexity(attempted_password):
             raise ValidationError("New password must include a symbol.")
-
-
 class DeleteAccountForm(FlaskForm):
     deletion_confirmation_message = StringField(
         label="Type 'I understand this is a permanent deletion' to confirm",
@@ -174,9 +170,54 @@ class DeleteAccountForm(FlaskForm):
 
         if not pw_validator_fn(stored_hash, attempted_password):
             raise ValidationError("Incorrect password. Please try again")
+class UpdateThemeColorSchemeForm(FlaskForm):
+    theme_id = RadioField(
+        "Select Theme",
+        coerce=int,
+        validators=[
+            DataRequired("Please select an option...")
+        ]
+    )
 
-class UpdateThemeForm(FlaskForm):
-    pass
+    submit_scheme = SubmitField("Save Scheme")
+
+    def __init__(self, *args, **kwargs):
+        # Pop it to prevent Flask Form from call the list
+        theme_choice_list = kwargs.pop("theme_choices", [])
+
+        # Call FlaskForm
+        super().__init__(*args, **kwargs)
+
+        # Set theme choices to be the list
+        self.theme_id.choices = theme_choice_list
+
+class UpdateThemeModeForm(FlaskForm):
+    theme_mode = RadioField(
+        "Select Mode",
+        coerce=ThemeMode,
+        validators=[
+            DataRequired("Select a theme mode...")
+        ]
+    )
+
+    submit_mode = SubmitField("Save Mode")
+
+    def __init__(self, *args, **kwargs):
+        theme_modes = kwargs.pop("theme_modes", [])
+        super().__init__(*args, **kwargs)
+
+        self.theme_mode.choices = theme_modes
+
+class EditIdentityEntryForm(Form):
+    id = HiddenField()
+    name = StringField(
+        "Custom Name",
+        validators=[
+            DataRequired(),
+            Length(min=2, max=50, message="Name must be between 2 and 50 characters...")
+        ]
+    )
 
 class UpdateIdentitiesForm(FlaskForm):
-    pass
+    identities = FieldList(FormField(EditIdentityEntryForm))
+    submit_identities = SubmitField(" Save Changes")

@@ -1,29 +1,48 @@
+import enum
 from app import db
-from sqlalchemy import Boolean
+from sqlalchemy import Boolean, Enum, String, Integer, Date, ForeignKey
 from typing import List
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime, timezone
 from flask_login import UserMixin
 
+class ThemeMode(enum.Enum):
+    LIGHT = "light"
+    DARK = "dark"
+    SYSTEM = "system"
+
 class Profile(db.Model, UserMixin):
     __tablename__ = "profiles"
-    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-    first_name: Mapped[str] = mapped_column(db.String(50), nullable=False)
-    surname: Mapped[str] = mapped_column(db.String(80), nullable=False)
-    date_of_birth: Mapped[datetime.date] = mapped_column(db.Date, nullable=False)
-    email: Mapped[str] = mapped_column(db.String(50), nullable=False, unique=True)
-    password: Mapped[str] = mapped_column(db.String(128), nullable=False)
-    theme_id: Mapped[int] = mapped_column(db.ForeignKey("themes.id"))
-    stay_logged_in: Mapped[Boolean] = mapped_column(db.Boolean, default=False)
-    identities: Mapped[List["ProfileIdentity"]] = db.relationship(
+
+    # Personal
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    first_name: Mapped[str] = mapped_column(String(50), nullable=False)
+    surname: Mapped[str] = mapped_column(String(80), nullable=False)
+    date_of_birth: Mapped[Date] = mapped_column(Date, nullable=False)
+
+    # Account
+    email: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(String(128), nullable=False)
+    stay_logged_in: Mapped[Boolean] = mapped_column(Boolean, default=False)
+
+    # Theme
+    theme_id: Mapped[int] = mapped_column(ForeignKey("themes.id"))
+    theme_mode: Mapped[ThemeMode] = mapped_column(
+        Enum(ThemeMode),
+        default=ThemeMode.SYSTEM,
+        nullable=False
+    )
+
+    identities: Mapped[List["ProfileIdentity"]] = relationship(
         back_populates="profile", cascade="all, delete-orphan", lazy="selectin"
     )
-    projects: Mapped[List["Project"]] = db.relationship(
+    projects: Mapped[List["Project"]] = relationship(
         back_populates="profile", cascade="all, delete-orphan", lazy="select"
     )
-    thoughts: Mapped[List["Thought"]] = db.relationship(
+    thoughts: Mapped[List["Thought"]] = relationship(
         back_populates="profile", cascade="all, delete-orphan", lazy="select"
     )
+    theme: Mapped["Theme"] = relationship(lazy="joined")
     created_at: Mapped[datetime] = mapped_column(
         db.DateTime, 
         default=datetime.now(timezone.utc), 
@@ -35,18 +54,18 @@ class Profile(db.Model, UserMixin):
     
 class ProfileIdentity(db.Model):
     __tablename__ = "profile_identities"
-    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-    profile_id: Mapped[int] = mapped_column(db.ForeignKey('profiles.id'))
-    template_id: Mapped[int] = mapped_column(db.ForeignKey('identity_templates.id'))
-    is_active: Mapped[Boolean] = mapped_column(db.Boolean, default=False)
-    custom_name: Mapped[str] = mapped_column(db.String(30), nullable=True)
-    profile: Mapped["Profile"] = db.relationship(
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    profile_id: Mapped[int] = mapped_column(ForeignKey('profiles.id'))
+    template_id: Mapped[int] = mapped_column(ForeignKey('identity_templates.id'))
+    is_active: Mapped[Boolean] = mapped_column(Boolean, default=False)
+    custom_name: Mapped[str] = mapped_column(String(30), nullable=True)
+    profile: Mapped["Profile"] = relationship(
         back_populates="identities"
     )
-    projects: Mapped[List["Project"]] = db.relationship(
+    projects: Mapped[List["Project"]] = relationship(
         back_populates='profile_identity', cascade="all, delete-orphan", lazy="select"
     )
-    template: Mapped["IdentityTemplate"] = db.relationship(
+    template: Mapped["IdentityTemplate"] = relationship(
         back_populates='profile_identities', lazy="joined"
     )
     identity_created_at: Mapped[datetime] = mapped_column(
@@ -61,11 +80,11 @@ class ProfileIdentity(db.Model):
 
 class IdentityTemplate(db.Model):
     __tablename__ = "identity_templates"
-    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(db.String(80), unique=True, nullable=False)
-    description: Mapped[str] = mapped_column(db.String(255))
-    image: Mapped[str] = mapped_column(db.String(120), nullable=False)
-    profile_identities: Mapped[List["ProfileIdentity"]] = db.relationship(
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(80), unique=True, nullable=False)
+    description: Mapped[str] = mapped_column(String(255))
+    image: Mapped[str] = mapped_column(String(120), nullable=False)
+    profile_identities: Mapped[List["ProfileIdentity"]] = relationship(
         back_populates="template",
         lazy="select"
     )
@@ -81,33 +100,33 @@ class IdentityTemplate(db.Model):
 
 class Project(db.Model):
     __tablename__ = "projects"
-    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-    owner_id: Mapped[int] = mapped_column(db.ForeignKey("profiles.id"))
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    owner_id: Mapped[int] = mapped_column(ForeignKey("profiles.id"))
     identity_id: Mapped[int] = mapped_column(
         db.ForeignKey("profile_identities.id")
     )
-    name: Mapped[str] = mapped_column(db.String(100), nullable=False)
-    description: Mapped[str | None] = mapped_column(db.String(500))
-    profile: Mapped["Profile"] = db.relationship(
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    description: Mapped[str | None] = mapped_column(String(500))
+    profile: Mapped["Profile"] = relationship(
         back_populates="projects", lazy="select"
     )
-    thoughts: Mapped[List["Thought"]] = db.relationship(
+    thoughts: Mapped[List["Thought"]] = relationship(
         back_populates="project",
         cascade="all, delete-orphan", # ADDED: Ensures thoughts are deleted with the project
         lazy="select"
     )
 
-    profile_identity: Mapped["ProfileIdentity"] = db.relationship(
+    profile_identity: Mapped["ProfileIdentity"] = relationship(
         back_populates="projects"
     )
 
-    tasks: Mapped[List["Task"]] = db.relationship(
+    tasks: Mapped[List["Task"]] = relationship(
         back_populates="project", 
         cascade="all, delete-orphan", # ADDED: Ensures tasks are deleted with the project
         lazy="selectin"
     )
-    is_active: Mapped[Boolean] = mapped_column(db.Boolean, default=False)
-    is_complete: Mapped[Boolean] = mapped_column(db.Boolean, default=False)
+    is_active: Mapped[Boolean] = mapped_column(Boolean, default=False)
+    is_complete: Mapped[Boolean] = mapped_column(Boolean, default=False)
     created_at: Mapped[datetime] = mapped_column(
         db.DateTime, 
         default=datetime.now(timezone.utc), 
@@ -119,11 +138,11 @@ class Project(db.Model):
 
 class Task(db.Model):
     __tablename__ = "tasks"
-    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(db.String(100), nullable=False)
-    project_id: Mapped[int] = mapped_column(db.ForeignKey("projects.id"))
-    is_complete: Mapped[bool] = mapped_column(db.Boolean, default=False)
-    project: Mapped["Project"] = db.relationship(
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"))
+    is_complete: Mapped[bool] = mapped_column(Boolean, default=False)
+    project: Mapped["Project"] = relationship(
         back_populates="tasks",
         lazy="joined"
     )
@@ -137,16 +156,16 @@ class Task(db.Model):
         return f"<Task {self.name}>"
 class Thought(db.Model):
     __tablename__ = "thoughts"
-    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-    owner_id: Mapped[int] = mapped_column(db.ForeignKey("profiles.id"))
-    project_id: Mapped[int] = mapped_column(db.ForeignKey("projects.id"))
-    title: Mapped[str] = mapped_column(db.String(30), nullable=False)
-    content: Mapped[str] = mapped_column(db.String(200), nullable=False)
-    profile: Mapped["Profile"] = db.relationship(
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    owner_id: Mapped[int] = mapped_column(ForeignKey("profiles.id"))
+    project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"))
+    title: Mapped[str] = mapped_column(String(30), nullable=False)
+    content: Mapped[str] = mapped_column(String(200), nullable=False)
+    profile: Mapped["Profile"] = relationship(
         back_populates="thoughts",
         lazy="joined"
     )
-    project: Mapped["Project"] = db.relationship(
+    project: Mapped["Project"] = relationship(
         back_populates="thoughts",
         lazy="joined"
     )
@@ -160,27 +179,14 @@ class Thought(db.Model):
         return f"<Thought {self.title}>"
 class Theme(db.Model):
     __tablename__ = "themes"
-    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(db.String(30), unique=True)
-    is_default: Mapped[Boolean] = mapped_column(db.Boolean, default=False, nullable=False)
-    bg_base_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    bg_alt_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    acc_base_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    acc_alt_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    text_base_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    text_alt_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    success_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    warning_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    failure_light: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    bg_base_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    bg_alt_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    acc_base_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    acc_alt_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    text_base_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    text_alt_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    success_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    failure_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
-    warning_dark: Mapped [str] = mapped_column(db.String(7), nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(30), unique=True)
+    is_default: Mapped[Boolean] = mapped_column(Boolean, default=False, nullable=False)
+    primary_hue: Mapped[int] = mapped_column(Integer)
+    secondary_hue: Mapped[int] = mapped_column(Integer)
+    tertiary_hue: Mapped[int] = mapped_column(Integer)
+    neutral_hue: Mapped[int] = mapped_column(Integer)
+    text_hue: Mapped[int] = mapped_column(Integer)
 
     def __repr__(self) -> str:
         return f"<Theme {self.name}>"

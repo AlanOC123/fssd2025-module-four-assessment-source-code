@@ -60,5 +60,6 @@ def create_app(config_key: str):
     route_reg.register_routes(ROUTES)
 
     register_commands(app)
+    app.jinja_env.filters["zip"] = zip
 
     return app

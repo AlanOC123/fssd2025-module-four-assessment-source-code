@@ -1,33 +1,63 @@
-{% extends "base.html" %}
-
-{% block scripts %}
-    {% block subscripts %}{% endblock %}
-{% endblock %}
-
-{% block styles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/settings/styles/base.css') }}">
-    {% block substyles %}{% endblock %}
-{% endblock %}
-
-{% block body %}
-    {% from 'components/_buttons.html' import button %}
-    <div class="main-grid" id="settings">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="flash-messages">
-                    {% for category, message in messages %}
-                    {% from 'components/_flash.html' import flash_message %}
-                        {{ flash_message(msg=message, category=category) }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
-        <header id="settings-header">
-            {{ button(text="Back", icon_name="arrow_back", variant="secondary", href=url_for('app.home'), id="return-to-app") }}
-                <h2 id="blueprint-header">Settings</h2>
-        </header>
-        <section class="grid-col" id="content">
-            {% block content %}{% endblock %}
-        </section>
+{% extends "base.html" %} {% block scripts %} {% block subscripts %}{% endblock
+%} {% endblock %} {% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='pages/settings/styles/base.css') }}"
+/>
+{% block substyles %}{% endblock %} {% endblock %} {% block body %} {% from
+'components/_buttons.html' import button %}
+<div class="main-grid" id="settings">
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %} {% from 'components/_flash.html'
+        import flash_message %} {{ flash_message(msg=message, category=category)
+        }} {% endfor %}
     </div>
+    {% endif %} {% endwith %}
+    <div class="grid-col shown" id="settings-index">
+        <header id="settings-header">
+            <div class="header-container">
+                <h3>Settings</h3>
+                {{ button(variant="ghost",
+                    icon_name="cancel", class='btn--cancel btn--icon-only mobile-only', id='show-nav') }}
+            </div>
+        </header>
+        <nav id="settings-nav">
+            <ul class="nav-list">
+                <li>
+                    {{ button(text="Personal", variant="nav",
+                    icon_name="user_attributes", href=
+                    url_for('settings.personal'), class=('active' if pg_name == 'personal_settings' else '')) }}
+                </li>
+                <li>
+                    {{ button(text="Account", variant="nav",
+                    icon_name="account_circle", href=
+                    url_for('settings.account'), class=('active' if pg_name == 'account_settings' else '')) }}
+                </li>
+                <li>
+                    {{ button(text="Appearance", variant="nav",
+                    icon_name="colors", href=
+                    url_for('settings.appearance'), class=('active' if pg_name == 'appearance_settings' else '')) }}
+                </li>
+                <li>
+                    {{ button(text="Identities", variant="nav",
+                    icon_name="face", href=
+                    url_for('settings.identities'), class=('active' if pg_name == 'identities_settings' else '')) }}
+                </li>
+                <li>
+                    {{ button(text="Return", variant="nav",
+                    icon_name="arrow_left", href=url_for('app.home')) }}
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="tablet-only"></div>
+    <div class="grid-col" id="content-container">
+        <h3>{% block page_header %}{% endblock %}</h3>
+        <div id="forms">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
 {% endblock %}

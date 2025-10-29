@@ -1,0 +1,11 @@
+{% extends 'pages/settings/base.html' %}
+
+{% block substyles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages/settings/styles/identities.css') }}">
+{% endblock %}
+
+{% block subscripts %}
+<script src="{{ url_for('static', filename='pages/settings/scripts/identities.js') }}" type="module"></script>
+{% endblock %}
+
+{% block page_header %}Identities{% endblock %}

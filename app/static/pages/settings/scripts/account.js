@@ -1,79 +1,68 @@
 const domController = () => {
     const _cache = {
         buttons: {
-            showAccountControls: document.getElementById(
-                "show-account-controls"
-            ),
-            showChangePassword: document.getElementById("open-update-password"),
-            closeChangePassword: document.getElementById(
-                "close-update-password"
-            ),
-            showAccountDeletion: document.getElementById(
-                "open-account-deletion"
-            ),
-            closeAccountDeletion: document.getElementById(
-                "close-account-deletion"
-            ),
+            toggleUpdateEmail: document.getElementById("toggle-update-email"),
+            toggleUpdatePassword: document.getElementById("toggle-update-password"),
+            toggleDeleteAccount: document.getElementById("toggle-delete-account"),
         },
         containers: {
-            accountSettingsNav: document.getElementById("account-settings-nav"),
-            hiddenFormContainers: [
-                ...document.querySelectorAll(".hidden-form-container"),
+            formWrappers: [
+                ...document.querySelectorAll(".form-wrapper"),
             ],
+            updateEmail: document.getElementById("update-email"),
             updatePassword: document.getElementById("update-password"),
             deleteAccount: document.getElementById("delete-account"),
         },
     };
 
-    const toggleAccountControls = () => {
-        const container = _cache.containers.accountSettingsNav;
-        const isShown = container.classList.contains("shown")
-
-        if (isShown) {
-            container.classList.remove("shown");
-            return
-        }
-
-        container.classList.add("shown")
-    }
-
     const hideFormContainers = () => {
-        const { hiddenFormContainers } = _cache.containers;
+        const { formWrappers } = _cache.containers;
 
-        hiddenFormContainers.forEach(el => el.classList.remove('shown'))
+        formWrappers.forEach(el => el.classList.remove('expanded'))
     }
 
-    const openUpdatePassword = () => {
-        const { updatePassword } = _cache.containers
-
-        hideFormContainers()
-        toggleAccountControls()
-        updatePassword.classList.add('shown');
+    const openFormContainer = (form) => {
+        form.classList.add('expanded')
     }
 
-    const closeUpdatePassword = () => {
-        hideFormContainers()
+    const toggleUpdateEmail = () => {
+        const { updateEmail } = _cache.containers
+        const isOpen = updateEmail.classList.contains('expanded');
+
+        hideFormContainers();
+
+        if (isOpen) return;
+
+        openFormContainer(updateEmail)
     }
 
-    const openDeleteAccount = () => {
-        const { deleteAccount } = _cache.containers
+    const toggleUpdatePassword = () => {
+        const { updatePassword } = _cache.containers;
+        const isOpen = updatePassword.classList.contains("expanded");
 
-        hideFormContainers()
-        toggleAccountControls()
-        deleteAccount.classList.add('shown');
+        hideFormContainers();
+
+        if (isOpen) return;
+
+        openFormContainer(updatePassword);
     }
 
-    const closeDeleteAccount = () => {
-        hideFormContainers()
+    const toggleDeleteAccount = () => {
+        const { deleteAccount } = _cache.containers;
+        const isOpen = deleteAccount.classList.contains("expanded");
+
+        hideFormContainers();
+
+        if (isOpen) return;
+
+        openFormContainer(deleteAccount);
     }
 
     const bindEvents = () => {
         const { buttons } = _cache;
-        buttons.showAccountControls.onclick = toggleAccountControls;
-        buttons.showChangePassword.onclick = openUpdatePassword;
-        buttons.closeChangePassword.onclick = closeUpdatePassword;
-        buttons.showAccountDeletion.onclick = openDeleteAccount;
-        buttons.closeAccountDeletion.onclick = closeDeleteAccount;
+        buttons.toggleUpdateEmail.onclick = toggleUpdateEmail;
+        buttons.toggleUpdatePassword.onclick = toggleUpdatePassword;
+        buttons.toggleDeleteAccount.onclick = toggleDeleteAccount;
     };
 
     return {

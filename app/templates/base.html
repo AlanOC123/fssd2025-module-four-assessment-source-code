@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme-mode="{{ current_user.theme_mode.value }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +23,21 @@
     {% block styles %}{% endblock %}
     {% block scripts %} {% endblock %}
     <title>Projectify</title>
+    {% if current_user %}
+        <style>
+            :root {
+                --h-primary: {{ current_user.theme.primary_hue }};
+                --h-secondary: {{ current_user.theme.secondary_hue }};
+                --h-neutral: {{ current_user.theme.neutral_hue }};
+                --h-text: {{ current_user.theme.text_hue }};
+                --h-success: 69;
+                --h-warning: 56;
+                --h-danger: 7;
+                --h-info: 200;
+                --h-tertiary: {{ current_user.theme.tertiary_hue }};
+            }
+        </style>
+    {% endif %}
 </head>
 <body>
     {% block body %}{% endblock %}
