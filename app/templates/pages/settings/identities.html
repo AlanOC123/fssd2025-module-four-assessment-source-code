@@ -9,3 +9,42 @@
 {% endblock %}
 
 {% block page_header %}Identities{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('settings.identities') }}" class="form-container" method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    <div id="submit-button-container">
+        {{ form.submit(class="btn btn--primary", id="submit-identities") }}
+    </div>
+    <ul id="identities-list">
+        {% for identity_input, identity_data in form.identities | zip(identities) %}
+            <li class="identity-card">
+                <div class="identity-img">
+                    <img src="{{ url_for('static', filename='assets/avatars/' ~ identity_data.template.image) }}" alt="">
+                </div>
+                <div class="identity-input-container form-input-group">
+                    <div class="identity-input">
+                        <label for="{{ identity_input.name.id  }}">
+                            Default: {{ identity_data.template.name }}
+                        </label>
+
+                        {{ identity_input.identity_id() }}
+
+                        {{ identity_input.identity_custom_name(class="form-input") }}
+                    </div>
+                    {% if identity_data.id in updated_ids %}
+                        <div class="edited" data-is-edited="false">
+                            <span class="material-symbols-outlined">check_circle</span>
+                        </div>
+                    {% endif %}
+                </div>
+                {% if identity_input.identity_custom_name.errors %}
+                    {% for error in identity_input.identity_custom_name.errors %}
+                        <span class="error-msg">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</form>
+{% endblock %}

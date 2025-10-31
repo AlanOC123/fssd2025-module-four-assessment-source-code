@@ -173,10 +173,14 @@ def identities():
     user_identities = current_user.identities
     db_manager: DatabaseManager = current_app.db_manager
     identity_manager: ProfileIdentityManager = db_manager.profile_identity
+    updated_ids = []
 
     # Init the form
-    form = UpdateIdentitiesForm(identities=[
-        { "id": identity.id, "name": identity.custom_name } for identity in user_identities
+    form = UpdateIdentitiesForm(identities=[{ 
+            "identity_id": identity.id, 
+            "identity_custom_name": identity.custom_name if identity.custom_name else identity.template.name 
+        } 
+        for identity in user_identities
     ])
 
     # Validate the form
@@ -190,10 +194,18 @@ def identities():
 
         if not update_res.get("success"):
             flash(message="Error setting identity names...", category="error")
-        
-        else:
-            count = update_res.get("payload", {}).get("updated_count", 0)
-            msg = f"{count} identities updates successfully" if count != 1 else f"{count} identity updated successfully"
-            flash(message=msg)
 
-    return render_template('pages/settings/identities.html', user=current_user, form=form,         pg_name="identities_settings")
+        else:
+            updated_ids = update_res.get("payload", {}).get("updated", [])
+            count = len(updated_ids)
+            msg = f"{count} identities updates successfully" if count != 1 else f"{count} identity updated successfully"
+            flash(message=msg, category="success")
+
+    return render_template(
+        'pages/settings/identities.html', 
+        user=current_user, 
+        identities=user_identities, 
+        form=form, 
+        pg_name="identities_settings",
+        updated_ids=updated_ids
+    )

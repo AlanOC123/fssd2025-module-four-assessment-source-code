@@ -1,4 +1,8 @@
-{% extends "base.html" %} {% block scripts %} {% block subscripts %}{% endblock
+{% extends "base.html" %} {% block scripts %} 
+
+<script src="{{ url_for('static', filename='pages/settings/scripts/header.js') }}" type="module" defer></script>
+
+{% block subscripts %}{% endblock
 %} {% endblock %} {% block styles %}
 <link
     rel="stylesheet"
@@ -15,12 +19,13 @@
         }} {% endfor %}
     </div>
     {% endif %} {% endwith %}
-    <div class="grid-col shown" id="settings-index">
+    <div class="grid-col" id="settings-index">
         <header id="settings-header">
             <div class="header-container">
                 <h3>Settings</h3>
-                {{ button(variant="ghost",
-                    icon_name="cancel", class='btn--cancel btn--icon-only mobile-only', id='show-nav') }}
+                {{ button(variant="ghost", icon_name="cancel",
+                class='btn--cancel btn--icon-only mobile-only', id='close-nav')
+                }}
             </div>
         </header>
         <nav id="settings-nav">
@@ -28,22 +33,26 @@
                 <li>
                     {{ button(text="Personal", variant="nav",
                     icon_name="user_attributes", href=
-                    url_for('settings.personal'), class=('active' if pg_name == 'personal_settings' else '')) }}
+                    url_for('settings.personal'), class=('active' if pg_name ==
+                    'personal_settings' else '')) }}
                 </li>
                 <li>
                     {{ button(text="Account", variant="nav",
                     icon_name="account_circle", href=
-                    url_for('settings.account'), class=('active' if pg_name == 'account_settings' else '')) }}
+                    url_for('settings.account'), class=('active' if pg_name ==
+                    'account_settings' else '')) }}
                 </li>
                 <li>
                     {{ button(text="Appearance", variant="nav",
-                    icon_name="colors", href=
-                    url_for('settings.appearance'), class=('active' if pg_name == 'appearance_settings' else '')) }}
+                    icon_name="colors", href= url_for('settings.appearance'),
+                    class=('active' if pg_name == 'appearance_settings' else
+                    '')) }}
                 </li>
                 <li>
                     {{ button(text="Identities", variant="nav",
-                    icon_name="face", href=
-                    url_for('settings.identities'), class=('active' if pg_name == 'identities_settings' else '')) }}
+                    icon_name="face", href= url_for('settings.identities'),
+                    class=('active' if pg_name == 'identities_settings' else
+                    '')) }}
                 </li>
                 <li>
                     {{ button(text="Return", variant="nav",
@@ -54,10 +63,12 @@
     </div>
     <div class="tablet-only"></div>
     <div class="grid-col" id="content-container">
-        <h3>{% block page_header %}{% endblock %}</h3>
-        <div id="forms">
-            {% block content %}{% endblock %}
+        <div class="page-header">
+            {{ button(variant="ghost", icon_name="menu", class='btn--icon-only
+            mobile-only', id='open-nav') }}
+            <h3>{% block page_header %}{% endblock %}</h3>
         </div>
+        <div id="forms">{% block content %}{% endblock %}</div>
     </div>
 </div>
 {% endblock %}

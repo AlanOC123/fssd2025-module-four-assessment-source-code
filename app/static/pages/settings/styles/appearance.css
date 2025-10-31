@@ -5,6 +5,7 @@
 .form-wrapper {
     display: grid;
     grid-template-rows: auto auto;
+    gap: var(--sp-xl);
 }
 
 .form-container {
@@ -17,10 +18,13 @@
     grid-template-columns: 1fr auto;
 }
 
+#theme-mode .theme-card-container {
+
+}
+
 .theme-card-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .radio-option {

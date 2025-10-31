@@ -209,8 +209,8 @@ class UpdateThemeModeForm(FlaskForm):
         self.theme_mode.choices = theme_modes
 
 class EditIdentityEntryForm(Form):
-    id = HiddenField()
-    name = StringField(
+    identity_id = HiddenField()
+    identity_custom_name = StringField(
         "Custom Name",
         validators=[
             DataRequired(),
@@ -220,4 +220,4 @@ class EditIdentityEntryForm(Form):
 
 class UpdateIdentitiesForm(FlaskForm):
     identities = FieldList(FormField(EditIdentityEntryForm))
-    submit_identities = SubmitField(" Save Changes")
+    submit = SubmitField(" Save Changes")

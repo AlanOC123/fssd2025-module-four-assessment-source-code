@@ -149,6 +149,7 @@ main {
     overflow-y: auto;
     overflow-x: clip;
     background-color: var(--clr-neutral-1);
+    scrollbar-width: thin;
 }
 
 @view-transition {
@@ -156,8 +157,8 @@ main {
 }
 
 ::-webkit-scrollbar {
-    width: 0.25rem;
-    height: 0.25rem;
+    width: 1rem;
+    height: 1rem;
 }
 
 ::-webkit-scrollbar-thumb {

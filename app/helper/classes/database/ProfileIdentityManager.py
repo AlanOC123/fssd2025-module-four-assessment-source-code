@@ -154,36 +154,47 @@ class ProfileIdentityManager(BaseManager):
         
     def update_custom_names(self, profile_id, form_data):
         try:
+            # Get identites from the database
             user_identities = self._session.scalars(
                 select(ProfileIdentity)
                 .where(ProfileIdentity.profile_id == profile_id)
             ).all()
 
+            # Normalise the data for the form
             identity_map = { i.id: i for i in user_identities }
-            updated_count = 0
 
+            # Empty array to keep track of the changed identities
+            updated_ids = []
+
+            # Loop through the form fields
             for item in form_data:
-                identity_id = int(item["id"])
-                new_name = item["name"].strip()
+                # Get the id and custom name input
+                identity_id = int(item["identity_id"])
+                new_name = item["identity_custom_name"].strip()
 
+                # If its not in the identity map ignore
                 if identity_id not in identity_map:
                     continue
-                    
+                
+                # Get the identity and custom name from the map
                 identity_to_update = identity_map[identity_id]
-                template_name = identity_to_update.template.name
+                curr_name = identity_to_update.custom_name or identity_to_update.template.name
 
-                if new_name == template_name:
+                # If theres no change continue
+                if new_name == curr_name:
                     continue
                 else:
+                    # Update the name and commit stage the change
                     identity_to_update.custom_name = new_name
-                    updated_count += 1
+                    updated_ids.append(identity_to_update.id)
                     self._session.add(identity_to_update)
             
+            # Commit to the db
             self._session.commit()
-            return success_res(payload={ "updated_count": updated_count }, msg="Identities updated successfully...")
+            return success_res(payload={ "updated": updated_ids }, msg="Identities updated successfully...")
     
         except Exception as e:
             self._session.rollback()
-            return error_res(f"Error commiting default identity. Error: {e}")
+            return error_res(f"Error commiting identity names identity. Error: {e}")
 
 
