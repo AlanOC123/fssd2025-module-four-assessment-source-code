@@ -1,27 +1,30 @@
 const domController = () => {
     const _cache = {
         buttons: {
-            submitMode: document.getElementById('submit-mode'),
-            submitScheme: document.getElementById('submit-scheme'),
+            openIndex: document.getElementById('open-nav'),
+            closeIndex: document.getElementById('close-nav'),
         },
-        optionContainers: {
-            mode: [...document.querySelectorAll('.theme-mode-option')],
-            scheme: [...document.querySelectorAll('.theme-scheme-option')],
+        containers: {
+            settingsNav: document.getElementById('settings-index')
         }
     }
 
-    const submitMode = () => {
-        _cache.buttons.submitMode.click()
-    }
+    const toggleSettingsNav = () => {
+        const { settingsNav } = _cache.containers;
+        console.log(settingsNav)
+        const isShown = settingsNav.classList.contains('shown');
 
-    const submitScheme = () => {
-        _cache.buttons.submitScheme.click()
+        if (isShown) {
+            settingsNav.classList.remove("shown");
+            return
+        }
+        settingsNav.classList.add('shown');
     }
 
     const bindEvents = () => {
-        const { mode, scheme } = _cache.optionContainers;
-        mode.forEach(el => el.onclick = submitMode)
-        scheme.forEach(el => el.onclick = submitScheme)
+        const { openIndex, closeIndex } = _cache.buttons;
+
+        openIndex.onclick = closeIndex.onclick = toggleSettingsNav;
     }
 
     return {
@@ -29,4 +32,4 @@ const domController = () => {
     }
 }
 
-domController().bindEvents();
+domController().bindEvents()

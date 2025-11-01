@@ -1,11 +1,15 @@
 {% extends 'pages/main/base.html' %}
 
-{% block page_header %}
-<h3>Home</h3>
+{% block substyles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='pages/main/styles/home.css') }}">
 {% endblock %}
 
-{% block page_id %}home{% endblock %}
-
-{% block content %}
-
+{% block subscripts %}
+    <script src="{{ url_for('static', filename='pages/main/scripts/home.js') }}"></script>
 {% endblock %}
+
+{% block page_header %}Home{% endblock %}
+
+{% block page_controls %}{% endblock %}
+
+{% block page_content %}{% endblock %}

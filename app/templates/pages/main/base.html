@@ -33,16 +33,16 @@
                 <p class="nav-label">Explore</p>
                 <ul id="primary-nav-links">
                     <li>
-                        {{ button(text="Home", variant="nav", class="primary-nav", href=url_for('app.home'), icon_name="home") }}
+                        {{ button(text="Home", variant="nav", class="primary-nav {% if pg_name == 'home' %}active{% endif %}", href=url_for('app.home'), icon_name="home") }}
                     </li>
                     <li>
-                        {{ button(text="Projects", variant="nav", class="primary-nav", href=url_for('app.projects'), icon_name="workspaces") }}
+                        {{ button(text="Projects", variant="nav", class="primary-nav {% if pg_name == 'projects' %}active{% endif %}", href=url_for('app.projects'), icon_name="workspaces") }}
                     </li>
                     <li>
-                        {{ button(text="Tasks", variant="nav", class="primary-nav", href=url_for('app.projects'), icon_name="task") }}
+                        {{ button(text="Tasks", variant="nav", class="primary-nav {% if pg_name == 'tasks' %}active{% endif %}", href=url_for('app.projects'), icon_name="task") }}
                     </li>
                     <li>
-                        {{ button(text="Thoughts", variant="nav", class="primary-nav", href=url_for('app.thoughts'), icon_name="comic_bubble") }}
+                        {{ button(text="Thoughts", variant="nav", class="primary-nav {% if pg_name == 'thoughts' %}active{% endif %}", href=url_for('app.thoughts'), icon_name="comic_bubble") }}
                     </li>
                 </ul>
             </nav>
@@ -57,13 +57,13 @@
                 <div class="footer-wrapper">
                     <ul id="secondary-nav-links">
                         <li>
-                            {{ button(text="Contact Us", variant="nav", class="secondary-nav", href="mailto:aocthatsme246@gmail.com", icon_name="contact_support") }}
+                            {{ button(text="Contact Us", variant="nav", class="secondary-nav ", href="mailto:aocthatsme246@gmail.com", icon_name="contact_support") }}
                         </li>
                         <li>
-                            {{ button(text="About", variant="nav", class="secondary-nav", href=url_for("info.about"), icon_name="info") }}
+                            {{ button(text="About", variant="nav", class="secondary-nav {% if pg_name == 'about' %}active{% endif %}", href=url_for("info.about"), icon_name="info") }}
                         </li>
                         <li>
-                            {{ button(text="Sitemap", variant="nav", class="secondary-nav", href=url_for("info.sitemap"), icon_name="account_tree") }}
+                            {{ button(text="Sitemap", variant="nav", class="secondary-nav {% if pg_name == 'sitemap' %}active{% endif %}", href=url_for("info.sitemap"), icon_name="account_tree") }}
                         </li>
                         <li>
                             {{ button(text="Settings", variant="nav", class="secondary-nav", href=url_for("settings.personal"), icon_name="settings") }}
@@ -83,7 +83,7 @@
             {% block page_controls %}{% endblock %}
         </div>
         <div id="{% block page_id %}{% endblock %}" class="grid-col">
-            {% block content %}{% endblock %}
+            {% block page_content %}{% endblock %}
         </div>
     </section>
 </main>
@@ -91,4 +91,5 @@
 
 {% block scripts %}
     <script src="{{ url_for('static', filename='pages/main/scripts/base.js') }}" type="module"></script>
+    {% block subscripts %}{% endblock %}
 {% endblock %}
