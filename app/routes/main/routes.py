@@ -11,17 +11,17 @@ def home():
     active_identity = identities.get("active")
     return render_template('pages/main/home.html', active_identity=active_identity, identities=all_identities)
 
-@app_bp.get(rule="/projects", endpoint="projects")
+@app_bp.route(rule="/projects", endpoint="projects", methods=["GET", "POST"])
 @login_required
 def projects():
     return render_template('pages/main/projects.html')
 
-@app_bp.get(rule="/tasks", endpoint="tasks")
+@app_bp.route(rule="/tasks", endpoint="tasks", methods=["GET", "POST"])
 @login_required
 def tasks():
     return render_template('pages/main/tasks.html')
 
-@app_bp.get(rule="/thoughts", endpoint="thoughts")
+@app_bp.route(rule="/thoughts", endpoint="thoughts", methods=["GET", "POST"])
 @login_required
 def thoughts():
     return render_template('pages/main/thoughts.html')
