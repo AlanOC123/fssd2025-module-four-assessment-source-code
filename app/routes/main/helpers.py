@@ -24,3 +24,15 @@ def get_identities(profile: Profile):
     active_identity: ProfileIdentity = db_res.get("payload", {}).get("active_identity")
     session_mngr.set_identity(active_identity.id)
     return { "active": active_identity, "all": profile.identities }
+
+def get_ordinal_suffix(day):
+    if 11 <= day <= 13:
+        return 'th'
+    elif day % 10 == 1:
+        return 'st'
+    elif day % 10 == 2:
+        return 'nd'
+    elif day % 10 == 3:
+        return 'rd'
+    else:
+        return 'th'

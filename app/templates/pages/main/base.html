@@ -19,59 +19,61 @@
     {% endwith %}
     <aside class="grid-col" id="index">
         {% from 'components/_buttons.html' import button %}
-        <header id="main-header">
-            <div id="logo">
-                <div class="logo-container">
-                    <div class="logo-img">
-                        <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="">
+        <div class="index-wrapper">
+            <header id="main-header">
+                <div id="logo">
+                    <div class="logo-container">
+                        <div class="logo-img">
+                            <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="">
+                        </div>
+                        <h3 class="logo-text">Projectify</h3>
                     </div>
-                    <h3 class="logo-text">Projectify</h3>
+                    {{ button(variant="ghost", class="btn--cancel btn--icon-only mobile-only", id="close-nav", icon_name="cancel") }}
                 </div>
-                {{ button(variant="ghost", class="btn--cancel btn--icon-only mobile-only", id="close-nav", icon_name="cancel") }}
-            </div>
-            <nav id="primary">
-                <p class="nav-label">Explore</p>
-                <ul id="primary-nav-links">
-                    <li>
-                        {{ button(text="Home", variant="nav", class="primary-nav {% if pg_name == 'home' %}active{% endif %}", href=url_for('app.home'), icon_name="home") }}
-                    </li>
-                    <li>
-                        {{ button(text="Projects", variant="nav", class="primary-nav {% if pg_name == 'projects' %}active{% endif %}", href=url_for('app.projects'), icon_name="workspaces") }}
-                    </li>
-                    <li>
-                        {{ button(text="Tasks", variant="nav", class="primary-nav {% if pg_name == 'tasks' %}active{% endif %}", href=url_for('app.projects'), icon_name="task") }}
-                    </li>
-                    <li>
-                        {{ button(text="Thoughts", variant="nav", class="primary-nav {% if pg_name == 'thoughts' %}active{% endif %}", href=url_for('app.thoughts'), icon_name="comic_bubble") }}
-                    </li>
-                </ul>
-            </nav>
-        </header>
-        <footer id="main-footer">
-            <nav id="secondary">
-                <div class="footer-controls">
-                    <p class="nav-label">More</p>
-                    {{ button(variant="ghost", class="btn--icon-only", icon_name="arrow_drop_down", id="toggle-footer") }}
-                </div>
-
-                <div class="footer-wrapper">
-                    <ul id="secondary-nav-links">
+                <nav id="primary">
+                    <p class="nav-label">Explore</p>
+                    <ul id="primary-nav-links">
                         <li>
-                            {{ button(text="Contact Us", variant="nav", class="secondary-nav ", href="mailto:aocthatsme246@gmail.com", icon_name="contact_support") }}
+                            {{ button(text="Home", variant="nav", class=("primary-nav active" if pg_name == "home" else "primary_nav"), href=url_for('app.home'), icon_name="home") }}
                         </li>
                         <li>
-                            {{ button(text="About", variant="nav", class="secondary-nav {% if pg_name == 'about' %}active{% endif %}", href=url_for("info.about"), icon_name="info") }}
+                            {{ button(text="Projects", variant="nav", class=("primary-nav active" if pg_name == "projects" else "primary_nav"), href=url_for('app.projects'), icon_name="workspaces") }}
                         </li>
                         <li>
-                            {{ button(text="Sitemap", variant="nav", class="secondary-nav {% if pg_name == 'sitemap' %}active{% endif %}", href=url_for("info.sitemap"), icon_name="account_tree") }}
+                            {{ button(text="Tasks", variant="nav", class=("primary-nav active" if pg_name == "tasks" else "primary_nav"), href=url_for('app.tasks'), icon_name="task") }}
                         </li>
                         <li>
-                            {{ button(text="Settings", variant="nav", class="secondary-nav", href=url_for("settings.personal"), icon_name="settings") }}
+                            {{ button(text="Thoughts", variant="nav", class=("primary-nav active" if pg_name == "thoughts" else "primary_nav"), href=url_for('app.thoughts'), icon_name="comic_bubble") }}
                         </li>
                     </ul>
-                </div>
-            </nav>
-        </footer>
+                </nav>
+            </header>
+            <footer id="main-footer">
+                <nav id="secondary">
+                    <div class="footer-controls">
+                        <p class="nav-label">More</p>
+                        {{ button(variant="ghost", class="btn--icon-only", icon_name="arrow_drop_down", id="toggle-footer") }}
+                    </div>
+
+                    <div class="footer-wrapper">
+                        <ul id="secondary-nav-links">
+                            <li>
+                                {{ button(text="Contact Us", variant="nav", class="secondary-nav ", href="mailto:aocthatsme246@gmail.com", icon_name="contact_support") }}
+                            </li>
+                            <li>
+                                {{ button(text="About", variant="nav", class="secondary-nav", href=url_for("info.about"), icon_name="info") }}
+                            </li>
+                            <li>
+                                {{ button(text="Sitemap", variant="nav", class="secondary-nav", href=url_for("info.sitemap"), icon_name="account_tree") }}
+                            </li>
+                            <li>
+                                {{ button(text="Settings", variant="nav", class="secondary-nav", href=url_for("settings.personal"), icon_name="settings") }}
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </footer>
+        </div>
     </aside>
     <div class="tablet-only"></div>
     <section class="grid-col" id="dashboard">

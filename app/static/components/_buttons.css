@@ -118,13 +118,17 @@
     align-items: center;
     background-color: inherit;
     color: var(--clr-text-1);
-    border-radius: var(--brd-r-sm);
+    border-radius: var(--brd-r-full);
     box-shadow: none;
 }
 
 .btn--nav.active {
     color: var(--clr-info-3);
     background-color: var(--clr-neutral-3);
+}
+
+.btn--nav.active .btn__icon {
+    font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 24;
 }
 
 .btn--nav .btn__text {

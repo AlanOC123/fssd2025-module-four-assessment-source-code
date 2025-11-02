@@ -41,7 +41,6 @@ class ProfileIdentityManager(BaseManager):
     def initialise_profile_identities(self, profile_id):
         # Get all the templates
         template_res = self._db_manager.identity_template.get_all()
-        print(template_res)
 
         # Verify the response is okay before continuing
         if not template_res.get("success"):
@@ -116,9 +115,11 @@ class ProfileIdentityManager(BaseManager):
             return error_res(f"Error deactivating identities. Error: {e}")
 
     
-    def set_identity(self, profile, identity):
+    def set_identity(self, profile, identity_id):
+        identity = self._session.get(ProfileIdentity, identity_id)
+
         if not identity:
-            return error_res("Identity not given.")
+            return error_res("Identity not found.")
 
         try:
             deactivate_res = self.deactivate_identities(profile)

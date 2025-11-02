@@ -1,15 +1,133 @@
-{% extends 'pages/main/base.html' %}
-
-{% block substyles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/main/styles/thoughts.css') }}">
+{% extends 'pages/main/base.html' %} {% block substyles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='pages/main/styles/thoughts.css') }}"
+/>
+{% endblock %} {% block subscripts %}
+<script src="{{ url_for('static', filename='pages/main/scripts/thoughts.js') }}" type="module" defer></script>
+{% endblock %} {% block page_header %}Thoughts{% endblock %} {% block page_id
+%}thoughts{% endblock %} {% block page_controls %}{% endblock %} {% block
+page_content %} {% from 'components/_buttons.html' import button %}
+{% from 'components/_icons.html' import generic %}
+<div id="thought-window">
+    <div id="view-thoughts">
+        {{ button(class="btn--icon-only mobile-only", icon_name="timeline", variant="ghost", id="toggle-timeline") }}
+        {% if not thought_groupings | length %}
+        <div class="empty-list-message-container">
+            <h2>Something on your mind {{ current_user.first_name }}?</h2>
+        </div>
+        {% else %}
+        <ul id="timeline-groupings">
+            {% for date, grouping in thought_groupings.items() %}
+                <li class="timeline-grouping">
+                    <ul class="timeline-grouping-items">
+                        {% for hour, thought_data in grouping.items() %}
+                            <li class="timeline-group-item">
+                                <p class="grouping-card-header">{{ hour }}</p>
+                                <ul class="timeline-grouping-data-list">
+                                    {% for data in thought_data %}
+                                        <li class="thought-card">
+                                            <div class="identity-img">
+                                                <img src="{{ url_for('static', filename='assets/avatars/' ~ active_identity.template.image) }}" alt="">
+                                            </div>
+                                            <div class="thought-content">
+                                                <div class="identity-data">
+                                                    <span class="identity-name">
+                                                        {{ active_identity.custom_name if active_identity.custom_name else active_identity.template.name }}
+                                                    </span>
+                                                    <span class="created-at">{{ data.time }}</span>
+                                                </div>
+                                                <p class="thought-text-content">
+                                                    {{ data.thought_obj.content }}
+                                                </p>
+                                                <textarea name="data.thought_obj.id" id="data.thought_obj.id" minlength="5" maxlength="200", class="thought-text-input">{{ data.thought_obj.content }}</textarea>
+                                            </div>
+                                            <div class="controls">
+                                                {{ button(class="btn--icon-only toggle-thought-controls", icon_name="more_horiz", variant="ghost") }}
+                                                <div class="thought-controls">
+                                                    <div class="edit-thought">
+                                                        {{ button(class="btn--icon-only edit-thought", icon_name="edit", variant="ghost") }}
+                                                        {{ button(class="btn--icon-only confirm-edit", icon_name="data_check", variant="ghost") }}
+                                                    </div>
+                                                    {{ button(class="btn--icon-only edit-thought", icon_name="delete", variant="ghost") }}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <div id="thought-timeline">
+        <h3>Timeline</h3>
+        <ul id="months">
+            <li>
+                {{ button(variant="nav", icon_name="", href=url_for('app.thoughts'), text="Today") }}
+            </li>
+            {% for year, month_num, month_name in timeline_data %}
+                <li>
+                    {{ button(variant="nav", icon_name="", href=url_for('app.thoughts', year=year, month=month_num), text=month_name) }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<div id="new-thought">
+    <form action="{{ url_for('app.thoughts') }}" id="thought-form-container" novalidate method="post">
+        {{ create_thought_form.hidden_tag() }}
+        {{ create_thought_form.create_thought(placeholder="What'cha thinking?") }}
+        {{ create_thought_form.submit_thought(class="visually-hidden", id="submit-thought", form="thought-form-container") }}
+    </form>
+    <div id="thought-controls">
+        <div id="identity-controls">
+            <div id="active-identity" class="identity-card">
+                <div class="identity-img">
+                    <img
+                    src="{{ url_for('static', filename='assets/avatars/' ~ active_identity.template.image) }}"
+                    alt=""
+                    />
+                </div>
+                <span class="identity-name">
+                    {{ active_identity.custom_name if
+                    active_identity.custom_name else
+                    active_identity.tempate.name }}
+                </span>
+                {{ button(id="show-identities", class="btn--icon-only", variant="ghost", icon_name="face") }}
+            </div>
+            <form id="all-identities-wrapper" method="post">
+                {{ switch_identity_form.hidden_tag() }}
+                <ul id="all-identities">
+                    {% for identity_input, identity_data in switch_identity_form.select_identity | zip(all_identities) %}
+                    <li>
+                        {{ identity_input(class="visually-hidden select-identity-input") }}
+                        <label for="{{ identity_input.id }}" class="identity-card select-identity">
+                            <div class="identity-img">
+                                <img src="{{ url_for('static', filename='assets/avatars/' ~ identity_data.template.image) }}" alt="">
+                            </div>
+                            <span class="identity-name">
+                                {{ identity_data.custom_name if
+                                identity_data.custom_name else
+                                identity_data.template.name }}
+                            </span>
+                            {% if identity_data.is_active %}
+                                {{ generic(icon="check_circle") }}
+                            {% endif %}
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {{ switch_identity_form.submit_identity(class="visually-hidden", id="switch-identity") }}
+            </form>
+        </div>
+        <div id="submit-thought-container">
+            {{
+            button(variant="ghost", icon_name="send", class="btn--icon-only", id="submit-thought-control") }}
+        </div>
+    </div>
+</div>
 {% endblock %}
-
-{% block subscripts %}
-    <script src="{{ url_for('static', filename='pages/main/scripts/thoughts.js') }}"></script>
-{% endblock %}
-
-{% block page_header %}Thoughts{% endblock %}
-
-{% block page_controls %}{% endblock %}
-
-{% block page_content %}{% endblock %}

@@ -1,6 +1,6 @@
 import enum
 from app import db
-from sqlalchemy import Boolean, Enum, String, Integer, Date, ForeignKey
+from sqlalchemy import Boolean, Enum, String, Integer, Date, ForeignKey, Text, desc
 from typing import List
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime, timezone
@@ -10,6 +10,12 @@ class ThemeMode(enum.Enum):
     LIGHT = "light"
     DARK = "dark"
     SYSTEM = "system"
+
+class Status(enum.Enum):
+    OVERDUE = "overdue"
+    NOT_STARTED = "not-started",
+    IN_PROGRESS = "in-progress",
+    COMPLETED = "completed"
 
 class Profile(db.Model, UserMixin):
     __tablename__ = "profiles"
@@ -59,6 +65,7 @@ class ProfileIdentity(db.Model):
     template_id: Mapped[int] = mapped_column(ForeignKey('identity_templates.id'))
     is_active: Mapped[Boolean] = mapped_column(Boolean, default=False)
     custom_name: Mapped[str] = mapped_column(String(30), nullable=True)
+
     profile: Mapped["Profile"] = relationship(
         back_populates="identities"
     )
@@ -67,6 +74,12 @@ class ProfileIdentity(db.Model):
     )
     template: Mapped["IdentityTemplate"] = relationship(
         back_populates='profile_identities', lazy="joined"
+    )
+    thoughts: Mapped[List["Thought"]] = relationship(
+        back_populates="profile_identity", 
+        cascade="all, delete-orphan", 
+        lazy="select",
+        order_by="desc(Thought.created_at)"
     )
     identity_created_at: Mapped[datetime] = mapped_column(
         db.DateTime, 
@@ -110,11 +123,6 @@ class Project(db.Model):
     profile: Mapped["Profile"] = relationship(
         back_populates="projects", lazy="select"
     )
-    thoughts: Mapped[List["Thought"]] = relationship(
-        back_populates="project",
-        cascade="all, delete-orphan", # ADDED: Ensures thoughts are deleted with the project
-        lazy="select"
-    )
 
     profile_identity: Mapped["ProfileIdentity"] = relationship(
         back_populates="projects"
@@ -122,7 +130,7 @@ class Project(db.Model):
 
     tasks: Mapped[List["Task"]] = relationship(
         back_populates="project", 
-        cascade="all, delete-orphan", # ADDED: Ensures tasks are deleted with the project
+        cascade="all, delete-orphan",
         lazy="selectin"
     )
     is_active: Mapped[Boolean] = mapped_column(Boolean, default=False)
@@ -157,17 +165,18 @@ class Task(db.Model):
 class Thought(db.Model):
     __tablename__ = "thoughts"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    owner_id: Mapped[int] = mapped_column(ForeignKey("profiles.id"))
-    project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"))
-    title: Mapped[str] = mapped_column(String(30), nullable=False)
-    content: Mapped[str] = mapped_column(String(200), nullable=False)
+    profile_id: Mapped[int] = mapped_column(ForeignKey("profiles.id"))
+    profile_identity_id: Mapped[int] = mapped_column(ForeignKey("profile_identities.id"))
+
+    content: Mapped[str] = mapped_column(Text, nullable=False)
     profile: Mapped["Profile"] = relationship(
         back_populates="thoughts",
         lazy="joined"
     )
-    project: Mapped["Project"] = relationship(
+    profile_identity: Mapped["ProfileIdentity"] = relationship(
         back_populates="thoughts",
-        lazy="joined"
+        lazy="joined",
+        order_by="desc(Thought.created_at)"
     )
     created_at: Mapped[datetime] = mapped_column(
         db.DateTime, 
@@ -176,7 +185,7 @@ class Thought(db.Model):
     )
 
     def __repr__(self) -> str:
-        return f"<Thought {self.title}>"
+        return f"<Thought {self.id}>"
 class Theme(db.Model):
     __tablename__ = "themes"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
