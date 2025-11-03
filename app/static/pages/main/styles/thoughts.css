@@ -3,6 +3,17 @@
     overflow: hidden;
 }
 
+.page-header {
+    justify-content: space-between;
+}
+
+#toggle-timeline-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: var(--sp-lg);
+}
+
 #thoughts {
     display: grid;
     grid-column: 1 / -1;
@@ -14,9 +25,10 @@
 
 #thought-window {
     display: grid;
-    grid-template-columns: 1fr 15dvw;
+    grid-template-columns: 1fr;
     gap: var(--sp-base);
     overflow: hidden;
+    position: relative;
 }
 
 #view-thoughts {
@@ -31,6 +43,8 @@
     display: grid;
     gap: var(--sp-lg);
     scrollbar-width: thin;
+    scroll-behavior: smooth;
+    padding-bottom: var(--pad-base);
 }
 
 .empty-list-message-container {
@@ -68,7 +82,7 @@
 
 .thought-content {
     display: grid;
-    gap: var(--sp-sm);
+    gap: var(--sp-lg);
     flex: 1;
 }
 
@@ -94,37 +108,95 @@
 
 .thought-text-input {
     display: none;
+    background-color: var(--clr-neutral-3);
+    box-shadow: var(--shadow-inner);
+    border: var(--brd-sm);
+    border-color: var(--clr-info-1);
+    border-radius: var(--brd-r-lg);
+    font-size: var(--fs-sm);
+    padding: var(--pad-sm);
+}
+
+.thought-text-input:focus-visible {
+    border: var(--brd-sm);
+    border-color: var(--clr-info-1);
+    outline: none;
+}
+
+.thought-card.editing .thought-text-content {
+    display: none;
+}
+
+.thought-card.editing .thought-text-input {
+    display: inline-block;
 }
 
 .controls {
-    position: absolute;
-    top: 0;
-    right: 0;
+    position: relative;
+    align-self: start;
 }
 
 .thought-controls {
     position: absolute;
-    width: max-content;
-    height: max-content;
     top: 0;
+    right: 0;
+    transform: translate(-10%, -50%);
     right: var(--sp-2xl);
-    display: flex;
     align-items: center;
     border-radius: var(--brd-r-full);
     gap: var(--sp-sm);
     display: none;
+    pointer-events: none;
+}
+
+.thought-controls .btn {
+    padding: var(--pad-xs);
+    background-color: var(--clr-neutral-1);
+}
+
+.thought-controls .btn__icon {
+    font-variation-settings: "FILL" 0, "wght" 600, "GRAD" 0, "opsz" 8;
+} 
+
+.controls.shown .thought-controls {
+    pointer-events: all;
+    display: flex;
+    justify-content: space-between;
 }
 
 .confirm-edit {
     display: none;
 }
 
+.thought-card.editing .edit-thought {
+    display: none;
+}
+
+.thought-card.editing .confirm-edit {
+    display: flex;
+}
+
 #thought-timeline {
+    position: absolute;
+    inset: 0;
+    transform: translateX(100%);
     display: grid;
     grid-template-rows: auto 1fr;
     background-color: var(--clr-neutral-2);
     padding: var(--pad-base);
     border-radius: var(--brd-r-lg);
+    z-index: 1;
+    transition: transform var(--trans-default);
+}
+
+.thought-timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#thought-window.show-timeline #thought-timeline {
+    transform: translateX(0%);
 }
 
 .thought-id {
@@ -257,11 +329,21 @@
 }
 
 @media (min-width: 1024px) {
+
     .identity-img {
         flex-basis: calc(24px + calc(0.25rem * 2));
     }
 
     .identity-name {
         font-size: var(--fs-sm);
+    }
+
+    #thought-window {
+        grid-template-columns: 1fr 20dvw;
+    }
+
+    #thought-timeline {
+        position: static;
+        transform: translateX(0%);
     }
 }

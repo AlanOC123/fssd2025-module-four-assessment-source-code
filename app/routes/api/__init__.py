@@ -9,3 +9,5 @@ api_bp_schema = blueprint_schema(blueprint=api_bp)
 
 # Bind routes
 from .identity import get_identity, set_identity, edit_identity
+from .thoughts import delete_thought, edit_thought
+from .projects import delete_project, edit_project

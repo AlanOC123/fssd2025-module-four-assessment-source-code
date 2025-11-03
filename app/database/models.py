@@ -2,9 +2,11 @@ import enum
 from app import db
 from sqlalchemy import Boolean, Enum, String, Integer, Date, ForeignKey, Text, desc
 from typing import List
+from sqlalchemy import cast
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime, timezone
 from flask_login import UserMixin
+from datetime import date
 
 class ThemeMode(enum.Enum):
     LIGHT = "light"
@@ -12,10 +14,14 @@ class ThemeMode(enum.Enum):
     SYSTEM = "system"
 
 class Status(enum.Enum):
-    OVERDUE = "overdue"
-    NOT_STARTED = "not-started",
-    IN_PROGRESS = "in-progress",
+    NOT_STARTED = "not_started"
+    IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
+
+class Difficulty(enum.Enum):
+    EASY = "easy"
+    MEDIUM = "medium"
+    HARD ="hard"
 
 class Profile(db.Model, UserMixin):
     __tablename__ = "profiles"
@@ -119,7 +125,8 @@ class Project(db.Model):
         db.ForeignKey("profile_identities.id")
     )
     name: Mapped[str] = mapped_column(String(100), nullable=False)
-    description: Mapped[str | None] = mapped_column(String(500))
+    is_active: Mapped[Boolean] = mapped_column(Boolean, default=False)
+    description: Mapped[str | None] = mapped_column(Text)
     profile: Mapped["Profile"] = relationship(
         back_populates="projects", lazy="select"
     )
@@ -133,22 +140,125 @@ class Project(db.Model):
         cascade="all, delete-orphan",
         lazy="selectin"
     )
-    is_active: Mapped[Boolean] = mapped_column(Boolean, default=False)
-    is_complete: Mapped[Boolean] = mapped_column(Boolean, default=False)
+
+    start_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    end_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    status: Mapped[Status] = mapped_column(
+        Enum(
+            Status, 
+            native_enum=True,
+            values_callable=lambda obj: [e.value for e in obj]
+        ),
+        default=Status.NOT_STARTED,
+        nullable=False,
+    )
+
     created_at: Mapped[datetime] = mapped_column(
         db.DateTime, 
         default=datetime.now(timezone.utc), 
         nullable=False
     )
 
+    @property
+    def is_overdue(self) -> bool:
+        if not self.end_date:
+            return False
+        
+        return (self.status != Status.COMPLETED and self.end_date < date.today())
+
     def __repr__(self) -> str:
         return f"<Project {self.name}>"
+    
+    @property
+    def time_elapsed_percentage(self):
+        today = date.today()
+        if self.status == Status.COMPLETED:
+            return 100
+        
+        if not self.start_date or not self.end_date or self.start_date > today:
+            return 0
+        
+        total_duration = (self.end_date - self.start_date).days
+
+        if total_duration == 0:
+            return 100
+
+        elapsed_duration = (today - self.start_date).days
+        percentage = elapsed_duration / total_duration * 100
+
+        return int(min(max(percentage, 0), 100))
+    
+    @property
+    def time_left(self):
+        today = date.today()
+        if self.status == Status.COMPLETED:
+            return 0
+        
+        if not self.end_date:
+            return 0
+        
+        if self.end_date < today:
+            return 0
+        
+        days_remaining = (self.end_date - today).days
+
+        return days_remaining
+
+    @property
+    def tasks_completed_percentage(self):
+        if self.status == Status.COMPLETED:
+            return 100
+        
+        if not len(self.tasks):
+            return 0
+        
+        tasks_completed = [task.is_complete for task in self.tasks]
+
+        percentage = (len(tasks_completed) / len(self.tasks))
+
+        return int(min(max(percentage, 0), 100))
+
+    @property
+    def tasks_incomplete(self):
+        if self.status == Status.COMPLETED:
+            return len(self.tasks)
+
+        if not len(self.tasks):
+            return 0
+
+        total_tasks = len(self.tasks)
+        tasks_incompleted = len([not task.is_complete for task in self.tasks])
+
+        return int(min(max(tasks_incompleted, 0), total_tasks))
+
+    @property
+    def total_tasks(self):
+        return len(self.tasks)
+
 
 class Task(db.Model):
     __tablename__ = "tasks"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"))
+    due_date: Mapped[date] = mapped_column(Date, nullable=False)
+    difficulty: Mapped[Difficulty] = mapped_column(
+        Enum(
+            Difficulty, 
+            native_enum=True,
+            name="difficulty"
+        ),
+        default=Difficulty.MEDIUM.value,
+        nullable=False
+    )
     is_complete: Mapped[bool] = mapped_column(Boolean, default=False)
     project: Mapped["Project"] = relationship(
         back_populates="tasks",

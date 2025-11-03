@@ -6,12 +6,16 @@
 {% endblock %} {% block subscripts %}
 <script src="{{ url_for('static', filename='pages/main/scripts/thoughts.js') }}" type="module" defer></script>
 {% endblock %} {% block page_header %}Thoughts{% endblock %} {% block page_id
-%}thoughts{% endblock %} {% block page_controls %}{% endblock %} {% block
+%}thoughts{% endblock %} {% block page_controls %}
+<div id="toggle-timeline-view">
+    {% from 'components/_buttons.html' import button %}
+    {{ button(class="btn--icon-only mobile-only", icon_name="timeline", variant="ghost", id="open-timeline") }}
+</div>
+{% endblock %} {% block
 page_content %} {% from 'components/_buttons.html' import button %}
 {% from 'components/_icons.html' import generic %}
 <div id="thought-window">
     <div id="view-thoughts">
-        {{ button(class="btn--icon-only mobile-only", icon_name="timeline", variant="ghost", id="toggle-timeline") }}
         {% if not thought_groupings | length %}
         <div class="empty-list-message-container">
             <h2>Something on your mind {{ current_user.first_name }}?</h2>
@@ -26,7 +30,7 @@ page_content %} {% from 'components/_buttons.html' import button %}
                                 <p class="grouping-card-header">{{ hour }}</p>
                                 <ul class="timeline-grouping-data-list">
                                     {% for data in thought_data %}
-                                        <li class="thought-card">
+                                        <li class="thought-card" data-thought-id="{{ data.thought_obj.id }}">
                                             <div class="identity-img">
                                                 <img src="{{ url_for('static', filename='assets/avatars/' ~ active_identity.template.image) }}" alt="">
                                             </div>
@@ -40,16 +44,16 @@ page_content %} {% from 'components/_buttons.html' import button %}
                                                 <p class="thought-text-content">
                                                     {{ data.thought_obj.content }}
                                                 </p>
-                                                <textarea name="data.thought_obj.id" id="data.thought_obj.id" minlength="5" maxlength="200", class="thought-text-input">{{ data.thought_obj.content }}</textarea>
+                                                <textarea name="{{ data.thought_obj.id }}" id="{{ data.thought_obj.id }}" minlength="5" maxlength="200", class="thought-text-input">{{ data.thought_obj.content }}</textarea>
                                             </div>
                                             <div class="controls">
                                                 {{ button(class="btn--icon-only toggle-thought-controls", icon_name="more_horiz", variant="ghost") }}
                                                 <div class="thought-controls">
-                                                    <div class="edit-thought">
+                                                    <div class="edit-thought-controls">
                                                         {{ button(class="btn--icon-only edit-thought", icon_name="edit", variant="ghost") }}
                                                         {{ button(class="btn--icon-only confirm-edit", icon_name="data_check", variant="ghost") }}
                                                     </div>
-                                                    {{ button(class="btn--icon-only edit-thought", icon_name="delete", variant="ghost") }}
+                                                    {{ button(class="btn--icon-only delete-thought", icon_name="delete", variant="ghost") }}
                                                 </div>
                                             </div>
                                         </li>
@@ -64,7 +68,10 @@ page_content %} {% from 'components/_buttons.html' import button %}
         {% endif %}
     </div>
     <div id="thought-timeline">
-        <h3>Timeline</h3>
+        <div class="thought-timeline-header">
+            <h3>Timeline</h3>
+            {{ button(class="btn--icon-only btn--cancel mobile-only", icon_name="cancel", variant="ghost", id="close-timeline") }}
+        </div>
         <ul id="months">
             <li>
                 {{ button(variant="nav", icon_name="", href=url_for('app.thoughts'), text="Today") }}

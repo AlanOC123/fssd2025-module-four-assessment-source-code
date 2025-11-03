@@ -5,6 +5,7 @@ from .IdentityTemplateManager import IdentityTemplateManager
 from .ProfileIdentityManager import ProfileIdentityManager
 from .ThemeManager import ThemeManager
 from .ThoughtManager import ThoughtManager
+from .ProjectManager import ProjectManager
 
 class DatabaseManager(BaseManager):
     def __init__(self, config) -> None:
@@ -14,6 +15,7 @@ class DatabaseManager(BaseManager):
         self._profile_identity_manager = ProfileIdentityManager(self)
         self._thought_manager = ThoughtManager(self)
         self._theme_manager = ThemeManager(self)
+        self._project_manager = ProjectManager(self)
 
     @property
     def profile(self) -> ProfileManager:
@@ -34,3 +36,7 @@ class DatabaseManager(BaseManager):
     @property
     def theme(self) -> ThemeManager:
         return self._theme_manager
+    
+    @property
+    def project(self) -> ProjectManager:
+        return self._project_manager

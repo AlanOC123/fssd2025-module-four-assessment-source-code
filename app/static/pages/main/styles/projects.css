@@ -1,0 +1,362 @@
+#dashboard {
+    max-height: 100dvh;
+    overflow: hidden;
+    position: relative;
+}
+
+.page-header {
+    align-items: center;
+    justify-content: space-between;
+}
+
+#page-controls {
+    display: flex;
+    gap: var(--sp-base);
+    align-items: center;
+    margin-right: var(--sp-base);
+}
+
+#projects {
+    display: grid;
+    grid-column: 1 / -1;
+    padding: var(--section-padding);
+    max-height: 100%;
+    gap: var(--sp-base);
+}
+
+.sidebar {
+    height: 100dvh;
+    width: 100dvw;
+    top: 0;
+    right: 0;
+    position: absolute;
+    padding: 0;
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform var(--trans-default), opacity var(--trans-default), padding var(--trans-default);
+    z-index: 50;
+}
+
+.sidebar.shown {
+    padding: var(--pad-sm);
+    transform: translateX(0%);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.sidebar-wrapper {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    padding: var(--pad-lg);
+    background-color: var(--clr-neutral-2);
+    height: 100%;
+    border-radius: var(--brd-r-2xl);
+    gap: var(--sp-lg);
+}
+
+#create-project-wrapper {
+    grid-template-rows: auto auto 1fr;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#create-project-form {
+    align-items: space-around;
+    justify-content: center;
+    box-shadow: none;
+}
+
+.project-identity {
+    display: grid;
+    gap: var(--sp-sm);
+}
+
+#submit-create-project {
+    background-color: var(--clr-success-3);
+}
+
+#reset-form {
+    background-color: var(--clr-warning-3);
+}
+
+textarea.form-input {
+    border-radius: var(--brd-r-lg);
+}
+
+.status-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+}
+
+.status-input:checked + .status-label {
+    background-color: var(--clr-secondary-1-40);
+    border: var(--brd-sm);
+    border-color: var(--clr-secondary-2);
+}
+
+.status-label {
+    border: var(--brd-sm);
+    border-color: var(--clr-transparent);
+    background-color: var(--clr-neutral-3);
+    padding: var(--pad-sm);
+    border-radius: var(--brd-r-full);
+    transition: background-color var(--trans-default), border var(--trans-default), color var(--trans-default);
+}
+
+#identity-controls {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--clr-neutral-2);
+    padding: var(--pad-xs);
+    border-radius: var(--brd-r-full);
+}
+
+#all-identities-wrapper {
+    display: grid;
+    grid-template-rows: 1fr;
+    overflow: hidden;
+}
+
+#identity-controls.shown #all-identities {
+    padding: var(--pad-sm);
+}
+
+#all-identities .identity-card {
+    background-color: var(--clr-neutral-3);
+}
+
+#all-identities .identity-card:hover {
+    background-color: var(--clr-info-1-40);
+    cursor: pointer;
+}
+
+#all-identities {
+    overflow: hidden;
+    display: grid;
+    background-color: var(--clr-neutral-2);
+    border-radius: var(--brd-r-lg);
+    padding: 0;
+    gap: var(--sp-base);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    max-height: 400px;
+    padding-block: var(--pad-base);
+}
+
+#selected-identity {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--sp-lg);
+}
+
+.identity-card {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-base);
+    padding: var(--pad-sm);
+    border-radius: var(--brd-r-full);
+}
+
+.identity-img {
+    flex-shrink: 0;
+    flex-grow: 0;
+    flex-basis: calc(24px + calc(0.5rem * 2));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: var(--brd-r-full);
+}
+
+.identity-name {
+    font-size: var(--fs-base);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip: rect(0 0 0 0);
+}
+
+#timeline-controls {
+    display: grid;
+    grid-template-rows: auto auto;
+    align-items: start;
+    padding: var(--pad-sm);
+    gap: var(--sp-base);
+}
+
+#project-window {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+#project-timeline {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--sp-lg);
+}
+
+#project-viewport {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--sp-base);
+}
+
+.project-card {
+    background-color: var(--clr-neutral-2);
+    border-radius: var(--brd-r-lg);
+    display: grid;
+    gap: var(--sp-lg);
+    padding: var(--pad-base);
+}
+
+.project-card-content {
+    padding: var(--pad-base);
+    background-color: var(--clr-neutral-3);
+    display: flex;
+    width: 100%;
+    border: var(--brd-sm) var(--clr-transparent);
+    border-radius: var(--brd-r-lg);
+}
+
+.project-card.not_started .project-card-content {
+    border: var(--brd-sm) var(--clr-danger-1);
+}
+
+.project-card.in_progress .project-card-content {
+    border: var(--brd-sm) var(--clr-warning-1);
+}
+
+.project-card.completed .project-card-content {
+    border: var(--brd-sm) var(--clr-success-1);
+}
+
+.project-dates-container {
+    display: grid;
+}
+
+.project-description {
+    font-size: var(--fs-xs);
+}
+
+.date-data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-time-left-container {
+    gap: var(--sp-base);
+}
+
+.progress-bar {
+    flex: 1;
+    display: flex;
+    padding: var(--pad-sm);
+    gap: var(--sp-base);
+}
+
+.progress-track {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    background-color: var(--clr-neutral-3);
+    border-radius: var(--brd-r-full);
+    position: relative;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(to right, var(--clr-primary-1), var(--clr-secondary-1));
+    border-radius: inherit;
+}
+
+.days-left,
+.start-date,
+.end-date {
+    font-size: var(--fs-xs);
+}
+
+.project-controls-container {
+    display: flex;
+    justify-content: end;
+    gap: var(--sp-base);
+}
+
+.edit-project-input {
+    display: none;
+}
+
+.project-card.editing .edit-project-input {
+    display: inline-block;
+}
+
+.project-card.editing .view-project-data {
+    display: none;
+}
+
+.delete-project-data {
+    display: none;
+}
+
+.confirm-delete-project {
+    background-color: var(--clr-danger-1);
+}
+
+.project-card.deleting .delete-project-data {
+    display: flex;
+}
+
+.project-card.deleting .not-deleting {
+    display: none;
+}
+
+.status-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-base);
+}
+
+.status-controls .btn {
+    flex: 1;
+    max-width: 100%;
+    background-color: var(--clr-neutral-2);
+}
+
+.status-controls .btn:hover {
+    background-color: var(--clr-neutral-3);
+}
+
+.status-controls .btn__text {
+    display: flex;
+}
+
+@media (min-width: 425px) {
+    .sidebar {
+        width: 400px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .sidebar {
+        width: 500px;
+    }
+
+    .sidebar-wrapper {
+        gap: var(--sp-base);
+    }
+}
