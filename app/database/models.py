@@ -270,6 +270,45 @@ class Task(db.Model):
         nullable=False
     )
 
+    @property
+    def time_left(self):
+        if not self.due_date:
+            return 0
+        
+        today = date.today()
+
+        days_remaining = (self.due_date - today).days
+
+        return max(days_remaining, 0)
+
+    @property
+    def time_elapsed_percentage(self):
+        
+        today = date.today()
+        start = self.created_at.date()
+
+        if self.is_complete:
+            return 100
+        if not self.due_date:
+            return 100
+        
+        if self.due_date < start:
+            return 100
+        if today < start:
+            return 0
+        if today >= self.due_date:
+            return 100
+
+        elapsed = (today - start).days
+        total = (self.due_date - start).days
+
+        if total == 0:
+            return 100
+
+        percentage = (elapsed / total) * 100
+
+        return int(min(max(percentage, 0), 100))
+
     def __repr__(self) -> str:
         return f"<Task {self.name}>"
 class Thought(db.Model):

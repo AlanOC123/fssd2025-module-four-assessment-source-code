@@ -5,10 +5,9 @@ from app.helper.functions.response_schemas import success_res, error_res
 from sqlalchemy.exc import IntegrityError
 
 class BaseManager():
-    _db_manager = None
-
     def __init__(self, db_manager_instance) -> None:
-        self._db_manager = db_manager_instance
+        from app.helper.classes.database.DatabaseManager import DatabaseManager
+        self._db_manager: DatabaseManager = db_manager_instance
     
     @property
     def _session(self):

@@ -2,13 +2,14 @@ from flask import render_template, redirect, url_for, current_app, flash, abort,
 from . import app_bp
 from flask_login import current_user, login_required
 from .helpers import get_identities, get_ordinal_suffix
-from .forms import CreateThoughtForm, SwitchIdentityForm, CreateProjectForm
+from .forms import CreateThoughtForm, SwitchIdentityForm, CreateProjectForm, CreateTaskForm, SwitchProjectForm
 from app.helper.classes.database.DatabaseManager import DatabaseManager
 from app.helper.classes.database.ProfileManager import ProfileManager
 from app.helper.classes.database.ProfileIdentityManager import ProfileIdentityManager
 from app.helper.classes.database.ThoughtManager import ThoughtManager
 from app.helper.classes.database.ProjectManager import ProjectManager
-from app.database.models import Profile, Thought, ProfileIdentity, Status, Project
+from app.helper.classes.database.TaskManager import TaskManager
+from app.database.models import Profile, Thought, ProfileIdentity, Status, Project, Task, Difficulty
 from typing import List
 
 @app_bp.get(rule="/home", endpoint="home")
@@ -136,11 +137,128 @@ def projects():
 @app_bp.route(rule="/tasks", endpoint="tasks", methods=["GET", "POST"])
 @login_required
 def tasks():
+    # Get managers
+    db_manager: DatabaseManager = current_app.db_manager
+    project_manager: ProjectManager = db_manager.project
+    profile_identity_manager: ProfileIdentityManager = db_manager.profile_identity
+    task_manager: TaskManager = db_manager.task
+
+    # Get the filter
+    filter_keyword = request.args.get("filter_key")
+
+    # Query the current identity (Get)
+    active_identity_res = profile_identity_manager.get_active_identity(current_user)
+
+    if not active_identity_res.get("success", False):
+        active_identity_res = profile_identity_manager.set_default_identity(current_user)
+
+    if not active_identity_res.get("success", False):
+        abort(500)
+
+    # Get all the identities
+    all_identities = current_user.identities
+    active_identity: ProfileIdentity = active_identity_res.get("payload", {}).get("active_identity")
+
+    # Get the projects
+    projects = active_identity.projects
+    active_project_res = project_manager.get_active_project(active_identity)
+
+    if not active_project_res.get("success"):
+        print("No projects found")
     
+    active_project = active_project_res.get("payload", {}).get("active_project")
+
+    # Create the forms
+    task_difficulty_choices = [(e.value, e.name.title()) for e in Difficulty]
+    project_choices = [(p.id, p.name) for p in projects]
+
+    identity_choices = [
+        (identity.id, (identity.custom_name if identity.custom_name else identity.template.name)) for identity in all_identities 
+    ]
+
+    create_task_form = CreateTaskForm(difficulty_choices=task_difficulty_choices)
+    switch_identity_form = SwitchIdentityForm(identities=identity_choices)
+    switch_project_form = SwitchProjectForm(project_choices=project_choices)
+
+    # Create Task Form Submit
+    if create_task_form.submit_task.data and create_task_form.validate_on_submit():
+        task_name = create_task_form.task_name.data
+        task_due_date = create_task_form.task_due_date.data
+        task_difficulty = create_task_form.task_difficulty.data
+
+        task_data = {
+            "name": task_name,
+            "due_date": task_due_date,
+            "difficulty": task_difficulty,
+            "project_id": active_project.id
+        }
+    
+        db_res = task_manager.create_task(**task_data)
+
+        if not db_res.get("success"):
+            flash(message="Failed to create task...")
+        else:
+            flash("Task created!")
+        
+        return redirect(url_for('app.tasks'))
+
+    # Switch Identity Form Submit
+    elif switch_identity_form.submit_identity.data and switch_identity_form.validate_on_submit():
+
+        # Get the identity
+        identity_id = switch_identity_form.select_identity.data
+
+        # Set and swap the identity
+        active_identity_res = profile_identity_manager.set_identity(current_user, identity_id)
+
+        if not active_identity_res.get("success", False):
+            print(f"Error setting identity. Error: {active_identity_res.get("msg", "")}")
+            flash(message="Couldnt set identity...", category="error")
+        else:
+            active_identity = active_identity_res.get("payload", {}).get("active_identity")
+            flash(message="Identity changed!", category="success")
+        
+        return redirect(url_for('app.tasks'))
+
+    elif switch_project_form.submit_project_switch.data and switch_project_form.validate_on_submit():
+        project_id = switch_project_form.switch_project.data
+
+        # Set the new project
+        active_project_res = project_manager.set_active_project(active_identity, project_id)
+
+        if not active_project_res.get("success", False):
+            print(f"Error setting project. Error: {active_identity_res.get("msg", "")}")
+            flash(message="Couldnt set project...", category="error")
+        else:
+            active_project = active_project_res.get("payload", {}).get("active_project")
+            flash(message="Project changed!", category="success")
+
+        return redirect(url_for('app.tasks'))
+    
+    tasks = []
+
+    if active_project:
+        tasks_res = task_manager.get_tasks_by_difficulty(active_project.id, difficulty_key=filter_keyword)
+
+        tasks = tasks_res.get("payload", {}).get("tasks", [])
+        tasks = sorted(
+            tasks,
+            key=lambda task: task.time_left
+        )
+    
+    print(switch_project_form.switch_project.choices)
+
     return render_template(
         'pages/main/tasks.html',
         pg_name="tasks",
-        current_user=current_user
+        current_user=current_user,
+        create_task_form=create_task_form,
+        switch_identity_form = switch_identity_form,
+        switch_project_form=switch_project_form,
+        active_identity=active_identity,
+        active_project=active_project,
+        all_identities=all_identities,
+        tasks=tasks
     )
 
 @app_bp.route(rule="/thoughts", endpoint="thoughts", methods=["GET", "POST"])
@@ -177,7 +295,7 @@ def thoughts():
 
     # Create Thought Form Submit
     if create_thought_form.submit_thought.data and create_thought_form.validate_on_submit():
-        content = create_thought_form.create_thought.data;
+        content = create_thought_form.create_thought.data
         db_res = thought_manager.create_thought(profile=current_user, profile_identity=active_identity, content=content)
 
         if not db_res.get("success", False):

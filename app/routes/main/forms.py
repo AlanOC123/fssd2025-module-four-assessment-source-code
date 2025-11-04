@@ -3,8 +3,7 @@ from flask_wtf.form import _Auto
 from wtforms import TextAreaField, SubmitField, RadioField, StringField, DateField
 from wtforms.validators import DataRequired, Length, Optional
 from datetime import date, timedelta
-from app.database.models import Status
-
+from app.database.models import Status, Difficulty
 class CreateThoughtForm(FlaskForm):
     create_thought = TextAreaField(
         "",
@@ -75,3 +74,52 @@ class CreateProjectForm(FlaskForm):
         super().__init__(*args, **kwargs)
 
         self.project_status.choices = status_choices
+    
+class CreateTaskForm(FlaskForm):
+    task_name = StringField(
+        label="Task Name",
+        validators=[
+            DataRequired("Enter a task name..."),
+            Length(min=5, max=100, message="Task Name must between 5 and 100 characters long...")
+        ]
+    )
+
+    task_due_date = DateField(
+        label="Due Date",
+        validators=[
+            DataRequired("Enter a start date")
+        ],
+        default=timedelta(days=30) + date.today()
+    )
+
+    task_difficulty = RadioField(
+        label="Difficulty",
+        coerce=Difficulty,
+        validators=[
+            DataRequired()
+        ],
+        default=Difficulty.MEDIUM.value
+    )
+
+    submit_task = SubmitField("Submit")
+
+    def __init__(self, *args, **kwargs):
+        difficulty_choices = kwargs.pop("difficulty_choices", [])
+        super().__init__(*args, **kwargs)
+        self.task_difficulty.choices = difficulty_choices
+
+class SwitchProjectForm(FlaskForm):
+    switch_project = RadioField(
+        label="",
+        coerce=int,
+        validators=[
+            DataRequired()
+        ]
+    )
+
+    submit_project_switch = SubmitField("Switch")
+
+    def __init__(self, *args, **kwargs):
+        project_choices = kwargs.pop("project_choices", [])
+        super().__init__(*args, **kwargs)
+        self.switch_project.choices = project_choices

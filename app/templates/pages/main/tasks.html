@@ -1,15 +1,216 @@
-{% extends 'pages/main/base.html' %}
-
-{% block substyles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/main/styles/tasks.css') }}">
-{% endblock %}
-
-{% block subscripts %}
-    <script src="{{ url_for('static', filename='pages/main/scripts/tasks.js') }}"></script>
-{% endblock %}
-
-{% block page_header %}Tasks{% endblock %}
-
-{% block page_controls %}{% endblock %}
-
-{% block page_content %}{% endblock %}
+{% extends 'pages/main/base.html' %} {% block substyles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='pages/main/styles/tasks.css') }}"
+/>
+{% endblock %} {% block subscripts %}
+<script
+    src="{{ url_for('static', filename='pages/main/scripts/tasks.js') }}"
+    type="module"
+    defer
+></script>
+{% endblock %} {% block page_header %}Tasks{% endblock %} {% block page_controls
+%}
+<div id="page-controls">
+    {% from 'components/_buttons.html' import button %} {{
+    button(variant="ghost", icon_name="face", class="btn--icon-only",
+    id="show-select-identity") }} {{ button(variant="ghost",
+    icon_name="workspaces", class="btn--icon-only", id="show-select-project") }}
+    {{ button(variant="ghost", icon_name="add_task", class="btn--icon-only",
+    id="show-create-task") }}
+</div>
+{% endblock %} {% block page_content %} {% from 'components/_buttons.html'
+import button %} {% from 'components/_icons.html' import generic %}
+<div id="task-window">
+    <div id="task-controls">
+        <p class="task-viewport-header">Sort By</p>
+        <div class="difficulty-controls">
+            {{ button(text="All", href=url_for('app.tasks'), variant="ghost") }} {{ button(text="Easy",
+            href=url_for('app.tasks', filter_key="easy"),
+            variant="ghost") }} {{ button(text="Medium",
+            href=url_for('app.tasks', filter_key="medium"),
+            variant="ghost") }} {{ button(text="Hard",
+            href=url_for('app.tasks', filter_key="hard"),
+            variant="ghost") }}
+        </div>
+    </div>
+</div>
+<div id="select-project" class="sidebar">
+    <div class="sidebar-wrapper" id="select-project-wrapper">
+        <div class="sidebar-header" id="select-project-header">
+            <h3>Projects</h3>
+            {{ button(class="btn--icon-only btn--cancel close-sidebar",
+            variant="ghost", icon_name="cancel") }}
+        </div>
+        {% if switch_project_form.switch_project.choices %}
+        <div id="curr-project">
+            <p class="form-label">Active</p>
+            <p class="curr-project-name">{{ active_project.name }}</p>
+        </div>
+        <form class="project-list-container" novalidate action="{{ url_for('app.tasks') }}" method="post">
+            {{ switch_project_form.hidden_tag() }}
+            <p class="form-label">Projects</p>
+            <ul class="project-choices">
+                {% for project in switch_project_form.switch_project %}
+                <li class="project-choice">
+                    {{ project(class="visually-hidden project-choice-input") }}
+                    <label for="{{ project.id }}" class="project-card">
+                        {{ project.label.text }} {% if project.label.text ==
+                        active_project.name %} {{ generic(icon="check_circle")
+                        }} {% endif %}
+                    </label>
+                </li>
+                {% endfor %}
+            </ul>
+            {{ switch_project_form.submit_project_switch(class="visually-hidden", id="switch-project-submit") }}
+        </div>
+        {% else %}
+        <div class="no-projects">
+            <p>No Projects. Create One?</p>
+            {{ button(text="To Projects", href=url_for('app.projects'),
+            variant="primary") }}
+        </div>
+        {% endif %}
+    </div>
+</div>
+<div id="select-identity" class="sidebar">
+    <div id="select-identity-wrapper" class="sidebar-wrapper">
+        <div id="select-identity-header" class="sidebar-header">
+            <h3>Identity</h3>
+            {{ button(icon_name="cancel", class="btn--cancel btn--icon-only
+            close-sidebar", id="cancel-select-identity-btn") }}
+        </div>
+        <div id="selected-identity">
+            <div id="curr">
+                <p class="form-label">Current</p>
+                <div class="identity-card">
+                    <div class="identity-img">
+                        <img
+                            src="{{ url_for('static', filename='assets/avatars/' ~ active_identity.template.image) }}"
+                            alt=""
+                        />
+                    </div>
+                    <span class="identity-name">
+                        {{ active_identity.custom_name if
+                        active_identity.custom_name else
+                        active_identity.tempate.name }}
+                    </span>
+                </div>
+            </div>
+            <div id="new">
+                <p class="form-label">Available</p>
+                <form id="all-identities-wrapper" method="post">
+                    {{ switch_identity_form.hidden_tag() }}
+                    <ul id="all-identities">
+                        {% for identity_input, identity_data in
+                        switch_identity_form.select_identity |
+                        zip(all_identities) %}
+                        <li>
+                            {{ identity_input(class="visually-hidden
+                            select-identity-input") }}
+                            <label
+                                for="{{ identity_input.id }}"
+                                class="identity-card select-identity"
+                            >
+                                <div class="identity-img">
+                                    <img
+                                        src="{{ url_for('static', filename='assets/avatars/' ~ identity_data.template.image) }}"
+                                        alt=""
+                                    />
+                                </div>
+                                <span class="identity-name">
+                                    {{ identity_data.custom_name if
+                                    identity_data.custom_name else
+                                    identity_data.template.name }}
+                                </span>
+                                {% from 'components/_icons.html' import generic
+                                %} {% if identity_data.is_active %} {{
+                                generic(icon="check_circle") }} {% endif %}
+                            </label>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {{
+                    switch_identity_form.submit_identity(class="visually-hidden",
+                    id="switch-identity") }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div
+    id="create-task"
+    data-active-project="{% if active_project %}true{% else %}false{% endif %}"
+    class="sidebar"
+>
+    <div id="create-task-wrapper" class="sidebar-wrapper">
+        <div id="create-task-header" class="sidebar-header">
+            <h3>Create</h3>
+            {{ button(variant="ghost", class="btn--icon-only",
+            id="submit-create-task", icon_name="add_task") }} {{
+            button(variant="ghost", class="btn--icon-only", id="reset-form",
+            icon_name="autorenew") }} {{ button(icon_name="cancel",
+            class="btn--cancel btn--icon-only close-sidebar",
+            id="cancel-creation-btn") }}
+        </div>
+        <div class="task-project">
+            <p class="form-label">Project</p>
+            <div id="active-project" class="project-card">
+                <span class="project-name">
+                    {{ active_project.name if active_project else "Select
+                    Project" }}
+                </span>
+            </div>
+        </div>
+        <form
+            action="{{ url_for('app.tasks') }}"
+            id="create-task-form"
+            method="post"
+            novalidate
+            class="form-container"
+        >
+            {{ create_task_form.hidden_tag() }}
+            <div class=".form-input-group">
+                {{ create_task_form.task_name.label(class="form-label") }} {{
+                create_task_form.task_name(class="form-input") }} {% if
+                create_task_form.task_name.errors %} {% for error in
+                create_task_form.task_name.errors %}
+                <span class="error-msg">{{ error }}</span>
+                {% endfor %} {% endif %}
+            </div>
+            <div class=".form-input-group">
+                {{ create_task_form.task_due_date.label(class="form-label") }}
+                {{ create_task_form.task_due_date(class="form-input") }} {% if
+                create_task_form.task_due_date.errors %} {% for error in
+                create_task_form.task_due_date.errors %}
+                <span class="error-msg">{{ error }}</span>
+                {% endfor %} {% endif %}
+            </div>
+            <div class=".form-input-group">
+                {{ create_task_form.task_difficulty.label(class="form-label") }}
+                <ul class="difficulty-options">
+                    {% for difficulty in create_task_form.task_difficulty %}
+                    <li class="difficulty-option">
+                        {{ difficulty(class="visually-hidden difficulty-input")
+                        }}
+                        <label
+                            class="difficulty-label"
+                            for="{{ difficulty.id }}"
+                        >
+                            {{ difficulty.label }}
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% if create_task_form.task_difficulty.errors %} {% for error in
+                create_task_form.task_difficulty.errors %}
+                <span class="error-msg">{{ error }}</span>
+                {% endfor %} {% endif %}
+            </div>
+            {{ create_task_form.submit_task(class="visually-hidden",
+            id="submit-new-task") }} {{ button(type="reset",
+            class="visually-hidden", id="reset-form-data") }}
+        </form>
+    </div>
+</div>
+{% endblock %} {% block page_id %}tasks{% endblock %}

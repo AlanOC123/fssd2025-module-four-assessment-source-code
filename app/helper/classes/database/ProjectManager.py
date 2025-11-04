@@ -1,4 +1,5 @@
 from .BaseManager import BaseManager
+from .ProfileIdentityManager import ProfileIdentityManager
 from app.database.models import Project, Status
 from app.helper.functions.response_schemas import success_res, error_res
 from datetime import date, timedelta, datetime
@@ -190,15 +191,17 @@ class ProjectManager(BaseManager):
         except Exception as e:
             return error_res(f"Error getting projects. Error {e}")
     
-    def update_project_status(self, project_id):
+    def update_project_status(self, project_id) -> dict:
         if not project_id:
             return error_res("Project not given...")
         
         # Get the project
         project = self._session.get(Project, project_id)
 
-        # Get the associated tasks
-        tasks = []
+        if not project:
+            return error_res("Project not found...")
+
+        tasks = project.tasks
         total_task_count = len(tasks)
 
         if total_task_count == 0:
@@ -212,9 +215,102 @@ class ProjectManager(BaseManager):
         
         try:
             self._session.add(project)
-            self._session.commit()
             return success_res(msg="Project status updated!", payload={})
         except Exception as e:
+            return error_res(f"Error updating project status. Error: {e}")
+    
+    def deactivate_projects(self, identity):
+        if not identity:
+            return error_res("Identity not given...")
+
+        projects = identity.projects
+
+        if not projects:
+            return success_res(msg="Projects deactivated!", payload={})
+        
+        for project in projects:
+            project.is_active = False
+            self._session.add(project)
+        
+        try:
+            self._session.commit()
+            return success_res(msg="Projects deactivated!", payload={})
+        except Exception as e:
             self._session.rollback()
-            return error_res("Error updating project status. Error: {e}")
+            return error_res(f"Error updating project status. Error: {e}")
+    
+    def set_default_project(self, identity):
+        if not identity:
+            return error_res("Identity not given...")
+        
+        projects = identity.projects
+
+        if not projects:
+            return error_res("No projects found...")
+        
+        sorted_projects = sorted(
+            projects,
+            key=lambda project: project.time_left
+        )
+
+        default_project = sorted_projects[0]
+
+        try:
+            default_project.is_active = True
+            self._session.add(default_project)
+            self._session.commit()
+            return success_res(msg="Default project set", payload={ "active_project": default_project })
+        except Exception as e:
+            self._session.rollback()
+            return error_res(f"Error updating project status. Error: {e}")
+    
+    def get_active_project(self, identity):
+        if not identity:
+            return error_res("Identity not given...")
+
+        projects = identity.projects
+
+        if not projects:
+            return success_res(msg="No projects found!", payload={ "active_project": None })
+        
+        active_project_list = list(filter(
+            lambda project: project.is_active,
+            projects
+        ))
+
+        if not active_project_list:
+            default_project_res = self.set_default_project(identity=identity)
+
+            if not default_project_res.get("success"):
+                return error_res("Failed to get active project...")
+
+            active_project = default_project_res.get("active_project")
+        
+        else:
+            active_project = active_project_list[0]
+        
+        return success_res(msg="Project found!", payload={"active_project": active_project})
+    
+    def set_active_project(self, identity, project_id):
+        if not project_id:
+            return error_res("Project not given...")
+        
+        deactivated_res = self.deactivate_projects(identity=identity)
+
+        if not deactivated_res.get("success"):
+            return error_res("Error setting active project....")
+        
+        project = self._session.get(Project, project_id)
+
+        if not project:
+            return error_res("Project not found...")
+        
+        try:
+            project.is_active = True
+            self._session.add(project)
+            self._session.commit()
+            return success_res(msg="Default project set", payload={ "active_project": project })
+        except Exception as e:
+            self._session.rollback()
+            return error_res(f"Error updating project status. Error: {e}")
 
