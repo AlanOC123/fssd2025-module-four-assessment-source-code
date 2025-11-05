@@ -28,6 +28,7 @@
                                 <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="">
                             </div>
                             <h3 class="logo-text">Projectify</h3>
+                            {{ button(href=url_for('auth.logout'), icon_name="logout", variant="ghost") }}
                         </div>
                         {{ button(variant="ghost", class="btn--cancel btn--icon-only mobile-only", id="close-nav", icon_name="cancel") }}
                     </div>

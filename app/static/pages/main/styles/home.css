@@ -107,11 +107,10 @@
 
 .stats-card {
     background-color: var(--clr-neutral-3);
-    padding: var(--pad-sm) var(--pad-xs);
+    padding: var(--pad-sm) var(--pad-md);
     border-radius: var(--brd-r-full);
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-between;
 }
 
 .stats-label {
