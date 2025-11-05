@@ -109,12 +109,13 @@ def home():
     for key, value in task_widget_data.items():
         if key == "total_tasks":
             continue
+        
+        if value["count"] <= 0:
+            continue
 
         value["percentage"] = int(value["count"] / total_tasks) * 100
         
         task_widget_data[key] = value
-    
-    print(task_widget_data)
 
     return render_template(
         'pages/main/home.html', 
