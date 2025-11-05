@@ -66,7 +66,7 @@ class ThemeManager(BaseManager):
             self._session.commit()
 
         except Exception as e:
-            self._session.rolback()
+            self._session.rollback()
             return error_res(f"Failed to create theme. Error raised: {e}")
 
         return success_res(payload={ "themes": themes_to_add }, msg="Themes created...")
