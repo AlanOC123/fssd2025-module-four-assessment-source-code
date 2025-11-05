@@ -38,6 +38,10 @@
     display: grid;
 }
 
+#view-thoughts.empty {
+    justify-items: center;
+}
+
 #timeline-groupings {
     overflow-y: auto;
     display: grid;
@@ -53,6 +57,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.empty-list-message-container h3 {
+    text-align: center;
 }
 
 .timeline-grouping-items {

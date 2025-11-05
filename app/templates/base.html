@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme-mode="{{ current_user.theme_mode.value }}">
+<html lang="en" data-theme-mode="{% if current_user.is_authenticated %}current_user.theme_mode.value{% else %}system{% endif %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,7 @@
     {% block styles %}{% endblock %}
     {% block scripts %} {% endblock %}
     <title>Projectify</title>
-    {% if current_user %}
+    {% if current_user.is_authenticated %}
         <style>
             :root {
                 --h-primary: {{ current_user.theme.primary_hue }};

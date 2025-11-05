@@ -59,6 +59,24 @@
     grid-template-rows: auto auto 1fr;
 }
 
+.projects-list {
+    display: grid;
+    align-items: start;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.projects-list.empty {
+    grid-template-columns: 1fr;
+    justify-items: center;
+}
+
+.empty-project-container h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 .sidebar-header {
     display: flex;
     justify-content: space-between;
@@ -343,6 +361,17 @@ textarea.form-input {
 
 .status-controls .btn__text {
     display: flex;
+}
+
+.btn.active {
+    background-color: var(--clr-info-1-40);
+    border: var(--brd-sm) var(--clr-info-3);
+}
+
+.empty-project-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media (min-width: 425px) {

@@ -68,7 +68,8 @@ def projects():
             create_project_form=create_project_form,
             switch_identity_form=switch_identity_form,
             all_identities=all_identities,
-            projects=[]
+            projects=[],
+            filter_keyword=filter_keyword
         )
     
     projects_list = projects_res.get("payload", {}).get("projects", [])
@@ -131,7 +132,8 @@ def projects():
         create_project_form=create_project_form,
         switch_identity_form=switch_identity_form,
         all_identities=all_identities,
-        projects=sorted_projects
+        projects=sorted_projects,
+        filter_keyword=filter_keyword
     )
 
 @app_bp.route(rule="/tasks", endpoint="tasks", methods=["GET", "POST"])
@@ -181,7 +183,7 @@ def tasks():
     switch_project_form = SwitchProjectForm(project_choices=project_choices)
 
     # Create Task Form Submit
-    if create_task_form.submit_task.data and create_task_form.validate_on_submit():
+    if create_task_form.submit_task.data and create_task_form.validate_on_submit() and active_project:
         task_name = create_task_form.task_name.data
         task_due_date = create_task_form.task_due_date.data
         task_difficulty = create_task_form.task_difficulty.data
@@ -196,9 +198,9 @@ def tasks():
         db_res = task_manager.create_task(**task_data)
 
         if not db_res.get("success"):
-            flash(message="Failed to create task...")
+            flash(message="Failed to create task...", category="error")
         else:
-            flash("Task created!")
+            flash("Task created!", category="success")
         
         return redirect(url_for('app.tasks'))
 
@@ -245,8 +247,6 @@ def tasks():
             tasks,
             key=lambda task: task.time_left
         )
-    
-    print(switch_project_form.switch_project.choices)
 
     return render_template(
         'pages/main/tasks.html',
@@ -258,7 +258,8 @@ def tasks():
         active_identity=active_identity,
         active_project=active_project,
         all_identities=all_identities,
-        tasks=tasks
+        tasks=tasks,
+        filter_keyword=filter_keyword
     )
 
 @app_bp.route(rule="/thoughts", endpoint="thoughts", methods=["GET", "POST"])

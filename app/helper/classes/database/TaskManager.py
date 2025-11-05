@@ -55,10 +55,60 @@ class TaskManager(BaseManager):
             self._session.rollback()
             return error_res(f"Error editing task. Error: {e}")
 
-    def edit_task(self, **raw_data):
-        pass
+    def edit_task(self, task_id, **raw_data):
+        if not task_id:
+            return error_res("No task id given...")
+        
+        task = self.get_task_by_id(task_id)
+
+        if not task:
+            return error_res("Task not found...")
+        
+        due_date = task.due_date
+        data_to_update = {}
+
+        try:
+            for key, value in raw_data.items():
+                if value is None or value is "":
+                    continue
+
+                if key == "name":
+                    if not (5 < len(value.strip()) < 100):
+                        return error_res("Invalid task name. Must be between 5 and 100 characters.")
+                    
+                    data_to_update["name"] = value.strip()
+
+                if key == "due_date":
+                    due_date = datetime.strptime(str(value), '%Y-%m-%d').date()
+                    data_to_update["due_date"] = due_date
+        except ValueError as e:
+            return error_res(f"Invalid data provided: {e}")
+
+        except Exception as e:
+            return error_res(f"An unexpected error occurred: {e}")
+        
+        if not data_to_update:
+            return error_res("No valid data to update...")
+        
+        print(data_to_update)
+        
+        for key, value in data_to_update.items():
+            if hasattr(task, key):
+                setattr(task, key, value)
+        
+        try:
+            self._session.add(task)
+            self._session.commit()
+            return success_res(msg="Task updated!", payload={})
+        except Exception as e:
+            self._session.rollback()
+            return error_res(f"Error updating task. Error {e}")
+
 
     def delete_task(self, task_id):
+        db_manager: DatabaseManager = self._db_manager
+        project_manager: ProjectManager = db_manager.project
+
         if not task_id:
             return error_res("Task ID not given...")
         
@@ -69,6 +119,12 @@ class TaskManager(BaseManager):
         
         try:
             self._session.delete(task)
+            self._session.flush()
+            project_update_res = project_manager.update_project_status(task.project_id)
+
+            if not project_update_res.get("success", False):
+                raise ValueError("Error updating projects")
+            
             self._session.commit()
             return success_res(msg="Task deleted...", payload={})
         except Exception as e:
@@ -118,15 +174,12 @@ class TaskManager(BaseManager):
         
         return self._session.get(Task, task_id)
     
-    def update_task_status(self, task_id, project_id, new_status):
-        db_manager: DatabaseManager = self._db_manager
+    def update_task_status(self, task_id):
+        db_manager = self._db_manager
         project_manager: ProjectManager = db_manager.project
 
         if not task_id:
             return error_res("Task not given...")
-
-        if not project_id:
-            return error_res("Project not given...")
         
         task: Task | None = self.get_task_by_id(task_id)
 
@@ -134,7 +187,7 @@ class TaskManager(BaseManager):
             return error_res("Task not found...")
         
         try:
-            task.is_complete = new_status
+            task.is_complete = True if not task.is_complete else False
             self._session.add(task)
             self._session.flush()
             project_update_res = project_manager.update_project_status(task.project_id)
@@ -143,6 +196,7 @@ class TaskManager(BaseManager):
                 raise ValueError("Error updating projects")
             
             self._session.commit()
+            return success_res(msg="Task updated!", payload={})
         except Exception as e:
             self._session.rollback()
             return error_res(f"Error updating task status tasks. Error {e}")

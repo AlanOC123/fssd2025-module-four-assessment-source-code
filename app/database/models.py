@@ -254,7 +254,8 @@ class Task(db.Model):
         Enum(
             Difficulty, 
             native_enum=True,
-            name="difficulty"
+            name="difficulty",
+            values_callable=lambda obj: [e.value for e in obj]
         ),
         default=Difficulty.MEDIUM.value,
         nullable=False

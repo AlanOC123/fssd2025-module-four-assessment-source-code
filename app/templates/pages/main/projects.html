@@ -191,17 +191,17 @@ import button %}
         <div id="timeline-controls">
             <p class="project-viewport-header">Sort By</p>
             <div class="status-controls">
-                {{ button(text="All", href=url_for('app.projects'), variant="ghost") }} {{ button(text="Not Started",
-                href=url_for('app.projects', filter_key="not_started"),
+                {{ button(text="All", href=url_for('app.projects'), variant="ghost", class="active" if not filter_keyword else "") }} {{ button(text="Not Started",
+                href=url_for('app.projects', filter_key="not_started", class="active" if filter_keyword == "not_started" else ""),
                 variant="ghost") }} {{ button(text="In Progress",
-                href=url_for('app.projects', filter_key="in_progress"),
+                href=url_for('app.projects', filter_key="in_progress", class="active" if filter_keyword == "in_progress" else ""),
                 variant="ghost") }} {{ button(text="Completed",
-                href=url_for('app.projects', filter_key="completed"),
+                href=url_for('app.projects', filter_key="completed", class="active" if filter_keyword == "completed" else ""),
                 variant="ghost") }}
             </div>
         </div>
         <div id="project-viewport">
-            <ul class="projects-list">
+            <ul class="projects-list {% if not projects %}empty{% endif %}">
                 {% for project in projects %}
                 <li class="project-card {{ project.status.value }}" data-project-id="{{ project.id }}">
                     <div class="project-card-content project-name-container">
@@ -256,6 +256,10 @@ import button %}
                         {{ button(class="btn--icon-only cancel-delete-project delete-project-data", icon_name="cancel", variant="ghost") }}
                     </div>
                 </li>
+                {% else %}
+                <div class="empty-project-container">
+                    <h3>No Projects. Working on Something?</h3>
+                </div>
                 {% endfor %}
             </ul>
         </div>

@@ -105,7 +105,6 @@ class ProjectManager(BaseManager):
         
         try:
             for key, value in project_data.items():
-                print(key)
                 if value is None or value is "":
                     continue
 
@@ -143,8 +142,6 @@ class ProjectManager(BaseManager):
         if end_date < start_date:
             return error_res("End date is before start date...")
         
-        print(data_to_update)
-        
         if not data_to_update:
             return error_res("No valid data to update...")
         
@@ -155,7 +152,6 @@ class ProjectManager(BaseManager):
         try:
             self._session.add(project)
             self._session.commit()
-            print(project.time_left)
             return success_res(msg="Project updated!", payload={})
         except Exception as e:
             self._session.rollback()

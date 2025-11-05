@@ -25,15 +25,53 @@ import button %} {% from 'components/_icons.html' import generic %}
     <div id="task-controls">
         <p class="task-viewport-header">Sort By</p>
         <div class="difficulty-controls">
-            {{ button(text="All", href=url_for('app.tasks'), variant="ghost") }} {{ button(text="Easy",
-            href=url_for('app.tasks', filter_key="easy"),
+            {{ button(text="All", href=url_for('app.tasks'), variant="ghost", class="active" if not filter_keyword else "") }} {{ button(text="Easy",
+            href=url_for('app.tasks', filter_key="easy"), class="active" if filter_keyword == "easy" else "",
             variant="ghost") }} {{ button(text="Medium",
-            href=url_for('app.tasks', filter_key="medium"),
+            href=url_for('app.tasks', filter_key="medium"), class="active" if filter_keyword == "medium" else "",
             variant="ghost") }} {{ button(text="Hard",
-            href=url_for('app.tasks', filter_key="hard"),
+            href=url_for('app.tasks', filter_key="hard"), class="active" if filter_keyword == "hard" else "",
             variant="ghost") }}
         </div>
     </div>
+
+    <ul id="task-list" class="{% if not tasks %}empty{% endif %}">
+        {% for task in tasks %}
+        <li class="task-card {% if task.is_complete %}complete{% endif %}" data-task-id="{{ task.id }}">
+            <div class="task-data-container">
+                <div class="task-name view-task-data">{{ task.name }}</div>
+                <input type="text" class="task-name edit-task-name form-input edit-task-data" value="{{ task.name }}">
+            </div>
+            <div class="task-data-container">
+                <p class="task-name view-task-data">{{ task.due_date.strftime('%a %-b %d') }}</p>
+                <input type="date" class="task-due-date edit-task-due-date form-input edit-task-data" value="{{ task.due_date }}">
+            </div>
+            <div class="task-data-container">
+                <span class="time-left">{{ task.time_left }} days left</span>
+            </div>
+            <div class="task-data-container">
+                <div class="progress-bar">
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-indicator" style="width: {{ task.time_elapsed_percentage }}%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="task-controls-container">
+                {{ button(class="btn--icon-only edit-project view-task-data", icon_name="edit", variant="ghost") }}
+                {{ button(class="btn--icon-only confirm-edit edit-task-data", icon_name="check_circle", variant="ghost") }}
+                {{ button(class="btn--icon-only delete-project not-deleting", icon_name="delete", variant="ghost") }}
+                {{ button(class="btn--icon-only confirm-delete-task delete-task-data", icon_name="delete", variant="ghost") }}
+                {{ button(class="btn--icon-only cancel-delete-task delete-task-data", icon_name="cancel", variant="ghost") }}
+                {{ button(class="btn--icon-only mark-task-complete", icon_name="check_box", variant="ghost") }}
+                {{ button(class="btn--icon-only mark-task-incomplete", icon_name="check_box_outline_blank", variant="ghost") }}
+            </div>
+        </li>
+        {% else %}
+        <div class="empty-task-container">
+            <h3>No Tasks. Create One?</h3>
+        </div>
+        {% endfor %}
+    </ul>
 </div>
 <div id="select-project" class="sidebar">
     <div class="sidebar-wrapper" id="select-project-wrapper">
@@ -208,7 +246,7 @@ import button %} {% from 'components/_icons.html' import generic %}
                 {% endfor %} {% endif %}
             </div>
             {{ create_task_form.submit_task(class="visually-hidden",
-            id="submit-new-task") }} {{ button(type="reset",
+            id="submit-task-data") }} {{ button(type="reset",
             class="visually-hidden", id="reset-form-data") }}
         </form>
     </div>

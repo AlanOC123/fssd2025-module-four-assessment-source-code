@@ -15,10 +15,10 @@
 page_content %} {% from 'components/_buttons.html' import button %}
 {% from 'components/_icons.html' import generic %}
 <div id="thought-window">
-    <div id="view-thoughts">
+    <div id="view-thoughts" class="{% if not thought_groupings | length %}empty{% endif %}">
         {% if not thought_groupings | length %}
         <div class="empty-list-message-container">
-            <h2>Something on your mind {{ current_user.first_name }}?</h2>
+            <h3>Something on your mind {{ current_user.first_name }}?</h3>
         </div>
         {% else %}
         <ul id="timeline-groupings">

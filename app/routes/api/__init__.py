@@ -11,3 +11,4 @@ api_bp_schema = blueprint_schema(blueprint=api_bp)
 from .identity import get_identity, set_identity, edit_identity
 from .thoughts import delete_thought, edit_thought
 from .projects import delete_project, edit_project
+from .tasks import mark_task_complete, edit_task, delete_task
