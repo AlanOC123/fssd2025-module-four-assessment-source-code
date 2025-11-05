@@ -11,14 +11,119 @@ from app.helper.classes.database.ProjectManager import ProjectManager
 from app.helper.classes.database.TaskManager import TaskManager
 from app.database.models import Profile, Thought, ProfileIdentity, Status, Project, Task, Difficulty
 from typing import List
+from datetime import date
 
 @app_bp.get(rule="/home", endpoint="home")
 @login_required
 def home():
+    user_logged_in: Profile = current_user 
+    identities: List[ProfileIdentity] = user_logged_in.identities
+
+    identity_widget_data = []
+    task_widget_data = {
+        "total_tasks": {
+            "count": 0,
+            "percentage": 100,
+            "legend_key": "total"
+        },
+        "easy_tasks": {
+            "count": 0,
+            "percentage": 0,
+            "legend_key": "easy"
+        },
+        "medium_tasks": {
+            "count": 0,
+            "percentage": 0,
+            "legend_key": "medium"
+        },
+        "hard_tasks": {
+            "count": 0,
+            "percentage": 0,
+            "legend_key": "hard"
+        },
+    }
+
+    agenda_widget_data = []
+
+    stats_widget_data = {
+        "total_projects": {
+            "count": 0,
+            "label": "Total Projects"
+        },
+        "tasks_complete": {
+            "count": 0,
+            "label": "Completed Tasks"
+        },
+        "tasks_incomplete": {
+            "count": 0,
+            "label": "Incomplete Tasks"
+        }
+    }
+
+    today = date.today()
+
+    for identity in identities:
+        identity_data = {
+            "img": f"{url_for('static', filename='assets/avatars/')}{identity.template.image}",
+            "name": identity.custom_name if identity.custom_name else identity.template.name,
+            "active_project": None,
+            "num_projects": len(identity.projects)
+        }
+
+        active_project: Project | None = None
+
+        stats_widget_data["total_projects"]["count"] = stats_widget_data["total_projects"]["count"] + len(identity.projects)
+
+        for project in identity.projects:
+            if project.is_active:
+                active_project = project
+                identity_data["active_project"] = active_project
+                identity_widget_data.append(identity_data)
+                break
+        
+        for project in identity.projects:
+            for task in project.tasks:
+                if task.is_complete:
+                    stats_widget_data["tasks_complete"]["count"] = stats_widget_data["tasks_complete"]["count"] + 1
+                else:
+                    stats_widget_data["tasks_incomplete"]["count"] = stats_widget_data["tasks_incomplete"]["count"] + 1
+
+                if not task.is_complete and task.due_date == today:
+                    agenda_widget_data.append(task)
+                task_widget_data["total_tasks"]["count"] = task_widget_data["total_tasks"]["count"] + 1
+
+                if task.difficulty == Difficulty.EASY:
+                    task_widget_data["easy_tasks"]["count"] = task_widget_data["easy_tasks"]["count"] + 1
+
+                elif task.difficulty == Difficulty.MEDIUM:
+                    task_widget_data["medium_tasks"]["count"] = task_widget_data["medium_tasks"]["count"] + 1
+
+                else:
+                    task_widget_data["hard_tasks"]["count"] = task_widget_data["hard_tasks"]["count"] + 1
+        
+        if not active_project:
+            identity_widget_data.append(identity_data)
+            continue
+    
+    total_tasks = task_widget_data["total_tasks"]["count"]
+    for key, value in task_widget_data.items():
+        if key == "total_tasks":
+            continue
+
+        value["percentage"] = int(value["count"] / total_tasks) * 100
+        
+        task_widget_data[key] = value
+    
+    print(task_widget_data)
+
     return render_template(
         'pages/main/home.html', 
         pg_name="home",
-        current_user=current_user
+        current_user=user_logged_in,
+        identity_widget=identity_widget_data,
+        task_widget_data=task_widget_data,
+        agenda_widget_data=agenda_widget_data,
+        stats_widget_data=stats_widget_data
     )
 
 @app_bp.route(rule="/projects", endpoint="projects", methods=["GET", "POST"])
@@ -69,7 +174,7 @@ def projects():
             switch_identity_form=switch_identity_form,
             all_identities=all_identities,
             projects=[],
-            filter_keyword=filter_keyword
+            filter_keyword=filter_keyword,
         )
     
     projects_list = projects_res.get("payload", {}).get("projects", [])

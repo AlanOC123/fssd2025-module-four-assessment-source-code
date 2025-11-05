@@ -20,7 +20,7 @@
 .index-wrapper {
     display: grid;
     gap: var(--sp-lg);
-    background-color: var(--clr-neutral-2);
+    background: linear-gradient(to top right, var(--clr-neutral-2), var(--clr-neutral-2-80));
     height: 100%;
     border-radius: var(--brd-r-lg);
 }
@@ -99,7 +99,17 @@ header {
     transform: rotate(180deg);
 }
 
+#primary-nav-links {
+    display: grid;
+}
+
+#primary-nav-links .btn--nav,
+#secondary-nav-links .btn--nav {
+    border: 0;
+}
+
 #secondary-nav-links {
+    display: grid;
     overflow: hidden;
 }
 
@@ -145,6 +155,13 @@ header {
     backdrop-filter: blur(12px);
     display: none;
     transition: transform var(--trans-default);
+}
+
+.index-bg {
+    background: 
+        linear-gradient(to top right, var(--clr-primary-1), var(--clr-secondary-1), var(--clr-tertiary-1));
+    height: 100%;
+    border-radius: var(--brd-r-lg);
 }
 
 @media (min-width: 425px) {

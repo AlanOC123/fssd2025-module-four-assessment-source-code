@@ -1,17 +1,121 @@
-{% extends 'pages/main/base.html' %}
+{% extends 'pages/main/base.html' %} {% block substyles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='pages/main/styles/home.css') }}"
+/>
+{% endblock %} {% block subscripts %}
+<script src="{{ url_for('static', filename='pages/main/scripts/home.js') }}" type="module" defer></script>
+{% endblock %} {% block page_header %}Home{% endblock %} {% block page_controls
+%}
+<div class="current-time-container">
+    {% from 'components/_icons.html' import generic %} {{
+    generic(icon="nest_clock_farsight_analog") }}
+    <div class="current-time">
+        <span class="hour">12</span><span>:</span><span class="minute">48</span>
+    </div>
+</div>
+{% endblock %} {% block page_content %} {% from 'components/_buttons.html'
+import button %}
+<div class="introduction">
+    <p class="introduction-text">Hi {{ current_user.first_name }}</p>
+</div>
+<div class="identities widget">
+    <div class="widget-header"><span class="form-label">Identities</span></div>
+    <ul class="identity-list">
+        {% for identity in identity_widget %}
+            <li class="identity-card {% if identity.active_project.is_overdue %}overdue{% elif identity.active_project.tasks_completed_percentage == 100 %}complete{% endif %}">
+                <div class="identity-img">
+                    <img src="{{ identity.img }}" alt="">
+                </div>
+                <div class="identity-data">
+                    <span class="form-label">{{ identity.name }}</span>
+                    {% if identity.active_project %}
+                        <div class="active-project">
+                            <span class="project-text">{{ identity.active_project.name }}</span>
+                            <div class="progress-bar">
+                                <div class="progress-bar-track">
+                                    <div class="progress-bar-display" style="width: {{ identity.active_project.tasks_completed_percentage }}%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% elif identity.num_projects %}
+                    <div class="num-projects">
+                        <span>{{ identity.num_projects }}</span>
+                    </div>
+                    {% else %}
+                    <div class="no-projects">
+                        <span class="project-text">No Projects</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </li>
+    {% endfor %}
+    </ul>
+</div>
 
-{% block substyles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages/main/styles/home.css') }}">
-{% endblock %}
+<div class="agenda widget">
+    <div class="widget-header"><span class="form-label">Agenda</span></div>
+    {% for task in agenda_widget_data %}
+        <ul class="agenda-tasks">
+            <li class="agenda-card">
+                <span>{{ task.name }}</span>
+            </li>
+        {% else %}
+        <div class="empty-agenda">
+            <p>No Tasks Today!</p>
+        </div>
+        {% endfor %}
+    </ul>
+</div>
 
-{% block subscripts %}
-    <script src="{{ url_for('static', filename='pages/main/scripts/home.js') }}"></script>
-{% endblock %}
+<div class="stats widget">
+    <div class="widget-header"><span class="form-label">Stats</span></div>
+    <ul class="stats-list">
+        {% for key, stat in stats_widget_data.items() %}
+        <li class="stats-card">
+            <span class="stats-label">{{ stat.label }}:</span>
+            <span class="stats-data">{{ stat.count }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 
-{% block page_header %}Home{% endblock %}
-
-{% block page_controls %}{% endblock %}
-
-{% block page_content %}{% endblock %}
-
-{% block page_id %}home{% endblock %}
+<div class="tasks widget">
+    <div class="widget-header">
+        <span class="form-label">Tasks</span>
+    </div>
+    <div class="stacked-bar">
+            <div class="stacked-bar-track">
+            {% for key, data in task_widget_data.items() %}
+                {% if data.legend_key != "total" %}
+                    <div 
+                    class="stacked-bar-display 
+                    {% if data.legend_key == 'easy' %}
+                    easy
+                    {% elif data.legend_key == 'medium' %}
+                    medium
+                    {% elif data.legend_key == 'hard' %}
+                    {% endif %}
+                    " style="width: {{ data.percentage }}%">
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="task-legend">
+        <div class="legend-card">
+            <div class="legend-color easy"></div>
+            <span class="legend-label">Easy</span>
+        </div>
+        <div class="legend-card">
+            <div class="legend-color medium"></div>
+            <span class="legend-label">Medium</span>
+        </div>
+        <div class="legend-card">
+            <div class="legend-color hard"></div>
+            <span class="legend-label">Hard</span>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block page_id %}home{% endblock %}
