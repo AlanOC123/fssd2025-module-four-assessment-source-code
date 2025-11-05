@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme-mode="{% if current_user.is_authenticated %}current_user.theme_mode.value{% else %}system{% endif %}">
+<html lang="en" data-theme-mode="{{ current_user.theme_mode.value if current_user.is_authenticated else 'system' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
