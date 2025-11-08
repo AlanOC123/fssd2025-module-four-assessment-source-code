@@ -1,4 +1,3 @@
-from flask import Flask
 from .BaseManager import BaseManager
 from .ProfileManager import ProfileManager, PasswordManager
 from .IdentityTemplateManager import IdentityTemplateManager
@@ -9,6 +8,9 @@ from .ProjectManager import ProjectManager
 from .TaskManager import TaskManager
 
 class DatabaseManager(BaseManager):
+    """
+    Core manager for centalised database operations
+    """
     def __init__(self, config) -> None:
         super().__init__(self)
         self._profile_manager = ProfileManager(self, PasswordManager(config))
@@ -19,6 +21,7 @@ class DatabaseManager(BaseManager):
         self._project_manager = ProjectManager(self)
         self._task_manager = TaskManager(self)
 
+    # Attach managers as properties for easy access
     @property
     def profile(self) -> ProfileManager:
         return self._profile_manager

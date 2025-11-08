@@ -58,8 +58,8 @@ This project is built using a highly organized, professional-grade structure:
 ### **2\. Setup**
 
 1. **Clone the repository:**  
-   git clone \[https://github.com/your-username/your-repo-name.git\](https://github.com/your-username/your-repo-name.git)  
-   cd your-repo-name
+   git clone https://github.com/AlanOC123/fssd2025-module-four-assessment-source-code.git 
+   cd fssd2025-module-four-assessment-source-code
 
 2. **Create and activate a virtual environment:**  
    python3 \-m venv .venv  
@@ -68,28 +68,59 @@ This project is built using a highly organized, professional-grade structure:
 3. **Install dependencies:**  
    pip install \-r requirements.txt
 
-4. Create your .env file:  
-   Create a file named .env in the root of the project. This file stores your secret keys.  
-   \# Generate a strong, random string (e.g., using \`python \-c 'import secrets; print(secrets.token\_hex(24))'\`)  
-   SECRET\_KEY='your\_super\_secret\_key'
+4. **Set up a Postrgres Database**
+   Before you can create your .env file, you need to create the database that your app will connect to.
 
-   \# Set this to 'testing' to use the test config  
-   FLASK\_CONFIG='testing'
+   Make sure PostgreSQL is installed and running on your system. (If not, you can download it from postgresql.org).
 
-   \# Your PostgreSQL connection string  
-   \# format: postgresql://\[user\]:\[password\]@\[host\]:\[port\]/\[database\_name\]  
-   DATABASE\_URL\_TEST='postgresql://user:password@localhost:5432/projectify\_dev'  
-   DATABASE\_URL\_PROD='your\_production\_db\_url'
+   Open your command-line terminal and start the PostgreSQL interactive shell:
+
+   psql -U postgres
+
+   (You may need to enter the password you created when you installed Postgres).
+
+   Inside the psql shell, run the following commands to create a new user and database. (Using a dedicated user is safer than using the default postgres superuser).
+
+   -- 1. Create a password for this project (use a secure password)
+   CREATE USER projectify_user WITH PASSWORD 'your_secure_password_here';
+
+   -- 2. Create the database for testing
+   CREATE DATABASE projectify_dev;
+
+   -- 3. Give your new user permission to control this new database
+   GRANT ALL PRIVILEGES ON DATABASE projectify_dev TO projectify_user;
+
+   -- 4. Exit the psql shell
+   \q
+
+5. **Create your .env file:** 
+
+   Create a file named .env in the root of the project. This file stores your secret keys.
+ 
+   # Generate a strong, random string (e.g using python secrets library)
+   SECRET_KEY='your_super_secret_key'
+
+   # Set this to 'testing' to use the test config
+   FLASK_CONFIG='testing'
+
+   # Your PostgreSQL connection string
+   # Use the values you just created in step 1a.
+   # format: postgresql://[user]:[password]@[host]:[port]/[database_name]
+   DATABASE_URL_TEST='postgresql://projectify_user:your_secure_password_here@localhost:5432/projectify_dev'
+
+   # This is for your live website (e.g., on Render)
+   DATABASE_URL_PROD='your_production_db_url'
 
 ### **3\. Running the Application**
 
-1. Initialize the Database:  
+1.**Initialize the Database:** 
    This command will delete all existing data, create all tables, and seed the database with default themes, identities, and a test user.  
    flask reset-db
 
    * **Test User:** Created by the seed command.  
    * **Email:** testuser@projectify.com  
-   * **Password:** Test\!12345  
+   * **Password:** Test\!12345
+
 2. **Run the app:**  
    flask run
 
@@ -118,6 +149,7 @@ This application is configured for deployment on **Render.com**.
 5. **Run Migrations & Seed:**  
    * After the first build, go to your Web Service's "Shell" tab.  
    * Run flask db upgrade to apply your database migrations.  
-   * Run flask seed-db to add the themes, identities, and test user.  
+   * Run flask seed-db to add the default themes and identity templates.
+   * If running into a migration error, delete the migration/versions directory and create a new empty one. Then 
 6. **Deploy:**  
    * Trigger a manual deploy. Your application will be live at the URL provided by Render.

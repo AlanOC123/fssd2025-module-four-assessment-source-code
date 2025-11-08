@@ -1,23 +1,27 @@
 from .BaseManager import BaseManager
 from app.database.models import IdentityTemplate
 from app.helper.functions.response_schemas import success_res, error_res
-from sqlalchemy.exc import IntegrityError
 
 class IdentityTemplateManager(BaseManager):
-    def get_by_name(self, identity_name):
+    """Database operations for those centered around the Core Identity Table (Templates, not constructed)"""
+    def get_by_name(self, identity_name) -> dict:
+        """Get an identity template by name."""
+        # Simple operation, use the built Base Manager Abstraction
         return self.read_item(
             model=IdentityTemplate,
             item_name="Identity_Template",
             name=identity_name
         )
     
-    def get_all(self):
+    def get_all(self) -> dict:
+        """Get all current identities"""
         return self.read_items(
             model=IdentityTemplate,
             item_name="Identity_Templates",
         )
 
-    def create(self, **identity_kwargs):
+    def create(self, **identity_kwargs) -> dict:
+        """Create a new identity"""
         identity_kwargs["name"] = identity_kwargs.get("name").strip()
         
         # Check for duplicates
@@ -32,7 +36,8 @@ class IdentityTemplateManager(BaseManager):
             item_name="Identity_Template", 
         )
     
-    def init(self, template_data):
+    def init(self, template_data) -> dict:
+        """Initialises the identities to seed multiple identities with a single DB call"""
         # Empty list to add Templates too
         templates_to_add = []
         try:
@@ -46,6 +51,7 @@ class IdentityTemplateManager(BaseManager):
             self._session.add_all(templates_to_add)
             self._session.commit()
 
+        # Handle errors, revert state
         except Exception as e:
             self._session.rollback()
             return error_res(f"Failed to create template. Error raised: {e}")

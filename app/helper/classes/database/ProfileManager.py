@@ -7,6 +7,7 @@ from datetime import datetime
 from flask import Flask, current_app
 
 class PasswordManager:
+    """Base Password Manager standard with app. Supports config settings, verification and password hashing operations"""
     _CONFIG: dict = {}
 
     def __init__(self, config) -> None:
@@ -43,6 +44,7 @@ class PasswordManager:
         return self._CONFIG.get("PASSWORD_MAX_LENGTH", 128)
     
 class ProfileValidator:
+    """Validates basic profile data"""
     def validate_name(self, first_name, surname):
         return first_name and isinstance(first_name, str) and surname and isinstance(surname, str)
     
@@ -54,6 +56,7 @@ class ProfileValidator:
 
 
 class ProfileManager(BaseManager):
+    """Core interface with the database for all profile related operations"""
     def __init__(self, db_manager_instance, pw_manager) -> None:
         super().__init__(db_manager_instance)
         self.pw_manager: PasswordManager = pw_manager

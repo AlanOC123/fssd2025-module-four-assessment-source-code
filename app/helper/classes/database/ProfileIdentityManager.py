@@ -4,21 +4,26 @@ from app.helper.functions.response_schemas import success_res, error_res
 from sqlalchemy import select
 
 class ProfileIdentityManager(BaseManager):
-    def get_by_profile_id(self, profile_id):
+    """Profile identity manager for operation centered around active identities"""
+    def get_by_profile_id(self, profile_id) -> dict:
+        """Get the profile by an ID"""
+        # Debated to use session.get but chose to utilise Base Manager to reduce error handling need
         return self.read_item(
             model=ProfileIdentity,
             item_name="Profile_Identity",
             profile_id= profile_id,
         )
 
-    def get_by_template_id(self, template_id):
+    def get_by_template_id(self, template_id) -> dict:
+        """Get the Profile Identities by their constructed template"""
         return self.read_item(
             model=ProfileIdentity,
             item_name="Profile_Identity",
             template_id=template_id,
         )
 
-    def create(self, **profile_identity_kwargs):        
+    def create(self, **profile_identity_kwargs) -> dict:
+        """Create a new profile identity"""
         # Check for duplicates
         profile_id = profile_identity_kwargs["profile_id"]
         template_id = profile_identity_kwargs["template_id"]
@@ -38,7 +43,8 @@ class ProfileIdentityManager(BaseManager):
             item_name="Profile_Identity", 
         )
     
-    def initialise_profile_identities(self, profile_id):
+    def initialise_profile_identities(self, profile_id) -> dict:
+        """Initialise several identities on creation of a new profile"""
         # Get all the templates
         template_res = self._db_manager.identity_template.get_all()
 
@@ -65,10 +71,12 @@ class ProfileIdentityManager(BaseManager):
         # Return the list but dont commit
         return success_res(payload={ "identities_list": identities_to_add }, msg="Identities successfully created...")
     
-    def swap_active_identites(self, profile, current: ProfileIdentity, new: ProfileIdentity):
+    def swap_active_identites(self, profile, current: ProfileIdentity, new: ProfileIdentity) -> dict:
+        """Swaps state of an active identity and an inactive one"""
         if not (current and new):
             return error_res(f"Identities not given...")
         
+        # If a current isnt given, check for an existing active one
         if not current:
             active_attempt = self.get_active_identity(profile).get("success")
             if active_attempt:
@@ -89,7 +97,8 @@ class ProfileIdentityManager(BaseManager):
             self._session.rollback()
             return error_res(f"Error occured setting active identities")
     
-    def get_active_identity(self, profile):
+    def get_active_identity(self, profile) -> dict:
+        """Returns an active identity if one present"""
         if not profile:
             return error_res("Missing profile...")
         
@@ -100,7 +109,8 @@ class ProfileIdentityManager(BaseManager):
         
         return success_res(payload={ "active_identity": active_identity }, msg="Identity found...")
     
-    def deactivate_identities(self, profile):
+    def deactivate_identities(self, profile) -> dict:
+        """Deactivates all identities. Returns a message to indicate success"""
         if not profile:
             return error_res("Profile not given.")
         
@@ -114,13 +124,15 @@ class ProfileIdentityManager(BaseManager):
             self._session.rollback()
             return error_res(f"Error deactivating identities. Error: {e}")
 
-    
-    def set_identity(self, profile, identity_id):
-        identity = self._session.get(ProfileIdentity, identity_id)
+    def set_identity(self, profile, identity_id) -> dict:
+        """Set an identity state to active"""
+        identity: ProfileIdentity | None = self._session.get(ProfileIdentity, identity_id)
 
+        # Return an error res if the identity wasnt found
         if not identity:
             return error_res("Identity not found.")
 
+        # Deactivate all and set new one to active
         try:
             deactivate_res = self.deactivate_identities(profile)
             if not deactivate_res.get("success"):
@@ -133,7 +145,8 @@ class ProfileIdentityManager(BaseManager):
         except Exception as e:
             return error_res(f"Error deactivating identities. Error: {e}")
     
-    def set_default_identity(self, profile):
+    def set_default_identity(self, profile) -> dict:
+        """Sets a default identity as active as a fallback"""
         if not profile:
             return error_res("Missing profile...")
         
@@ -152,8 +165,9 @@ class ProfileIdentityManager(BaseManager):
         except Exception as e:
             self._session.rollback()
             return error_res(f"Error commiting default identity. Error: {e}")
-        
-    def update_custom_names(self, profile_id, form_data):
+
+    def update_custom_names(self, profile_id, form_data) -> dict:
+        """Updates the custom names of the identities gained from a form"""
         try:
             # Get identites from the database
             user_identities = self._session.scalars(
@@ -189,7 +203,7 @@ class ProfileIdentityManager(BaseManager):
                     identity_to_update.custom_name = new_name
                     updated_ids.append(identity_to_update.id)
                     self._session.add(identity_to_update)
-            
+
             # Commit to the db
             self._session.commit()
             return success_res(payload={ "updated": updated_ids }, msg="Identities updated successfully...")
