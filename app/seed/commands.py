@@ -61,7 +61,7 @@ def seed_identities():
 
     # Get the current ones in a set
     curr_identities = set(
-        identity.name for identity in current_app.db_manager.identity_template.get_all().get("payload", {}).get("identity_template", [])
+        identity.name for identity in current_app.db_manager.identity_template.get_all().get("payload", {}).get("identity_templates", [])
     )
 
     # Get the names of the new ones
@@ -87,7 +87,7 @@ def seed_themes():
 
     # Get the current ones in a set
     curr_themes = set(
-        theme.name for theme in current_app.db_manager.theme.get_all().get("payload", {}).get("theme", [])
+        theme.name for theme in current_app.db_manager.theme.get_all().get("payload", {}).get("themes", [])
     )
 
     # Get the names of the new ones

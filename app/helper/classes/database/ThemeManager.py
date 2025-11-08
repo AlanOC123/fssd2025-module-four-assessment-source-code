@@ -43,7 +43,8 @@ class ThemeManager(BaseManager):
         )
     
     def get_all(self):
-        themes = self._session.scalars(select(Theme).order_by(Theme.name)).all()
+        query = select(Theme).order_by(Theme.name)
+        themes = self._session.scalars(query).all()
 
         if not themes:
             return error_res("Themes not found...")
