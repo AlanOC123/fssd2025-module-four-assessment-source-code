@@ -111,25 +111,6 @@ page_controls %}
                     <span class="error-msg" role="alert">{{ error }}</span>
                     {% endfor %} {% endif %}
                 </div>
-                <fieldset class=".form-input-group">
-                    <legend class="form-label">
-                        {{ create_project_form.project_status.label.text }}
-                    </legend>
-                    <ul class="status-options">
-                        {% for status in create_project_form.project_status %}
-                        <li class="status-option">
-                            {{ status(class="visually-hidden status-input") }}
-                            <label class="status-label" for="{{ status.id }}">
-                                {{ status.label.text }}
-                            </label>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% if create_project_form.project_end_date.errors %} {% for
-                    error in create_project_form.project_end_date.errors %}
-                    <span class="error-msg" role="alert">{{ error }}</span>
-                    {% endfor %} {% endif %}
-                </fieldset>
                 {{ create_project_form.submit_project(class="visually-hidden",
                 id="submit-new-project") }} {{ button(type="reset",
                 class="visually-hidden", id="reset-form-data") }}
