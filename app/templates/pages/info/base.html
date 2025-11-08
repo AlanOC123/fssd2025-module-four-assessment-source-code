@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
 {% block body %}
+
 <main id="info" class="page main-grid">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <div class="flash-messages">
+            <div class="flash-messages" role="region" aria-label="Notifications">
                 {% for category, message in messages %}
                 {% from 'components/_flash.html' import flash_message %}
                     {{ flash_message(msg=message, category=category) }}
@@ -13,12 +14,12 @@
         {% endif %}
     {% endwith %}
 
-    <div class="page-controls">
+    <header class="page-controls">
         {% from 'components/_buttons.html' import button %}
         {{ button(text="Return", href=url_for('app.home'), variant="secondary", icon_name="arrow_circle_left") }}
-        <h3>{%block pg_title %}{% endblock %}</h3>
-    </div>
 
+        <h1>{%block pg_title %}{% endblock %}</h1>
+    </header>
     <div class="grid-col" id="{% block pg_id %}{% endblock %}" >
         {% block content %}{% endblock %}
     </div>

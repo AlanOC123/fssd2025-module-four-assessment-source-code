@@ -1,6 +1,11 @@
 {% macro identity_card(identity, tag="div", class="", id="") %}
 <{{ tag }} class="card card--identity-card {{ class }}" id="{{ id }}", data-db-id="{{ identity.id }}">
-    <img class="card__img identity-img" src="{{ url_for('static', filename='assets/avatars/' ~ identity.template.image) }}" alt="" srcset="">
+    <img 
+        class="card__img identity-img" 
+        src="{{ url_for('static', filename='assets/avatars/' ~ identity.template.image) }}" 
+        alt="{% if identity.custom_name %}{{ identity.custom_name }}{% else %}{{ identity.template.name }}{% endif %} Avatar"
+    >
+    
     <p class="card__text identity-name">
         {% if identity.custom_name %}
             {{ identity.custom_name }}

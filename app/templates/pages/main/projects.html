@@ -1,35 +1,50 @@
-{% extends 'pages/main/base.html' %} {% block substyles %}
+{% extends 'pages/main/base.html' %} 
+
+{% block pg_title %}Projects{% endblock %}
+
+{% block substyles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='pages/main/styles/projects.css') }}"
 />
-{% endblock %} {% block subscripts %}
+{% endblock %} 
+
+{% block subscripts %}
 <script
     src="{{ url_for('static', filename='pages/main/scripts/projects.js') }}"
     defer
     type="module"
 ></script>
-{% endblock %} {% block page_header %}Projects{% endblock %} {% block
+{% endblock %} 
+
+{% block page_subheader %}Projects{% endblock %} 
+
+{% block
 page_controls %}
 <div id="page-controls">
-    {% from 'components/_buttons.html' import button %} {{
+    {% from 'components/_buttons.html' import button %} 
+    {{
     button(class="btn--icon-only", icon_name="face", variant="ghost",
-    id="select-identity-btn") }} {% from 'components/_buttons.html' import
-    button %} {{ button(class="btn--icon-only", icon_name="add_circle",
-    variant="ghost", id="create-project-btn") }}
+    id="select-identity-btn", aria_label="Select identity") }} 
+    
+    {% from 'components/_buttons.html' import button %} 
+    {{ button(class="btn--icon-only", icon_name="add_circle",
+    variant="ghost", id="create-project-btn", aria_label="Create new project") }}
 </div>
-{% endblock %} {% block page_content %} {% from 'components/_buttons.html'
-import button %}
+{% endblock %} 
+
+{% block page_content %} 
+{% from 'components/_buttons.html' import button %}
 <div id="project-window">
-    <div id="create-project" class="sidebar">
+    <aside id="create-project" class="sidebar" role="form" aria-labelledby="create-project-heading">
         <div id="create-project-wrapper" class="sidebar-wrapper">
             <div id="create-project-header" class="sidebar-header">
-                <h3>Create</h3>
+                <h3 id="create-project-heading">Create</h3>
                 {{ button(variant="ghost", class="btn--icon-only",
-                id="submit-create-project", icon_name="add_task") }} {{
+                id="submit-create-project", icon_name="add_task", aria_label="Submit new project") }} {{
                 button(variant="ghost", class="btn--icon-only", id="reset-form",
-                icon_name="autorenew") }} {{ button(icon_name="cancel",
-                class="btn--cancel btn--icon-only", id="cancel-creation-btn") }}
+                icon_name="autorenew", aria_label="Reset form") }} {{ button(icon_name="cancel",
+                class="btn--cancel btn--icon-only", id="cancel-creation-btn", aria_label="Close create project sidebar") }}
             </div>
             <div class="project-identity">
                 <p class="form-label">Identity</p>
@@ -37,7 +52,7 @@ import button %}
                     <div class="identity-img">
                         <img
                             src="{{ url_for('static', filename='assets/avatars/' ~ active_identity.template.image) }}"
-                            alt=""
+                            alt="{{ active_identity.custom_name if active_identity.custom_name else active_identity.template.name }} Avatar"
                         />
                     </div>
                     <span class="identity-name">
@@ -61,7 +76,7 @@ import button %}
                     }} {{ create_project_form.project_name(class="form-input")
                     }} {% if create_project_form.project_name.errors %} {% for
                     error in create_project_form.project_name.errors %}
-                    <span class="error-msg">{{ error }}</span>
+                    <span class="error-msg" role="alert">{{ error }}</span>
                     {% endfor %} {% endif %}
                 </div>
                 <div class=".form-input-group">
@@ -72,7 +87,7 @@ import button %}
                     }} {% if create_project_form.project_description.errors %}
                     {% for error in
                     create_project_form.project_description.errors %}
-                    <span class="error-msg">{{ error }}</span>
+                    <span class="error-msg" role="alert">{{ error }}</span>
                     {% endfor %} {% endif %}
                 </div>
                 <div class=".form-input-group">
@@ -83,7 +98,7 @@ import button %}
                     }} {% if create_project_form.project_start_date.errors %} {%
                     for error in create_project_form.project_start_date.errors
                     %}
-                    <span class="error-msg">{{ error }}</span>
+                    <span class="error-msg" role="alert">{{ error }}</span>
                     {% endfor %} {% endif %}
                 </div>
                 <div class=".form-input-group">
@@ -93,40 +108,40 @@ import button %}
                     create_project_form.project_end_date(class="form-input") }}
                     {% if create_project_form.project_end_date.errors %} {% for
                     error in create_project_form.project_end_date.errors %}
-                    <span class="error-msg">{{ error }}</span>
+                    <span class="error-msg" role="alert">{{ error }}</span>
                     {% endfor %} {% endif %}
                 </div>
-                <div class=".form-input-group">
-                    {{
-                    create_project_form.project_status.label(class="form-label")
-                    }}
+                <fieldset class=".form-input-group">
+                    <legend class="form-label">
+                        {{ create_project_form.project_status.label.text }}
+                    </legend>
                     <ul class="status-options">
                         {% for status in create_project_form.project_status %}
                         <li class="status-option">
                             {{ status(class="visually-hidden status-input") }}
                             <label class="status-label" for="{{ status.id }}">
-                                {{ status.label }}
+                                {{ status.label.text }}
                             </label>
                         </li>
                         {% endfor %}
                     </ul>
                     {% if create_project_form.project_end_date.errors %} {% for
                     error in create_project_form.project_end_date.errors %}
-                    <span class="error-msg">{{ error }}</span>
+                    <span class="error-msg" role="alert">{{ error }}</span>
                     {% endfor %} {% endif %}
-                </div>
+                </fieldset>
                 {{ create_project_form.submit_project(class="visually-hidden",
                 id="submit-new-project") }} {{ button(type="reset",
                 class="visually-hidden", id="reset-form-data") }}
             </form>
         </div>
-    </div>
-    <div id="select-identity" class="sidebar">
+    </aside>
+    <aside id="select-identity" class="sidebar" role="complementary" aria-labelledby="select-identity-heading">
         <div id="select-identity-wrapper" class="sidebar-wrapper">
             <div id="select-identity-header" class="sidebar-header">
-                <h3>Identity</h3>
+                <h3 id="select-identity-heading">Identity</h3>
                 {{ button(icon_name="cancel", class="btn--cancel
-                btn--icon-only", id="cancel-select-identity-btn") }}
+                btn--icon-only", id="cancel-select-identity-btn", aria_label="Close select identity sidebar") }}
             </div>
             <div id="selected-identity">
                 <div id="curr">
@@ -135,7 +150,7 @@ import button %}
                         <div class="identity-img">
                             <img
                                 src="{{ url_for('static', filename='assets/avatars/' ~ active_identity.template.image) }}"
-                                alt=""
+                                alt="{{ active_identity.custom_name if active_identity.custom_name else active_identity.template.name }} Avatar"
                             />
                         </div>
                         <span class="identity-name">
@@ -163,7 +178,7 @@ import button %}
                                     <div class="identity-img">
                                         <img
                                             src="{{ url_for('static', filename='assets/avatars/' ~ identity_data.template.image) }}"
-                                            alt=""
+                                            alt="{{ identity_data.custom_name if identity_data.custom_name else identity_data.template.name }} Avatar"
                                         />
                                     </div>
                                     <span class="identity-name">
@@ -186,10 +201,10 @@ import button %}
                 </div>
             </div>
         </div>
-    </div>
-    <div id="project-timeline">
+    </aside>
+    <section id="project-timeline" aria-labelledby="project-timeline-heading">
         <div id="timeline-controls">
-            <p class="project-viewport-header">Sort By</p>
+            <h2 class="project-viewport-header" id="project-timeline-heading">Sort By</h2>
             <div class="status-controls">
                 {{ button(text="All", href=url_for('app.projects'), variant="ghost", class="active" if not filter_keyword else "") }} {{ button(text="Not Started",
                 href=url_for('app.projects', filter_key="not_started", class="active" if filter_keyword == "not_started" else ""),
@@ -203,7 +218,7 @@ import button %}
         <div id="project-viewport">
             <ul class="projects-list {% if not projects %}empty{% endif %}">
                 {% for project in projects %}
-                <li class="project-card {{ project.status.value }}" data-project-id="{{ project.id }}">
+                <article class="project-card {{ project.status.value }}" data-project-id="{{ project.id }}">
                     <div class="project-card-content project-name-container">
                         <p class="project-name view-project-data">{{ project.name }}</p>
                         <input type="text" class="form-input edit-project-input project-name edit-project-name" value="{{ project.name }}">
@@ -229,8 +244,16 @@ import button %}
                             >
                             <input type="date" class="form-input end-date edit-project-end-date edit-project-input" value="{{ project.end_date }}">
                         </div>
-                        <div class="progress-bar" data-time-left="{{ project.time_elapsed_percentage }}">
-                            <span class="days-left">{{ project.time_left }} Days Left</span>
+                        <div 
+                            class="progress-bar" 
+                            data-time-left="{{ project.time_elapsed_percentage }}"
+                            role="progressbar"
+                            aria-valuenow="{{ project.time_elapsed_percentage }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-labelledby="time-left-{{ project.id }}"
+                        >
+                            <span class="days-left" id="time-left-{{ project.id }}">{{ project.time_left }} Days Left</span>
                             <div class="progress-track">
                                 <div class="progress" style="width: {{ project.time_elapsed_percentage }}%"></div>
                             </div>
@@ -240,8 +263,15 @@ import button %}
                     <div
                         class="project-card-content project-tasks-left-container"
                     >
-                        <div class="progress-bar">
-                            <span class="tasks-left">{{ project.tasks_incomplete }} / {{ project.total_tasks }} Tasks Left</span>
+                        <div 
+                            class="progress-bar"
+                            role="progressbar"
+                            aria-valuenow="{{ project.tasks_completed_percentage }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-labelledby="tasks-left-{{ project.id }}"
+                        >
+                            <span class="tasks-left" id="tasks-left-{{ project.id }}">{{ project.tasks_incomplete }} / {{ project.total_tasks }} Tasks Left</span>
                             <div class="progress-track">
                                 <div class="progress" style="width: {{ project.tasks_completed_percentage }}%"></div>
                             </div>
@@ -249,13 +279,13 @@ import button %}
                     </div>
                     {% endif %}
                     <div class="project-controls-container">
-                        {{ button(class="btn--icon-only edit-project view-project-data", icon_name="edit", variant="ghost") }}
-                        {{ button(class="btn--icon-only confirm-edit edit-project-input", icon_name="check_circle", variant="ghost") }}
-                        {{ button(class="btn--icon-only delete-project not-deleting", icon_name="delete", variant="ghost") }}
-                        {{ button(class="btn--icon-only confirm-delete-project delete-project-data", icon_name="delete", variant="ghost") }}
-                        {{ button(class="btn--icon-only cancel-delete-project delete-project-data", icon_name="cancel", variant="ghost") }}
+                        {{ button(class="btn--icon-only edit-project view-project-data", icon_name="edit", variant="ghost", aria_label="Edit project") }}
+                        {{ button(class="btn--icon-only confirm-edit edit-project-input", icon_name="check_circle", variant="ghost", aria_label="Confirm edit") }}
+                        {{ button(class="btn--icon-only delete-project not-deleting", icon_name="delete", variant="ghost", aria_label="Delete project") }}
+                        {{ button(class="btn--icon-only confirm-delete-project delete-project-data", icon_name="delete", variant="ghost", aria_label="Confirm delete") }}
+                        {{ button(class="btn--icon-only cancel-delete-project delete-project-data", icon_name="cancel", variant="ghost", aria_label="Cancel delete") }}
                     </div>
-                </li>
+                </article>
                 {% else %}
                 <div class="empty-project-container">
                     <h3>No Projects. Working on Something?</h3>
@@ -263,6 +293,6 @@ import button %}
                 {% endfor %}
             </ul>
         </div>
-    </div>
+    </section>
 </div>
 {% endblock %} {% block page_id %}projects{% endblock %}

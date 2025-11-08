@@ -1,17 +1,23 @@
-{% extends "base.html" %} {% block styles %}
+{% extends "base.html" %} 
+
+{% block pg_title %}{% block form_header %}{% endblock %}{% endblock %}
+
+{% block styles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='pages/auth/styles/base.css') }}"
 />
 {% block substyles %}{% endblock %} 
 {% endblock %}
+
 {% block body %}
 {% from 'components/_layout.html' import grid_col, container %} 
 {% from'components/_headers.html' import header %}
+
 <main id="auth" class="page main-grid" style="background-image: url({{ url_for('static', filename='assets/images/sign-in.png') }})">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <div class="flash-messages">
+            <div class="flash-messages" role="region" aria-label="Notifications">
                 {% for category, message in messages %}
                 {% from 'components/_flash.html' import flash_message %}
                     {{ flash_message(msg=message, category=category) }}
@@ -23,14 +29,18 @@
     <div class="grid-col lg:grid-col--9 md:grid-col--5">
         <div class="hero">
             <div class="img-container">
-                <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="" srcset="">
+                <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="Projectify Logo" srcset="">
             </div>
         </div>
         <form class="form-container" action="{% block form_action %}{% endblock %}" method="post" novalidate>
             <input type="hidden" value="{{ csrf_token() }}" name="csrf_token">
-            <h3 class="form-header">{% block form_header %}Sign In{% endblock %}</h3>
-            <div class="form-section">{% block form_section %}{% endblock %}</div>
-            <div class="form-footer">{% block form_footer %}{% endblock %}</div>
+            <h1 class="form-header">{% block form_subheader %}{% endblock %}</h1>
+            <section class="form-section">
+                {% block form_section %}{% endblock %}
+            </section>
+            <footer class="form-footer">
+                {% block form_footer %}{% endblock %}
+            </footer>
         </form>
     </div>
 </main>

@@ -1,14 +1,17 @@
 {% extends 'pages/settings/base.html' %}
 
+{% block pg_title %}Personal Settings{% endblock %}
+
 {% block substyles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='pages/settings/styles/personal.css') }}">
 {% endblock %}
 
 {% block subscripts %}
-<link rel="stylesheet" href="{{ url_for('static', filename='pages/core/scripts/personal.js') }}">
+
+<script src="{{ url_for('static', filename='pages/settings/scripts/personal.js') }}" type="module" defer></script>
 {% endblock %}
 
-{% block page_header %}Personal{% endblock %}
+{% block page_subheader %}Personal{% endblock %}
 
 {% block content %}
     {% from 'components/_buttons.html' import button %}
@@ -19,7 +22,7 @@
             {{ form.first_name(class="form-input") }}
             {% if form.first_name.errors %}
                 {% for error in form.first_name.errors %}
-                    <span class="error-msg">{{ error }}</span>
+                    <span class="error-msg" role="alert">{{ error }}</span>
                 {% endfor %}
             {% endif %}
         </div>
@@ -28,7 +31,7 @@
             {{ form.surname(class="form-input") }}
             {% if form.surname.errors %}
                 {% for error in form.surname.errors %}
-                    <span class="error-msg">{{ error }}</span>
+                    <span class="error-msg" role="alert">{{ error }}</span>
                 {% endfor %}
             {% endif %}
         </div>
@@ -37,12 +40,10 @@
             {{ form.date_of_birth(class="form-input") }}
             {% if form.date_of_birth.errors %}
                 {% for error in form.date_of_birth.errors %}
-                    <span class="error-msg">{{ error }}</span>
+                    <span class="error-msg" role="alert">{{ error }}</span>
                 {% endfor %}
             {% endif %}
         </div>
         {{ form.submit(class="btn btn--primary") }}
     </form>
 {% endblock %}
-
-{% block page_name %}Personal{% endblock %}

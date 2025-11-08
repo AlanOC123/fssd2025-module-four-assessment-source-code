@@ -1,11 +1,16 @@
-{% extends 'pages/auth/base.html' %} {% block substyles %}
+{% extends 'pages/auth/base.html' %} 
+
+{% block pg_title %}Log In{% endblock %}
+{% block form_header %}Log In{% endblock %}
+
+{% block substyles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='pages/auth/styles/login.css') }}"
 />
 {% endblock %} 
 
-{% block form_header %}Log In{% endblock %}
+{% block form_subheader %}Log In{% endblock %}
 
 {% block form_section %}
     <div class="form-input-group">
@@ -13,7 +18,7 @@
         {{ form.email(class="form-input", placeholder="example@example.com") }}
         {% if form.email.errors %}
             {% for error in form.email.errors %}
-                <span class="error-msg">{{ error }}</span>
+                <span class="error-msg" role="alert">{{ error }}</span>
             {% endfor %}
         {% endif %}
     </div>
@@ -22,12 +27,12 @@
         {{ form.password(class="form-input", placeholder="********") }}
         {% if form.password.errors %}
             {% for error in form.password.errors %}
-                <span class="error-msg">{{ error }}</span>
+                <span class="error-msg" role="alert">{{ error }}</span>
             {% endfor %}
         {% endif %}
     </div>
     <div class="form-check-group">
-        <label for="" class="form-label">Remember Me</label>
+        <span class="form-label">Remember Me</span>
         {{ form.remember_me(class="form-check-input") }}
         {{ form.remember_me.label(class="form-check-label") }}
     </div>

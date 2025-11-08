@@ -1,10 +1,15 @@
-{% extends 'pages/info/base.html' %} {%block pg_title %}About{% endblock %} {%
-block pg_id %}about{% endblock %} {% block content %}
-<!-- Section 1: The Mission -->
+{% extends 'pages/info/base.html' %} 
+
+{%block pg_title %}About{% endblock %} 
+
+{%
+block pg_id %}about{% endblock %} 
+
+{% block content %}
 <section class="info-section">
-    <h3 class="info-header">
+    <h2 class="info-header">
         Our Mission: Organize Your Thoughts into Actions
-    </h3>
+    </h2>
     <p class="info-text">
         Welcome to Projectify, a modern productivity app built on a simple
         premise: your life isn't one-dimensional, so your tools shouldn't be
@@ -18,13 +23,12 @@ block pg_id %}about{% endblock %} {% block content %}
     </p>
 </section>
 
-<!-- Section 2: The Core "Identities" Feature -->
 <section class="info-section">
-    <h3 class="info-header">
+    <h2 class="info-header">
         What Makes Projectify Different? The "Identities" System
-    </h3>
+    </h2>
     <p class="info-text">
-        The core of Projectify is the **Identity**. Think of an identity like a workspace. An identity is a "hat" you
+        The core of Projectify is the <strong>Identity</strong>. Think of an identity like a workspace. An identity is a "hat" you
         wear in life. Instead of one cluttered dashboard, you create a distinct
         space for each of your roles:
     </p>
@@ -61,58 +65,56 @@ block pg_id %}about{% endblock %} {% block content %}
     </p>
 </section>
 
-<!-- Section 3: Key Features -->
 <section class="info-section">
-    <h3 class="info-header">Features at a Glance</h3>
-    <ul class="info-list">
-        <li class="info-list-item">
-            <span class="info-list-item-header"
-                >Identity-Based Management:</span
+    <h2 class="info-header">Features at a Glance</h2>
+    <dl class="info-list">
+        <div class="info-list-item">
+            <dt class="info-list-item-header"
+                >Identity-Based Management:</dt
             >
-            <span class="info-list-item-text">
+            <dd class="info-list-item-text">
                 A unique system to segment your projects, tasks, and thoughts by
-                your different roles.</span
+                your different roles.</dd
             >
-        </li>
-        <li class="info-list-item">
-            <span class="info-list-item-header">Atomic Project Status:</span>
-            <span class="info-list-item-text">
+        </div>
+        <div class="info-list-item">
+            <dt class="info-list-item-header">Atomic Project Status:</dt>
+            <dd class="info-list-item-text">
                 A project's status (<code>Not Started</code>,
                 <code>In Progress</code>, <code>Completed</code>) is
                 automatically calculated based on the state of its tasks. You
                 manage the work, and Projectify manages the status.
-            </span>
-        </li>
-        <li class="info-list-item">
-            <span class="info-list-item-header">Thoughts Journal:</span>
-            <span class="info-list-item-text">
+            </dd>
+        </div>
+        <div class="info-list-item">
+            <dt class="info-list-item-header">Thoughts Journal:</dt>
+            <dd class="info-list-item-text">
                 A "chat-style" journal for each identity with a filterable
                 timeline, allowing you to capture ideas and reflections in the
-                right context.</span
+                right context.</dd
             >
-        </li>
-        <li class="info-list-item">
-            <span class="info-list-item-header">Dynamic Theme Engine:</span>
-            <span class="info-list-item-text">
+        </div>
+        <div class="info-list-item">
+            <dt class="info-list-item-header">Dynamic Theme Engine:</dt>
+            <dd class="info-list-item-text">
                 A powerful, database-driven theme system lets you choose from
                 multiple color schemes and toggle between Light, Dark, and
-                System modes.</span
+                System modes.</dd
             >
-        </li>
-        <li class="info-list-item">
-            <span class="info-list-item-header">Modern API-Driven UI:</span>
-            <span class="info-list-item-text"
+        </div>
+        <div class="info-list-item">
+            <dt class="info-list-item-header">Modern API-Driven UI:</dt>
+            <dd class="info-list-item-text"
                 >Built with a fast, modern frontend that uses asynchronous
                 JavaScript for all task and thought management, so the page
-                never has to reload.</span
+                never has to reload.</dd
             >
-        </li>
-    </ul>
+        </div>
+    </dl>
 </section>
 
-<!-- Section 4: About the Creator (You!) -->
 <section class="info-section">
-    <h3 class="info-header">About the Developer</h3>
+    <h2 class="info-header">About the Developer</h2>
     <p class="info-text">
         Hi, I'm Alan O'Connor, the developer behind Projectify. I built this
         application as a way to explore the challenges of building a modern,
@@ -127,49 +129,48 @@ block pg_id %}about{% endblock %} {% block content %}
     </p>
 </section>
 
-<!-- Section 5: Tech Stack (Good for a portfolio) -->
 <section class="info-section">
-    <h3 class="info-header">Built With</h3>
+    <h2 class="info-header">Built With</h2>
     <p class="info-text">
         Projectify is built with a professional-grade Flask and PostgreSQL
         stack.
     </p>
-    <ul class="info-list">
-        <li class="info-list-item">
-            <span class="info-list-item-header">Backend:</span>
-            <span class="info-list-item-text"
+    <dl class="info-list">
+        <div class="info-list-item">
+            <dt class="info-list-item-header">Backend:</dt>
+            <dd class="info-list-item-text"
                 >Flask, using an Application Factory pattern and
-                Blueprints.</span
+                Blueprints.</dd
             >
-        </li>
-        <li class="info-list-item">
-            <span class="info-list-item-header">Database:</span>
-            <span class="info-list-item-text">
+        </div>
+        <div class="info-list-item">
+            <dt class="info-list-item-header">Database:</dt>
+            <dd class="info-list-item-text">
                 PostgreSQL with Flask-SQLAlchemy and Flask-Migrate (including
                 native enums).
-            </span>
-        </li>
-        <li class="info-list-item">
-            <span class="info-list-item-header">Architecture:</span>
-            <span class="info-list-item-text"
+            </dd>
+        </div>
+        <div class="info-list-item">
+            <dt class="info-list-item-header">Architecture:</dt>
+            <dd class="info-list-item-text"
                 >A custom-built, atomic Manager Class architecture to keep
-                business logic out of routes.</span
+                business logic out of routes.</dd
             >
-        </li>
-        <li class="info-list-item">
-            <span class="info-list-item-header">Authentication:</span>
-            <span class="info-list-item-text"
+        </div>
+        <div class="info-list-item">
+            <dt class="info-list-item-header">Authentication:</dt>
+            <dd class="info-list-item-text"
                 >Flask-Login with bcrypt hashing and Flask-WTF for CSRF
-                protection.</span
+                protection.</dd
             >
-        </li>
-        <li class="info-list-item">
-            <span class="info-list-item-header">Frontend:</span>
-            <span class="info-list-item-text"
+        </div>
+        <div class="info-list-item">
+            <dt class="info-list-item-header">Frontend:</dt>
+            <dd class="info-list-item-text"
                 >Jinja2, JavaScript (ES6+), and a custom HSL-based CSS variable
-                theme engine.</span
+                theme engine.</dd
             >
-        </li>
-    </ul>
+        </div>
+    </dl>
 </section>
 {% endblock %}

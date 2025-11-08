@@ -1,29 +1,46 @@
-{% extends 'pages/main/base.html' %} {% block substyles %}
+{% extends 'pages/main/base.html' %} 
+
+{% block pg_title %}Tasks{% endblock %}
+
+{% block substyles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='pages/main/styles/tasks.css') }}"
 />
-{% endblock %} {% block subscripts %}
+{% endblock %} 
+
+{% block subscripts %}
 <script
     src="{{ url_for('static', filename='pages/main/scripts/tasks.js') }}"
     type="module"
     defer
 ></script>
-{% endblock %} {% block page_header %}Tasks{% endblock %} {% block page_controls
-%}
+{% endblock %} 
+
+{% block page_subheader %}Tasks{% endblock %} 
+
+{% block page_controls %}
 <div id="page-controls">
-    {% from 'components/_buttons.html' import button %} {{
+    {% from 'components/_buttons.html' import button %} 
+    {{
     button(variant="ghost", icon_name="face", class="btn--icon-only",
-    id="show-select-identity") }} {{ button(variant="ghost",
-    icon_name="workspaces", class="btn--icon-only", id="show-select-project") }}
+    id="show-select-identity", aria_label="Select identity") }} 
+    
+    {{ button(variant="ghost",
+    icon_name="workspaces", class="btn--icon-only", id="show-select-project", aria_label="Select project") }}
+    
     {{ button(variant="ghost", icon_name="add_task", class="btn--icon-only",
-    id="show-create-task") }}
+    id="show-create-task", aria_label="Create new task") }}
 </div>
-{% endblock %} {% block page_content %} {% from 'components/_buttons.html'
-import button %} {% from 'components/_icons.html' import generic %}
-<div id="task-window">
+{% endblock %} 
+
+{% block page_content %} 
+{% from 'components/_buttons.html' import button %} 
+{% from 'components/_icons.html' import generic %}
+
+<section id="task-window" aria-labelledby="task-list-heading">
     <div id="task-controls">
-        <p class="task-viewport-header">Sort By</p>
+        <h2 class="task-viewport-header" id="task-list-heading">Sort By</h2>
         <div class="difficulty-controls">
             {{ button(text="All", href=url_for('app.tasks'), variant="ghost", class="active" if not filter_keyword else "") }} {{ button(text="Easy",
             href=url_for('app.tasks', filter_key="easy"), class="active" if filter_keyword == "easy" else "",
@@ -37,7 +54,7 @@ import button %} {% from 'components/_icons.html' import generic %}
 
     <ul id="task-list" class="{% if not tasks %}empty{% endif %}">
         {% for task in tasks %}
-        <li class="task-card {% if task.is_complete %}complete{% endif %}" data-task-id="{{ task.id }}">
+        <article class="task-card {% if task.is_complete %}complete{% endif %}" data-task-id="{{ task.id }}">
             <div class="task-data-container">
                 <div class="task-name view-task-data">{{ task.name }}</div>
                 <input type="text" class="task-name edit-task-name form-input edit-task-data" value="{{ task.name }}">
@@ -50,35 +67,43 @@ import button %} {% from 'components/_icons.html' import generic %}
                 <span class="time-left">{{ task.time_left }} days left</span>
             </div>
             <div class="task-data-container">
-                <div class="progress-bar">
+                <div 
+                    class="progress-bar"
+                    role="progressbar"
+                    aria-valuenow="{{ task.time_elapsed_percentage }}"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-label="{{ task.time_elapsed_percentage }}% of time elapsed"
+                >
                     <div class="progress-bar-track">
                         <div class="progress-bar-indicator" style="width: {{ task.time_elapsed_percentage }}%"></div>
                     </div>
                 </div>
             </div>
             <div class="task-controls-container">
-                {{ button(class="btn--icon-only edit-project view-task-data", icon_name="edit", variant="ghost") }}
-                {{ button(class="btn--icon-only confirm-edit edit-task-data", icon_name="check_circle", variant="ghost") }}
-                {{ button(class="btn--icon-only delete-project not-deleting", icon_name="delete", variant="ghost") }}
-                {{ button(class="btn--icon-only confirm-delete-task delete-task-data", icon_name="delete", variant="ghost") }}
-                {{ button(class="btn--icon-only cancel-delete-task delete-task-data", icon_name="cancel", variant="ghost") }}
-                {{ button(class="btn--icon-only mark-task-complete", icon_name="check_box", variant="ghost") }}
-                {{ button(class="btn--icon-only mark-task-incomplete", icon_name="check_box_outline_blank", variant="ghost") }}
+                {{ button(class="btn--icon-only edit-project view-task-data", icon_name="edit", variant="ghost", aria_label="Edit task") }}
+                {{ button(class="btn--icon-only confirm-edit edit-task-data", icon_name="check_circle", variant="ghost", aria_label="Confirm edit") }}
+                {{ button(class="btn--icon-only delete-project not-deleting", icon_name="delete", variant="ghost", aria_label="Delete task") }}
+                {{ button(class="btn--icon-only confirm-delete-task delete-task-data", icon_name="delete", variant="ghost", aria_label="Confirm delete") }}
+                {{ button(class="btn--icon-only cancel-delete-task delete-task-data", icon_name="cancel", variant="ghost", aria_label="Cancel delete") }}
+                {{ button(class="btn--icon-only mark-task-complete", icon_name="check_box", variant="ghost", aria_label="Mark task as incomplete") }}
+                {{ button(class="btn--icon-only mark-task-incomplete", icon_name="check_box_outline_blank", variant="ghost", aria_label="Mark task as complete") }}
             </div>
-        </li>
+        </article>
         {% else %}
         <div class="empty-task-container">
             <h3>No Tasks. Create One?</h3>
         </div>
         {% endfor %}
     </ul>
-</div>
-<div id="select-project" class="sidebar">
+</section>
+
+<aside id="select-project" class="sidebar" role="complementary" aria-labelledby="select-project-heading">
     <div class="sidebar-wrapper" id="select-project-wrapper">
         <div class="sidebar-header" id="select-project-header">
-            <h3>Projects</h3>
+            <h3 id="select-project-heading">Projects</h3>
             {{ button(class="btn--icon-only btn--cancel close-sidebar",
-            variant="ghost", icon_name="cancel") }}
+            variant="ghost", icon_name="cancel", aria_label="Close select project sidebar") }}
         </div>
         {% if switch_project_form.switch_project.choices %}
         <div id="curr-project">
@@ -88,7 +113,8 @@ import button %} {% from 'components/_icons.html' import generic %}
         <form class="project-list-container" novalidate action="{{ url_for('app.tasks') }}" method="post">
             {{ switch_project_form.hidden_tag() }}
             <p class="form-label">Projects</p>
-            <ul class="project-choices">
+            <ul class="project-choices" role="radiogroup" aria-labelledby="projects-label">
+                <span id="projects-label" class="visually-hidden">Available projects</span>
                 {% for project in switch_project_form.switch_project %}
                 <li class="project-choice">
                     {{ project(class="visually-hidden project-choice-input") }}
@@ -101,7 +127,7 @@ import button %} {% from 'components/_icons.html' import generic %}
                 {% endfor %}
             </ul>
             {{ switch_project_form.submit_project_switch(class="visually-hidden", id="switch-project-submit") }}
-        </div>
+        </form>
         {% else %}
         <div class="no-projects">
             <p>No Projects. Create One?</p>
@@ -110,13 +136,14 @@ import button %} {% from 'components/_icons.html' import generic %}
         </div>
         {% endif %}
     </div>
-</div>
-<div id="select-identity" class="sidebar">
+</aside>
+
+<aside id="select-identity" class="sidebar" role="complementary" aria-labelledby="select-identity-heading-tasks">
     <div id="select-identity-wrapper" class="sidebar-wrapper">
         <div id="select-identity-header" class="sidebar-header">
-            <h3>Identity</h3>
+            <h3 id="select-identity-heading-tasks">Identity</h3>
             {{ button(icon_name="cancel", class="btn--cancel btn--icon-only
-            close-sidebar", id="cancel-select-identity-btn") }}
+            close-sidebar", id="cancel-select-identity-btn", aria_label="Close select identity sidebar") }}
         </div>
         <div id="selected-identity">
             <div id="curr">
@@ -125,7 +152,7 @@ import button %} {% from 'components/_icons.html' import generic %}
                     <div class="identity-img">
                         <img
                             src="{{ url_for('static', filename='assets/avatars/' ~ active_identity.template.image) }}"
-                            alt=""
+                            alt="{{ active_identity.custom_name if active_identity.custom_name else active_identity.template.name }} Avatar"
                         />
                     </div>
                     <span class="identity-name">
@@ -139,7 +166,8 @@ import button %} {% from 'components/_icons.html' import generic %}
                 <p class="form-label">Available</p>
                 <form id="all-identities-wrapper" method="post">
                     {{ switch_identity_form.hidden_tag() }}
-                    <ul id="all-identities">
+                    <ul id="all-identities" role="radiogroup" aria-labelledby="available-identities-label">
+                        <span id="available-identities-label" class="visually-hidden">Available identities</span>
                         {% for identity_input, identity_data in
                         switch_identity_form.select_identity |
                         zip(all_identities) %}
@@ -151,9 +179,10 @@ import button %} {% from 'components/_icons.html' import generic %}
                                 class="identity-card select-identity"
                             >
                                 <div class="identity-img">
+
                                     <img
                                         src="{{ url_for('static', filename='assets/avatars/' ~ identity_data.template.image) }}"
-                                        alt=""
+                                        alt="{{ identity_data.custom_name if identity_data.custom_name else identity_data.template.name }} Avatar"
                                     />
                                 </div>
                                 <span class="identity-name">
@@ -175,21 +204,24 @@ import button %} {% from 'components/_icons.html' import generic %}
             </div>
         </div>
     </div>
-</div>
-<div
+</aside>
+
+<aside
     id="create-task"
     data-active-project="{% if active_project %}true{% else %}false{% endif %}"
     class="sidebar"
+    role="form"
+    aria-labelledby="create-task-heading"
 >
     <div id="create-task-wrapper" class="sidebar-wrapper">
         <div id="create-task-header" class="sidebar-header">
-            <h3>Create</h3>
+            <h3 id="create-task-heading">Create</h3>
             {{ button(variant="ghost", class="btn--icon-only",
-            id="submit-create-task", icon_name="add_task") }} {{
+            id="submit-create-task", icon_name="add_task", aria_label="Submit new task") }} {{
             button(variant="ghost", class="btn--icon-only", id="reset-form",
-            icon_name="autorenew") }} {{ button(icon_name="cancel",
+            icon_name="autorenew", aria_label="Reset form") }} {{ button(icon_name="cancel",
             class="btn--cancel btn--icon-only close-sidebar",
-            id="cancel-creation-btn") }}
+            id="cancel-creation-btn", aria_label="Close create task sidebar") }}
         </div>
         <div class="task-project">
             <p class="form-label">Project</p>
@@ -213,7 +245,7 @@ import button %} {% from 'components/_icons.html' import generic %}
                 create_task_form.task_name(class="form-input") }} {% if
                 create_task_form.task_name.errors %} {% for error in
                 create_task_form.task_name.errors %}
-                <span class="error-msg">{{ error }}</span>
+                <span class="error-msg" role="alert">{{ error }}</span>
                 {% endfor %} {% endif %}
             </div>
             <div class=".form-input-group">
@@ -221,11 +253,13 @@ import button %} {% from 'components/_icons.html' import generic %}
                 {{ create_task_form.task_due_date(class="form-input") }} {% if
                 create_task_form.task_due_date.errors %} {% for error in
                 create_task_form.task_due_date.errors %}
-                <span class="error-msg">{{ error }}</span>
+                <span class="error-msg" role="alert">{{ error }}</span>
                 {% endfor %} {% endif %}
             </div>
-            <div class=".form-input-group">
-                {{ create_task_form.task_difficulty.label(class="form-label") }}
+            <fieldset class=".form-input-group">
+                <legend class="form-label">
+                    {{ create_task_form.task_difficulty.label.text }}
+                </legend>
                 <ul class="difficulty-options">
                     {% for difficulty in create_task_form.task_difficulty %}
                     <li class="difficulty-option">
@@ -235,20 +269,22 @@ import button %} {% from 'components/_icons.html' import generic %}
                             class="difficulty-label"
                             for="{{ difficulty.id }}"
                         >
-                            {{ difficulty.label }}
+                            {{ difficulty.label.text }}
                         </label>
                     </li>
                     {% endfor %}
                 </ul>
                 {% if create_task_form.task_difficulty.errors %} {% for error in
                 create_task_form.task_difficulty.errors %}
-                <span class="error-msg">{{ error }}</span>
+                <span class="error-msg" role="alert">{{ error }}</span>
                 {% endfor %} {% endif %}
-            </div>
+            </fieldset>
             {{ create_task_form.submit_task(class="visually-hidden",
             id="submit-task-data") }} {{ button(type="reset",
             class="visually-hidden", id="reset-form-data") }}
         </form>
     </div>
-</div>
-{% endblock %} {% block page_id %}tasks{% endblock %}
+</aside>
+{% endblock %} 
+
+{% block page_id %}tasks{% endblock %}

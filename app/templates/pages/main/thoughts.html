@@ -1,17 +1,28 @@
-{% extends 'pages/main/base.html' %} {% block substyles %}
+{% extends 'pages/main/base.html' %} 
+
+{% block pg_title %}Thoughts{% endblock %}
+
+{% block substyles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='pages/main/styles/thoughts.css') }}"
 />
 {% endblock %} {% block subscripts %}
 <script src="{{ url_for('static', filename='pages/main/scripts/thoughts.js') }}" type="module" defer></script>
-{% endblock %} {% block page_header %}Thoughts{% endblock %} {% block page_id
-%}thoughts{% endblock %} {% block page_controls %}
+{% endblock %} 
+
+{% block page_subheader %}Thoughts{% endblock %} 
+
+{% block page_id %}thoughts{% endblock %} 
+
+{% block page_controls %}
 <div id="toggle-timeline-view">
     {% from 'components/_buttons.html' import button %}
-    {{ button(class="btn--icon-only mobile-only", icon_name="timeline", variant="ghost", id="open-timeline") }}
+    {{ button(class="btn--icon-only mobile-only", icon_name="timeline", variant="ghost", id="open-timeline", aria_label="Open timeline view") }}
 </div>
-{% endblock %} {% block
+{% endblock %} 
+
+{% block
 page_content %} {% from 'components/_buttons.html' import button %}
 {% from 'components/_icons.html' import generic %}
 <div id="thought-window">
@@ -27,12 +38,12 @@ page_content %} {% from 'components/_buttons.html' import button %}
                     <ul class="timeline-grouping-items">
                         {% for hour, thought_data in grouping.items() %}
                             <li class="timeline-group-item">
-                                <p class="grouping-card-header">{{ hour }}</p>
+                                <h2 class="grouping-card-header">{{ hour }}</h2>
                                 <ul class="timeline-grouping-data-list">
                                     {% for data in thought_data %}
-                                        <li class="thought-card" data-thought-id="{{ data.thought_obj.id }}">
+                                        <article class="thought-card" data-thought-id="{{ data.thought_obj.id }}">
                                             <div class="identity-img">
-                                                <img src="{{ url_for('static', filename='assets/avatars/' ~ active_identity.template.image) }}" alt="">
+                                                <img src="{{ url_for('static', filename='assets/avatars/' ~ active_identity.template.image) }}" alt="{{ active_identity.custom_name if active_identity.custom_name else active_identity.template.name }} Avatar">
                                             </div>
                                             <div class="thought-content">
                                                 <div class="identity-data">
@@ -44,19 +55,20 @@ page_content %} {% from 'components/_buttons.html' import button %}
                                                 <p class="thought-text-content">
                                                     {{ data.thought_obj.content }}
                                                 </p>
+                                                <label for="{{ data.thought_obj.id }}" class="visually-hidden">Edit thought content</label>
                                                 <textarea name="{{ data.thought_obj.id }}" id="{{ data.thought_obj.id }}" minlength="5" maxlength="200", class="thought-text-input">{{ data.thought_obj.content }}</textarea>
                                             </div>
                                             <div class="controls">
-                                                {{ button(class="btn--icon-only toggle-thought-controls", icon_name="more_horiz", variant="ghost") }}
+                                                {{ button(class="btn--icon-only toggle-thought-controls", icon_name="more_horiz", variant="ghost", aria_label="Toggle thought controls") }}
                                                 <div class="thought-controls">
                                                     <div class="edit-thought-controls">
-                                                        {{ button(class="btn--icon-only edit-thought", icon_name="edit", variant="ghost") }}
-                                                        {{ button(class="btn--icon-only confirm-edit", icon_name="data_check", variant="ghost") }}
+                                                        {{ button(class="btn--icon-only edit-thought", icon_name="edit", variant="ghost", aria_label="Edit thought") }}
+                                                        {{ button(class="btn--icon-only confirm-edit", icon_name="data_check", variant="ghost", aria_label="Confirm edit") }}
                                                     </div>
-                                                    {{ button(class="btn--icon-only delete-thought", icon_name="delete", variant="ghost") }}
+                                                    {{ button(class="btn--icon-only delete-thought", icon_name="delete", variant="ghost", aria_label="Delete thought") }}
                                                 </div>
                                             </div>
-                                        </li>
+                                        </article>
                                     {% endfor %}
                                 </ul>
                             </li>
@@ -67,27 +79,32 @@ page_content %} {% from 'components/_buttons.html' import button %}
         </ul>
         {% endif %}
     </div>
-    <div id="thought-timeline">
+    <aside id="thought-timeline" role="complementary" aria-labelledby="timeline-heading">
         <div class="thought-timeline-header">
-            <h3>Timeline</h3>
-            {{ button(class="btn--icon-only btn--cancel mobile-only", icon_name="cancel", variant="ghost", id="close-timeline") }}
+            <h3 id="timeline-heading">Timeline</h3>
+            {{ button(class="btn--icon-only btn--cancel mobile-only", icon_name="cancel", variant="ghost", id="close-timeline", aria_label="Close timeline") }}
         </div>
-        <ul id="months">
-            <li>
-                {{ button(variant="nav", icon_name="", href=url_for('app.thoughts'), text="Today") }}
-            </li>
-            {% for year, month_num, month_name in timeline_data %}
+
+        <nav id="months-nav" aria-label="Timeline months">
+            <ul id="months">
                 <li>
-                    {{ button(variant="nav", icon_name="", href=url_for('app.thoughts', year=year, month=month_num), text=month_name) }}
+                    {{ button(variant="nav", icon_name="", href=url_for('app.thoughts'), text="Today") }}
                 </li>
-            {% endfor %}
-        </ul>
-    </div>
+                {% for year, month_num, month_name in timeline_data %}
+                    <li>
+                        {{ button(variant="nav", icon_name="", href=url_for('app.thoughts', year=year, month=month_num), text=month_name) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </aside>
 </div>
-<div id="new-thought">
+
+<section id="new-thought">
     <form action="{{ url_for('app.thoughts') }}" id="thought-form-container" novalidate method="post">
         {{ create_thought_form.hidden_tag() }}
-        {{ create_thought_form.create_thought(placeholder="What'cha thinking?") }}
+        <label for="create-thought-textarea" class="visually-hidden">New thought</label>
+        {{ create_thought_form.create_thought(placeholder="What'cha thinking?", id="create-thought-textarea") }}
         {{ create_thought_form.submit_thought(class="visually-hidden", id="submit-thought", form="thought-form-container") }}
     </form>
     <div id="thought-controls">
@@ -96,7 +113,7 @@ page_content %} {% from 'components/_buttons.html' import button %}
                 <div class="identity-img">
                     <img
                     src="{{ url_for('static', filename='assets/avatars/' ~ active_identity.template.image) }}"
-                    alt=""
+                    alt="{{ active_identity.custom_name if active_identity.custom_name else active_identity.template.name }} Avatar"
                     />
                 </div>
                 <span class="identity-name">
@@ -104,17 +121,17 @@ page_content %} {% from 'components/_buttons.html' import button %}
                     active_identity.custom_name else
                     active_identity.tempate.name }}
                 </span>
-                {{ button(id="show-identities", class="btn--icon-only", variant="ghost", icon_name="face") }}
+                {{ button(id="show-identities", class="btn--icon-only", variant="ghost", icon_name="face", aria_label="Select identity") }}
             </div>
             <form id="all-identities-wrapper" method="post">
                 {{ switch_identity_form.hidden_tag() }}
-                <ul id="all-identities">
+                <ul id="all-identities" role="radiogroup" aria-label="Available identities">
                     {% for identity_input, identity_data in switch_identity_form.select_identity | zip(all_identities) %}
                     <li>
                         {{ identity_input(class="visually-hidden select-identity-input") }}
                         <label for="{{ identity_input.id }}" class="identity-card select-identity">
                             <div class="identity-img">
-                                <img src="{{ url_for('static', filename='assets/avatars/' ~ identity_data.template.image) }}" alt="">
+                                <img src="{{ url_for('static', filename='assets/avatars/' ~ identity_data.template.image) }}" alt="{{ identity_data.custom_name if identity_data.custom_name else identity_data.template.name }} Avatar">
                             </div>
                             <span class="identity-name">
                                 {{ identity_data.custom_name if
@@ -133,8 +150,8 @@ page_content %} {% from 'components/_buttons.html' import button %}
         </div>
         <div id="submit-thought-container">
             {{
-            button(variant="ghost", icon_name="send", class="btn--icon-only", id="submit-thought-control") }}
+            button(variant="ghost", icon_name="send", class="btn--icon-only", id="submit-thought-control", aria_label="Submit thought") }}
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

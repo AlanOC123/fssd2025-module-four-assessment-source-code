@@ -1,15 +1,20 @@
-{% extends "base.html" %} {% block styles %}
+{% extends "base.html" %} 
+
+{% block pg_title %}{% block page_header %}Dashboard{% endblock %}{% endblock %}
+
+{% block styles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='pages/main/styles/base.css') }}"
 />
 {% block substyles %}{% endblock %} 
 {% endblock %}
+
 {% block body %}
 <main id="app" class="page main-grid">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <div class="flash-messages">
+            <div class="flash-messages" role="region" aria-label="Notifications">
                 {% for category, message in messages %}
                 {% from 'components/_flash.html' import flash_message %}
                     {{ flash_message(msg=message, category=category) }}
@@ -17,7 +22,8 @@
             </div>
         {% endif %}
     {% endwith %}
-    <aside class="grid-col" id="index">
+
+    <nav class="grid-col" id="index" aria-label="Main navigation">
         {% from 'components/_buttons.html' import button %}
         <div class="index-bg">
             <div class="index-wrapper">
@@ -25,14 +31,14 @@
                     <div id="logo">
                         <div class="logo-container">
                             <div class="logo-img">
-                                <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="">
+                                <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="Projectify Logo">
                             </div>
                             <h3 class="logo-text">Projectify</h3>
-                            {{ button(href=url_for('auth.logout'), icon_name="logout", variant="ghost") }}
+                            {{ button(href=url_for('auth.logout'), icon_name="logout", variant="ghost", aria_label="Log out") }}
                         </div>
-                        {{ button(variant="ghost", class="btn--cancel btn--icon-only mobile-only", id="close-nav", icon_name="cancel") }}
+                        {{ button(variant="ghost", class="btn--cancel btn--icon-only mobile-only", id="close-nav", icon_name="cancel", aria_label="Close navigation") }}
                     </div>
-                    <nav id="primary">
+                    <nav id="primary" aria-label="Primary navigation links">
                         <p class="nav-label">Explore</p>
                         <ul id="primary-nav-links">
                             <li>
@@ -51,10 +57,10 @@
                     </nav>
                 </header>
                 <footer id="main-footer">
-                    <nav id="secondary">
+                    <nav id="secondary" aria-label="Secondary navigation links">
                         <div class="footer-controls">
                             <p class="nav-label">More</p>
-                            {{ button(variant="ghost", class="btn--icon-only", icon_name="arrow_drop_down", id="toggle-footer") }}
+                            {{ button(variant="ghost", class="btn--icon-only", icon_name="arrow_drop_down", id="toggle-footer", aria_label="Toggle secondary navigation") }}
                         </div>
 
                         <div class="footer-wrapper">
@@ -77,13 +83,13 @@
                 </footer>
             </div>
         </div>
-    </aside>
+    </nav>
     <div class="tablet-only"></div>
-    <section class="grid-col" id="dashboard">
+    <section class="grid-col" id="dashboard" aria-labelledby="page-header-title">
         <div class="page-header">
             <div class="header-container">
-                {{ button(variant="ghost", class="btn--icon-only mobile-only", id="open-nav", icon_name="menu") }}
-                <h3>{% block page_header %}{% endblock %}</h3>
+                {{ button(variant="ghost", class="btn--icon-only mobile-only", id="open-nav", icon_name="menu", aria_label="Open navigation") }}
+                <h3 id="page-header-title">{% block page_subheader %}{% endblock %}</h3>
             </div>
             {% block page_controls %}{% endblock %}
         </div>

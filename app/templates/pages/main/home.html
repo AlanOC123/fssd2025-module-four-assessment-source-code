@@ -1,31 +1,44 @@
-{% extends 'pages/main/base.html' %} {% block substyles %}
+{% extends 'pages/main/base.html' %} 
+
+{% block pg_title %}Home{% endblock %}
+
+{% block substyles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='pages/main/styles/home.css') }}"
 />
-{% endblock %} {% block subscripts %}
+{% endblock %} 
+
+{% block subscripts %}
 <script src="{{ url_for('static', filename='pages/main/scripts/home.js') }}" type="module" defer></script>
-{% endblock %} {% block page_header %}Home{% endblock %} {% block page_controls
+{% endblock %} 
+
+{% block page_subheader %}Home{% endblock %} 
+
+{% block page_controls
 %}
-<div class="current-time-container">
+<div class="current-time-container" aria-label="Current time">
     {% from 'components/_icons.html' import generic %} {{
     generic(icon="nest_clock_farsight_analog") }}
     <div class="current-time">
         <span class="hour">12</span><span>:</span><span class="minute">48</span>
     </div>
 </div>
-{% endblock %} {% block page_content %} {% from 'components/_buttons.html'
-import button %}
+{% endblock %} 
+
+{% block page_content %} 
+{% from 'components/_buttons.html' import button %}
 <div class="introduction">
     <p class="introduction-text">Hi {{ current_user.first_name }}</p>
 </div>
-<div class="identities widget">
-    <div class="widget-header"><span class="form-label">Identities</span></div>
+
+<section class="identities widget" aria-labelledby="identities-heading">
+    <div class="widget-header"><span class="form-label" id="identities-heading">Identities</span></div>
     <ul class="identity-list">
         {% for identity in identity_widget %}
             <li class="identity-card {% if identity.active_project.is_overdue %}overdue{% elif identity.active_project.tasks_completed_percentage == 100 %}complete{% endif %}">
                 <div class="identity-img">
-                    <img src="{{ identity.img }}" alt="">
+                    <img src="{{ identity.img }}" alt="{{ identity.name }} Avatar">
                 </div>
                 <div class="identity-data">
                     <span class="form-label">{{ identity.name }}</span>
@@ -52,10 +65,10 @@ import button %}
             </li>
     {% endfor %}
     </ul>
-</div>
+</section>
 
-<div class="agenda widget">
-    <div class="widget-header"><span class="form-label">Agenda</span></div>
+<section class="agenda widget" aria-labelledby="agenda-heading">
+    <div class="widget-header"><span class="form-label" id="agenda-heading">Agenda</span></div>
     {% for task in agenda_widget_data %}
         <ul class="agenda-tasks">
             <li class="agenda-card">
@@ -67,10 +80,10 @@ import button %}
         </div>
         {% endfor %}
     </ul>
-</div>
+</section>
 
-<div class="stats widget">
-    <div class="widget-header"><span class="form-label">Stats</span></div>
+<section class="stats widget" aria-labelledby="stats-heading">
+    <div class="widget-header"><span class="form-label" id="stats-heading">Stats</span></div>
     <ul class="stats-list">
         {% for key, stat in stats_widget_data.items() %}
         <li class="stats-card">
@@ -79,13 +92,13 @@ import button %}
         </li>
         {% endfor %}
     </ul>
-</div>
+</section>
 
-<div class="tasks widget">
+<section class="tasks widget" aria-labelledby="tasks-heading">
     <div class="widget-header">
-        <span class="form-label">Tasks</span>
+        <span class="form-label" id="tasks-heading">Tasks</span>
     </div>
-    <div class="stacked-bar">
+    <div class="stacked-bar" aria-hidden="true">
             <div class="stacked-bar-track">
             {% for key, data in task_widget_data.items() %}
                 {% if data.legend_key != "total" %}
@@ -118,5 +131,7 @@ import button %}
             <span class="legend-label">Hard</span>
         </div>
     </div>
-</div>
-{% endblock %} {% block page_id %}home{% endblock %}
+</section>
+{% endblock %} 
+
+{% block page_id %}home{% endblock %}

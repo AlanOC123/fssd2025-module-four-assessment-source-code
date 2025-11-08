@@ -1,30 +1,39 @@
-{% extends "base.html" %} {% block scripts %} 
+{% extends "base.html" %} 
 
+{% block pg_title %}{% block page_header %}Settings{% endblock %}{% endblock %}
+
+{% block scripts %} 
 <script src="{{ url_for('static', filename='pages/settings/scripts/base.js') }}" type="module" defer></script>
+{% block subscripts %}{% endblock %} 
+{% endblock %} 
 
-{% block subscripts %}{% endblock
-%} {% endblock %} {% block styles %}
+{% block styles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='pages/settings/styles/base.css') }}"
 />
-{% block substyles %}{% endblock %} {% endblock %} {% block body %} {% from
-'components/_buttons.html' import button %}
-<div class="main-grid" id="settings">
-    {% with messages = get_flashed_messages(with_categories=true) %} {% if
-    messages %}
-    <div class="flash-messages">
-        {% for category, message in messages %} {% from 'components/_flash.html'
-        import flash_message %} {{ flash_message(msg=message, category=category)
-        }} {% endfor %}
-    </div>
-    {% endif %} {% endwith %}
-    <div class="grid-col" id="settings-index">
+{% block substyles %}{% endblock %} 
+{% endblock %} 
+
+{% block body %} 
+{% from 'components/_buttons.html' import button %}
+
+<main class="main-grid" id="settings">
+    {% with messages = get_flashed_messages(with_categories=true) %} 
+    {% if messages %}
+        <div class="flash-messages" role="region" aria-label="Notifications">
+            {% for category, message in messages %} 
+            {% from 'components/_flash.html' import flash_message %} 
+            {{ flash_message(msg=message, category=category) }} 
+            {% endfor %}
+        </div>
+    {% endif %} 
+    {% endwith %}
+    <nav class="grid-col" id="settings-index" aria-label="Settings navigation">
         <header id="settings-header">
             <div class="header-container">
-                <h3>Settings</h3>
                 {{ button(variant="ghost", icon_name="cancel",
-                class='btn--cancel btn--icon-only mobile-only', id='close-nav')
+                class='btn--cancel btn--icon-only mobile-only', id='close-nav', aria_label="Close settings navigation")
                 }}
             </div>
         </header>
@@ -60,15 +69,17 @@
                 </li>
             </ul>
         </nav>
-    </div>
+    </nav>
     <div class="tablet-only"></div>
-    <div class="grid-col" id="content-container">
+
+    <section class="grid-col" id="content-container" aria-labelledby="settings-content-heading">
         <div class="page-header">
+
             {{ button(variant="ghost", icon_name="menu", class='btn--icon-only
-            mobile-only', id='open-nav') }}
-            <h3>{% block page_header %}{% endblock %}</h3>
+            mobile-only', id='open-nav', aria_label="Open settings navigation") }}
+            <h1 id="settings-content-heading">{% block page_subheader %}{% endblock %}</h1>
         </div>
         <div id="forms">{% block content %}{% endblock %}</div>
-    </div>
-</div>
+    </section>
+</main>
 {% endblock %}

@@ -7,7 +7,11 @@
         <h3 class="card-heading {{ class }}">{{ text }}</h3>
     {% elif level == 4 %}
         <h4 class="sub-heading {{ class }}">{{ text }}</h4>
+    {% elif level == 5 %}
+        <h5 class="generic-heading {{ class }}">{{ text }}</h5>
+    {% elif level == 6 %}
+        <h6 class="generic-heading {{ class }}">{{ text }}</h6>
     {% else %}
-        <p class="generic-header {{ class }}">{{ text }}</p>
+        <h6 class="generic-heading {{ class }}">{{ text }}</h6>
     {% endif %}
 {% endmacro %}

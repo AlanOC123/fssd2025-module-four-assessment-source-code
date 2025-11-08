@@ -1,5 +1,7 @@
 {% extends 'pages/settings/base.html' %}
 
+{% block pg_title %}Identity Settings{% endblock %}
+
 {% block substyles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='pages/settings/styles/identities.css') }}">
 {% endblock %}
@@ -8,7 +10,7 @@
 <script src="{{ url_for('static', filename='pages/settings/scripts/identities.js') }}" type="module"></script>
 {% endblock %}
 
-{% block page_header %}Identities{% endblock %}
+{% block page_subheader %}Identities{% endblock %}
 
 {% block content %}
 <form action="{{ url_for('settings.identities') }}" class="form-container" method="POST" novalidate>
@@ -20,11 +22,11 @@
         {% for identity_input, identity_data in form.identities | zip(identities) %}
             <li class="identity-card">
                 <div class="identity-img">
-                    <img src="{{ url_for('static', filename='assets/avatars/' ~ identity_data.template.image) }}" alt="">
+                    <img src="{{ url_for('static', filename='assets/avatars/' ~ identity_data.template.image) }}" alt="{{ identity_data.template.name }} Avatar">
                 </div>
                 <div class="identity-input-container form-input-group">
                     <div class="identity-input">
-                        <label for="{{ identity_input.name.id  }}">
+                        <label for="{{ identity_input.identity_custom_name.id  }}">
                             Default: {{ identity_data.template.name }}
                         </label>
 
@@ -34,13 +36,13 @@
                     </div>
                     {% if identity_data.id in updated_ids %}
                         <div class="edited" data-is-edited="false">
-                            <span class="material-symbols-outlined">check_circle</span>
+                            <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
                         </div>
                     {% endif %}
                 </div>
                 {% if identity_input.identity_custom_name.errors %}
                     {% for error in identity_input.identity_custom_name.errors %}
-                        <span class="error-msg">{{ error }}</span>
+                        <span class="error-msg" role="alert">{{ error }}</span>
                     {% endfor %}
                 {% endif %}
             </li>

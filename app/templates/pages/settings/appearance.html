@@ -1,5 +1,7 @@
 {% extends 'pages/settings/base.html' %}
 
+{% block pg_title %}Appearance Settings{% endblock %}
+
 {% block substyles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='pages/settings/styles/appearance.css') }}">
 {% endblock %}
@@ -8,55 +10,63 @@
 <script src="{{ url_for('static', filename='pages/settings/scripts/appearance.js') }}" type="module"></script>
 {% endblock %}
 
-{% block page_header %}Appearance{% endblock %}
+{% block page_subheader %}Appearance{% endblock %}
 
 {% block content %}
-<div class="form-wrapper" id="theme-mode">
+
+<section class="form-wrapper" id="theme-mode" aria-labelledby="theme-mode-heading">
     <div class="form-header">
-        <p>Mode</p>
+        <h2 class="form-header" id="theme-mode-heading">Mode</h2>
     </div>
     <form action="{{ url_for('settings.appearance') }}" class="form-container" method="POST" novalidate>
         {{ theme_mode_form.hidden_tag() }}
-        <ul class="theme-card-container">
-            {% for mode, icon in theme_mode_form.theme_mode | zip(icons) %}
-            <li class="radio-option theme-mode-option">
-                {{ mode() }}
-                <label for="{{ mode.id }}" class="theme-card">
-                    <span class="material-symbols-outlined theme-mode-icon">{{ icon }}</span>
-                    <span class="theme-name">{{ mode.label.text }}</span>
-                </label>
-            </li>
-            {% endfor %}
-        </ul>
+        <fieldset>
+            <legend class="visually-hidden">Select theme mode</legend>
+            <ul class="theme-card-container">
+                {% for mode, icon in theme_mode_form.theme_mode | zip(icons) %}
+                <li class="radio-option theme-mode-option">
+                    {{ mode() }}
+                    <label for="{{ mode.id }}" class="theme-card">
+                        <span class="material-symbols-outlined theme-mode-icon" aria-hidden="true">{{ icon }}</span>
+                        <span class="theme-name">{{ mode.label.text }}</span>
+                    </label>
+                </li>
+                {% endfor %}
+            </ul>
+        </fieldset>
         <div id="theme-mode-btn-container">
             {{ theme_mode_form.submit_mode(class="submit-theme visually-hidden", id="submit-mode") }}
         </div>
     </form>
-</div>
+</section>
 
-<div class="form-wrapper" id="theme-scheme">
+<section class="form-wrapper" id="theme-scheme" aria-labelledby="theme-scheme-heading">
     <div class="form-header">
-        <p>Color Scheme</p>
+        <h2 class="form-header" id="theme-scheme-heading">Color Scheme</h2>
     </div>
     <form action="{{ url_for('settings.appearance') }}" class="form-container" method="POST" novalidate>
         {{ theme_scheme_form.hidden_tag() }}
-        <ul class="theme-card-container">
-            {% for scheme, theme_data in theme_scheme_form.theme_id | zip(all_themes) %}
-                <li class="radio-option theme-scheme-option">
-                    {{ scheme() }}
-                    <label for="{{ scheme.id }}" class="theme-card">
-                        <span class="theme-name">{{ scheme.label.text }}</span>
-                        <div 
-                        class="theme-preview" 
-                        style="background: linear-gradient(to bottom right, hsl({{ theme_data.primary_hue }}, 100%, 50%), hsl({{ theme_data.secondary_hue }}, 100%, 50%))"
-                        ></div>
-                    </label>
-                </li>
-            {% endfor %}
-        </ul>
+        <fieldset>
+            <legend class="visually-hidden">Select color scheme</legend>
+            <ul class="theme-card-container">
+                {% for scheme, theme_data in theme_scheme_form.theme_id | zip(all_themes) %}
+                    <li class="radio-option theme-scheme-option">
+                        {{ scheme() }}
+                        <label for="{{ scheme.id }}" class="theme-card">
+                            <span class="theme-name">{{ scheme.label.text }}</span>
+                            <div 
+                            class="theme-preview" 
+                            style="background: linear-gradient(to bottom right, hsl({{ theme_data.primary_hue }}, 100%, 50%), hsl({{ theme_data.secondary_hue }}, 100%, 50%))"
+                            aria-hidden="true"
+                            ></div>
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+        </fieldset>
         <div id="theme-mode-btn-container">
             {{ theme_scheme_form.submit_scheme(class="submit-theme visually-hidden", id="submit-scheme") }}
         </div>
     </form>
-</div>
+</section>
 {% endblock %}

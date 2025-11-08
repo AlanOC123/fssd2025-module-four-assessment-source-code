@@ -1,5 +1,7 @@
 {% extends 'pages/settings/base.html' %}
 
+{% block pg_title %}Account Settings{% endblock %}
+
 {% block substyles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='pages/settings/styles/account.css') }}">
 {% endblock %}
@@ -8,14 +10,14 @@
 <script src="{{ url_for('static', filename='pages/settings/scripts/account.js') }}" type="module"></script>
 {% endblock %}
 
-{% block page_header %}Account{% endblock %}
+{% block page_subheader %}Account{% endblock %}
 
 {% block content %}
     {% from 'components/_buttons.html' import button %}
-    <div class="form-wrapper" id="update-email">
+    <section class="form-wrapper" id="update-email" aria-labelledby="update-email-heading">
         <div class="form-header-container">
-            <p class="form-header">Update Email</p>
-            {{ button(class="btn--icon-only", variant="ghost", icon_name="arrow_drop_down", id="toggle-update-email") }}
+            <h2 class="form-header" id="update-email-heading">Update Email</h2>
+            {{ button(class="btn--icon-only", variant="ghost", icon_name="arrow_drop_down", id="toggle-update-email", aria_label="Toggle update email form") }}
         </div>
         <div class="form-controller">
             <form action="{{ url_for('settings.account') }}" class="form-container" method="POST" novalidate>
@@ -25,7 +27,7 @@
                     {{ email_form.email(class="form-input") }}
                     {% if email_form.email.errors %}
                         {% for error in email_form.email.errors %}
-                            <span class="error-msg">{{ error }}</span>
+                            <span class="error-msg" role="alert">{{ error }}</span>
                         {% endfor %}
                     {% endif %}
                 </div>
@@ -34,18 +36,19 @@
                     {{ email_form.current_password_for_email(class="form-input") }}
                     {% if email_form.current_password_for_email.errors %}
                         {% for error in email_form.current_password_for_email.errors %}
-                            <span class="error-msg">{{ error }}</span>
+                            <span class="error-msg" role="alert">{{ error }}</span>
                         {% endfor %}
                     {% endif %}
                 </div>
                 {{ email_form.submit_email_change(class="btn btn--primary") }}
             </form>
         </div>
-    </div>
-    <div class="form-wrapper" id="update-password">
+    </section>
+    
+    <section class="form-wrapper" id="update-password" aria-labelledby="update-password-heading">
         <div class="form-header-container">
-            <p class="form-header">Update Password</p>
-            {{ button(class="btn--icon-only", variant="ghost", icon_name="arrow_drop_down", id="toggle-update-password") }}
+            <h2 class="form-header" id="update-password-heading">Update Password</h2>
+            {{ button(class="btn--icon-only", variant="ghost", icon_name="arrow_drop_down", id="toggle-update-password", aria_label="Toggle update password form") }}
         </div>
         <div class="form-controller">
             <form action="{{ url_for('settings.account') }}" class="form-container" method="POST" novalidate>
@@ -55,7 +58,7 @@
                     {{ update_password_form.current_password(class="form-input") }}
                     {% if update_password_form.current_password.errors %}
                         {% for error in update_password_form.current_password.errors %}
-                            <span class="error-msg">{{ error }}</span>
+                            <span class="error-msg" role="alert">{{ error }}</span>
                         {% endfor %}
                     {% endif %}
                 </div>
@@ -64,7 +67,7 @@
                     {{ update_password_form.new_password(class="form-input") }}
                     {% if update_password_form.new_password.errors %}
                         {% for error in update_password_form.new_password.errors %}
-                            <span class="error-msg">{{ error }}</span>
+                            <span class="error-msg" role="alert">{{ error }}</span>
                         {% endfor %}
                     {% endif %}
                 </div>
@@ -73,19 +76,19 @@
                     {{ update_password_form.confirm_password(class="form-input") }}
                     {% if update_password_form.confirm_password.errors %}
                         {% for error in update_password_form.confirm_password.errors %}
-                            <span class="error-msg">{{ error }}</span>
+                            <span class="error-msg" role="alert">{{ error }}</span>
                         {% endfor %}
                     {% endif %}
                 </div>
                 {{ update_password_form.submit_password_change(class="btn btn--primary") }}
             </form>
         </div>
-    </div>
+    </section>
 
-    <div class="form-wrapper" id="delete-account">
+    <section class="form-wrapper" id="delete-account" aria-labelledby="delete-account-heading">
         <div class="form-header-container">
-            <p class="form-header">Delete Account</p>
-            {{ button(class="btn--icon-only", variant="ghost", icon_name="arrow_drop_down", id="toggle-delete-account") }}
+            <h2 class="form-header" id="delete-account-heading">Delete Account</h2>
+            {{ button(class="btn--icon-only", variant="ghost", icon_name="arrow_drop_down", id="toggle-delete-account", aria_label="Toggle delete account form") }}
         </div>
         <div class="form-controller">
                 <form action="{{ url_for('settings.account') }}" class="form-container" method="POST" novalidate>
@@ -95,7 +98,7 @@
                         {{ delete_account_form.deletion_confirmation_message(class="form-input") }}
                         {% if delete_account_form.deletion_confirmation_message.errors %}
                             {% for error in delete_account_form.deletion_confirmation_message.errors %}
-                                <span class="error-msg">{{ error }}</span>
+                                <span class="error-msg" role="alert">{{ error }}</span>
                             {% endfor %}
                         {% endif %}
                     </div>
@@ -104,14 +107,12 @@
                         {{ delete_account_form.password_for_confirmation_deletion(class="form-input") }}
                         {% if delete_account_form.password_for_confirmation_deletion.errors %}
                             {% for error in delete_account_form.password_for_confirmation_deletion.errors %}
-                                <span class="error-msg">{{ error }}</span>
+                                <span class="error-msg" role="alert">{{ error }}</span>
                             {% endfor %}
                         {% endif %}
                     </div>
                     {{ delete_account_form.submit_deletion_request(class="btn btn--primary") }}
             </form>
         </div>
-    </div>
+    </section>
 {% endblock %}
-
-{% block page_name %}Account{% endblock %}
