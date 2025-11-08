@@ -3,3 +3,62 @@
 {%block pg_title %}Sitemap{% endblock %}
 
 {% block pg_id %}sitemap{% endblock %}
+
+{% block content %}
+    <section class="info-section">
+        <h3 class="info-header">Main Application</h3>
+        <ul class="info-list">
+            <li class="info-list-item">
+                <a class="info-list-item-text" href="{{ url_for('app.home') }}">Home</a>
+            </li>
+            <li class="info-list-item">
+                <a class="info-list-item-text" href="{{ url_for('app.projects') }}">Projects</a>
+            </li>
+            <li class="info-list-item">
+                <a class="info-list-item-text" href="{{ url_for('app.tasks') }}">Tasks</a>
+            </li>
+            <li class="info-list-item">
+                <a class="info-list-item-text" href="{{ url_for('app.thoughts') }}">Thoughts</a>
+            </li>
+        </ul>
+    </section>
+
+    <section class="info-section">
+        <h3 class="info-header">Settings</h3>
+        <ul class="info-list">
+            <li class="info-list-item">
+                <a class="info-list-item-text" href="{{ url_for('settings.personal') }}">Personal Details</a>
+            </li>
+            <li class_alias="info-list-item">
+                <a class="info-list-item-text" href="{{ url_for('settings.account') }}">Account Management</a>
+            </li>
+            <li class="info-list-item">
+                <a class="info-list-item-text" href="{{ url_for('settings.appearance') }}">Appearance</a>
+            </li>
+            <li class="info-list-item">
+                <a class="info-list-item-text" href="{{ url_for('settings.identities') }}">Identities</a>
+            </li>
+        </ul>
+    </section>
+
+    <section class="info-section">
+        <h3 class="info-header">Information</h3>
+        <ul class="info-list">
+            <li class="info-list-item">
+                <a class="info-list-item-text" href="{{ url_for('info.about') }}">About</a>
+            </li>
+            <li class="info-list-item">
+                <a class="info-list-item-text" href="{{ url_for('info.sitemap') }}">Sitemap</a>
+            </li>
+        </ul>
+    </section>
+
+    <section class="info-section">
+        <h3 class="info-header">Account</h3>
+        <ul class="info-list">
+            <li class="info-list-item">
+                <a class="info-list-item-text" href="{{ url_for('auth.logout') }}">Logout</a>
+            </li>
+        </ul>
+    </section>
+{% endblock %}
