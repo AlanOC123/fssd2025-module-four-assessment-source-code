@@ -220,11 +220,13 @@ class Project(db.Model):
         if not len(self.tasks):
             return 0
         
-        tasks_completed = [task.is_complete for task in self.tasks]
+        tasks_completed = [task for task in self.tasks if task.is_complete]
 
-        percentage = (len(tasks_completed) / len(self.tasks))
+        print(tasks_completed)
 
-        return int(min(max(percentage, 0), 100))
+        percentage = float((len(tasks_completed) / len(self.tasks)) * 100)
+
+        return float(min(max(percentage, 0), 100))
 
     @property
     def tasks_incomplete(self):
@@ -235,7 +237,7 @@ class Project(db.Model):
             return 0
 
         total_tasks = len(self.tasks)
-        tasks_incompleted = len([not task.is_complete for task in self.tasks])
+        tasks_incompleted = len([task for task in self.tasks if not task.is_complete])
 
         return int(min(max(tasks_incompleted, 0), total_tasks))
 

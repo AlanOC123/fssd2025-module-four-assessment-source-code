@@ -113,7 +113,7 @@ def home():
         if value["count"] <= 0:
             continue
 
-        value["percentage"] = int(value["count"] / total_tasks) * 100
+        value["percentage"] = float(value["count"] / total_tasks) * 100
         
         task_widget_data[key] = value
 
