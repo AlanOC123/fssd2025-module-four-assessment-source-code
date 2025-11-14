@@ -56,7 +56,6 @@
 │   │   └── functions
 │   │       ├── __pycache__
 │   │       │   └── response_schemas.cpython-313.pyc
-│   │       ├── fetchAPIJSON.js
 │   │       └── response_schemas.py
 │   ├── routes
 │   │   ├── __init__.py
@@ -132,11 +131,7 @@
 │   │   │   │   ├── the-learner.png
 │   │   │   │   └── the-organizer.png
 │   │   │   └── images
-│   │   │       ├── dark-logo-transparent.png
-│   │   │       ├── dark-logo.png
-│   │   │       ├── favicon-lg.png
 │   │   │       ├── favicon.ico
-│   │   │       ├── light-logo.png
 │   │   │       ├── logo.png
 │   │   │       └── sign-in.png
 │   │   ├── components
@@ -225,7 +220,6 @@
 │           │   ├── projects.html
 │           │   ├── tasks.html
 │           │   └── thoughts.html
-│           ├── playground.html
 │           └── settings
 │               ├── account.html
 │               ├── appearance.html
@@ -248,4 +242,4 @@
 ├── requirements.txt
 └── run.py
 
-61 directories, 188 files
+61 directories, 182 files
